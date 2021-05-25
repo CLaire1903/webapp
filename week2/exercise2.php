@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+    <title>Exercise 2 - php variables</title>
+</head>
 <body>
     <?php
     $color = "pink";
