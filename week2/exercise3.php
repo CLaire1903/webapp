@@ -9,7 +9,7 @@
     $number2 = 5;
 
     echo "$number1 + $number2 = " .($number1 + $number2)."<br>";
-    echo "$number1 * $number2 = " .$number1 * $number2. "<br>";
+    echo "$number1 * $number2 = " .($number1 * $number2). "<br>";
     
     ?>
 </body>
