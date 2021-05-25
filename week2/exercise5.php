@@ -13,10 +13,10 @@
     echo "Number 1 = " .$number1. "<br>";
     echo "Number 2 = " .$number2. "<br>";
 
-    if ($number1 > $number2) {  // print out “Have a good day!” only when t bigger than 5
+    if ($number1 > $number2) {
         echo "Number 1 is bigger.";
     } else {
-        echo "Number 2 is bigger.                                        ";
+        echo "Number 2 is bigger.";
     }
 
     ?>
