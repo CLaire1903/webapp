@@ -23,8 +23,8 @@
 
 <body>
     <?php
-    $number1 = rand(10, 100);
-    $number2 = rand(10, 100);
+    $number1 = rand(1, 100);
+    $number2 = rand(1, 100);
 
     echo "Number 1 = " . $number1 . "<br>";
     echo "Number 2 = " . $number2 . "<br>";
