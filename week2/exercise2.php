@@ -4,7 +4,7 @@
 <body>
     <?php
     $color = "pink";
-    $number = "9";
+    $number = 9;
     $name = "Claire";
     echo "My favourite colour is " . $color . ".<br>";
     echo "My favourite number is " . $number . ".<br>";
