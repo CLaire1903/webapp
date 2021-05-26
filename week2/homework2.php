@@ -15,7 +15,7 @@
         </div>
         <div>
             <div class="dropdown row justify-content-center">
-                <button class="btn btn-secondary dropdown-toggle col-1 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle col-1 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     DAY
                 </button>
                 <ul class="dropdown-menu col-1" aria-labelledby="dropdownMenuButton1">
@@ -25,20 +25,17 @@
                     }
                     ?>
                 </ul>
-
-
                 <button class="btn btn-secondary dropdown-toggle col-1 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     MONTH
                 </button>
                 <ul class="dropdown-menu col-1" aria-labelledby="dropdownMenuButton1">
                     <?php
-                    for ($month = 1; $month <= 12; $month++) {
-                        echo "<li><a class=dropdown-item > $month </a></li>";
+                    for ($num = 0; $num < 12; $num++) {
+                        $month = array("January", "February","March","April","May","June","July","August","September","October","November","December");
+                        echo "<li><a class=dropdown-item > $month[$num] </a></li>";
                     }
                     ?>
                 </ul>
-
-
                 <button class="btn btn-secondary dropdown-toggle col-1 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     YEAR
                 </button>
