@@ -15,7 +15,7 @@
         </div>
         <div>
             <div class="dropdown row justify-content-center">
-                <button class="btn btn-secondary dropdown-toggle col-md-2 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle col-md-2 m-2 bg-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     DAY
                 </button>
                 <ul class="dropdown-menu col-md-2" aria-labelledby="dropdownMenuButton1">
@@ -27,7 +27,7 @@
                 </ul>
 
 
-                <button class="btn btn-secondary dropdown-toggle col-md-2 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle col-md-2 m-2 bg-warning" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     MONTH
                 </button>
                 <ul class="dropdown-menu col-md-2" aria-labelledby="dropdownMenuButton1">
@@ -39,7 +39,7 @@
                 </ul>
 
 
-                <button class="btn btn-secondary dropdown-toggle col-md-2 m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle col-md-2 m-2 bg-danger" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     YEAR
                 </button>
                 <ul class="dropdown-menu col-md-2" aria-labelledby="dropdownMenuButton1">
