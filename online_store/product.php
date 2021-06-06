@@ -8,8 +8,45 @@
 
 <body>
     <div class="container">
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+    <div class="container-fluid">
+        <h3 class="text-light">Claire_Store</h3>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-around" id="navbarToggle"> 
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item ">
+                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="product.php">Create Product</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="customer.php">Create Customer</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.php">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</nav>
         <div class="page-header">
-            <h1>Create Product</h1>
+            <h4 class="p-1">Create Product</h4>
         </div>
 
         <?php
@@ -57,7 +94,7 @@
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input type='text' name='description' class='form-control' /></td>
+                    <td><textarea type='text' name='description' class='form-control' rows="3"></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
