@@ -14,7 +14,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-around" id="navbarToggle"> 
+                <div class="collapse navbar-collapse justify-content-around" id="navbarToggle">
                     <div>
                         <ul class="navbar-nav">
                             <li class="nav-item ">
@@ -46,11 +46,11 @@
                 </div>
         </nav>
         <div class="contain d-flex justify-content-center" style="background-image: url('background.jpg'); background-size:cover; height:500px;">
-        <div class="">
-            <h1 class = "text-light p-5">
-                Welcome to Claire's Online Store.
-            </h1>
-        </div>
+            <div>
+                <h1 class="text-light p-5">
+                    Welcome to Claire's Online Store.
+                </h1>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
