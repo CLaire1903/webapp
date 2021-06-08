@@ -50,33 +50,57 @@
         </div>
         <?php
         if ($_POST) {
-            include 'config/database.php';
-            try {
-                $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
-                $stmt = $con->prepare($query);
-                $name = $_POST['name'];
-                $name_malay = $_POST['name_malay'];
-                $description = $_POST['description'];
-                $price = $_POST['price'];
-                $promotion_price = $_POST['promotion_price'];
-                $manufacture_date = $_POST['manufacture_date'];;
-                $expired_date = $_POST['expired_date'];;
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':name_malay', $name_malay);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':promotion_price', $promotion_price);
-                $stmt->bindParam(':manufacture_date', $manufacture_date);
-                $stmt->bindParam(':expired_date', $expired_date);
-                $created = date('Y-m-d H:i:s');
-                $stmt->bindParam(':created', $created);
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
+            if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['price'] != "" && $_POST['manufacture_date'] != "" && $_POST['expired_date'] != "") {
+                if (is_numeric($_POST['price']) && is_numeric($_POST['promotion_price'])) {
+                    if ($_POST['price'] > 0 && $_POST['promotion_price'] > 0) {
+                        if ($_POST['price'] < 1000 && $_POST['promotion_price'] < 1000) {
+                            if ($_POST['price'] > $_POST['promotion_price']) {
+                                if ($_POST['manufacture_date'] < $_POST['expired_date']) {
+                                    include 'config/database.php';
+                                    try {
+                                        $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
+                                        $stmt = $con->prepare($query);
+                                        $name = $_POST['name'];
+                                        $name_malay = $_POST['name_malay'];
+                                        $description = $_POST['description'];
+                                        $price = $_POST['price'];
+                                        $promotion_price = $_POST['promotion_price'];
+                                        $manufacture_date = $_POST['manufacture_date'];
+                                        $expired_date = $_POST['expired_date'];
+                                        $stmt->bindParam(':name', $name);
+                                        $stmt->bindParam(':name_malay', $name_malay);
+                                        $stmt->bindParam(':description', $description);
+                                        $stmt->bindParam(':price', $price);
+                                        $stmt->bindParam(':promotion_price', $promotion_price);
+                                        $stmt->bindParam(':manufacture_date', $manufacture_date);
+                                        $stmt->bindParam(':expired_date', $expired_date);
+                                        $created = date('Y-m-d H:i:s');
+                                        $stmt->bindParam(':created', $created);
+                                        if ($stmt->execute()) {
+                                            echo "<div class='alert alert-success'>Record was saved.</div>";
+                                        } else {
+                                            echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                                        }
+                                    } catch (PDOException $exception) {
+                                        die('ERROR: ' . $exception->getMessage());
+                                    }
+                                } else {
+                                    echo "<div class='alert alert-danger'>Please make sure expired date is late than the manufacture date.</div>";
+                                }
+                            } else {
+                                echo "<div class='alert alert-danger'>Promotion price cannot bigger than normal price.</div>";
+                            }
+                        } else {
+                            echo "<div class='alert alert-danger'>Please make sure the price is not bigger than RM 1000.</div>";
+                        }
+                    } else {
+                        echo "<div class='alert alert-danger'>Please make sure the price must be not a negative value.</div>";
+                    }
                 } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    echo "<div class='alert alert-danger'>Please make sure the price is a number.</div>";
                 }
-            } catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
+            } else {
+                echo "<div class='alert alert-danger'>Make sure all fields are not empty</div>";
             }
         }
         ?>
