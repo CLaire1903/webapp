@@ -50,31 +50,35 @@
         </div>
         <?php
         if ($_POST) {
-            include 'config/database.php';
-            try {
-                $query = "INSERT INTO customers SET username=:username, password=:password, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
-                $stmt = $con->prepare($query);
-                $username = $_POST['username'];
-                $password = $_POST['password'];
-                $firstName = $_POST['firstName'];
-                $lastName = $_POST['lastName'];
-                $gender = $_POST['gender'];
-                $dateOfBirth = $_POST['dateOfBirth'];
-                $accountStatus = $_POST['accountStatus'];
-                $stmt->bindParam(':username', $username);
-                $stmt->bindParam(':password', $password);
-                $stmt->bindParam(':firstName', $firstName);
-                $stmt->bindParam(':lastName', $lastName);
-                $stmt->bindParam(':gender', $gender);
-                $stmt->bindParam(':dateOfBirth', $dateOfBirth);
-                $stmt->bindParam(':accountStatus', $accountStatus);
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+            if ($_POST['username'] != "" &&  $_POST['password'] != "" &&  $_POST['firstName'] != "" &&  $_POST['lastName'] != "" &&  $_POST['gender'] != "" &&  $_POST['dateOfBirth'] != "" &&  $_POST['accountStatus']) {
+                include 'config/database.php';
+                try {
+                    $query = "INSERT INTO customers SET username=:username, password=:password, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
+                    $stmt = $con->prepare($query);
+                    $username = $_POST['username'];
+                    $password = $_POST['password'];
+                    $firstName = $_POST['firstName'];
+                    $lastName = $_POST['lastName'];
+                    $gender = $_POST['gender'];
+                    $dateOfBirth = $_POST['dateOfBirth'];
+                    $accountStatus = $_POST['accountStatus'];
+                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':password', $password);
+                    $stmt->bindParam(':firstName', $firstName);
+                    $stmt->bindParam(':lastName', $lastName);
+                    $stmt->bindParam(':gender', $gender);
+                    $stmt->bindParam(':dateOfBirth', $dateOfBirth);
+                    $stmt->bindParam(':accountStatus', $accountStatus);
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
+                } catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
                 }
-            } catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
+            } else {
+                echo "<div class='alert alert-danger'>Make sure all fields are not empty</div>";
             }
         }
         ?>
