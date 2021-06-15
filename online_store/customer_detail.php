@@ -14,14 +14,16 @@
 
         <?php
         $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Customer record not found.');
-
+        echo $username;
         include 'config/database.php';
 
         try {
-            $query = "SELECT username, password, firstName, lastName, gender, dateOfBirth, regdDateNTime, accountStatus FROM customers WHERE username = :username ";
+            $query = "SELECT * FROM customers WHERE username = 'claire031999'";
             $stmt = $con->prepare($query);
-            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(1, $username);
+            var_dump($stmt);
             $stmt->execute();
+            
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $username = $row['username'];
@@ -32,6 +34,7 @@
             $dateOfBirth = $row['dateOfBirth'];
             $regdDateNTime = $row['regdDateNTime'];
             $accountStatus = $row['accountStatus'];
+            
         } catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
