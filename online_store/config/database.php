@@ -7,6 +7,7 @@ $password = "Claire19031999";
   
 try {
     $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }  
 // show error
 catch(PDOException $exception){
