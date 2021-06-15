@@ -15,7 +15,7 @@
         <?php
         $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Customer record not found.');
         
-        include 'config/database.php'; // inside the database.php, there is a variable called $username as well. It will just replace what you have in the line 16. So what you can do is give different variable name for the line 16, then the line 23 replace with the new variable name will do.
+        include 'config/database.php'; // JW: inside the database.php, there is a variable called $username as well. It will just replace what you have in the line 16. So what you can do is give different variable name for the line 16, then the line 23 replace with the new variable name will do.
 
         try {
             $query = "SELECT * FROM customers WHERE username = :username";
