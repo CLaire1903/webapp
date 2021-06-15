@@ -14,16 +14,14 @@
 
         <?php
         $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Customer record not found.');
-        echo $username;
-        include 'config/database.php';
+        
+        include 'config/database.php'; // inside the database.php, there is a variable called $username as well. It will just replace what you have in the line 16. So what you can do is give different variable name for the line 16, then the line 23 replace with the new variable name will do.
 
         try {
-            $query = "SELECT * FROM customers WHERE username = 'claire031999'";
+            $query = "SELECT * FROM customers WHERE username = :username";
             $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $username);
-            var_dump($stmt);
-            $stmt->execute();
-            
+            $stmt->bindParam(":username", $username);
+            $stmt->execute();           
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $username = $row['username'];
