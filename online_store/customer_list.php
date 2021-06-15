@@ -7,6 +7,9 @@
 
 <body>
     <div class="container">
+        <?php
+        include 'navigation.php';
+        ?>
         <div class="page-header">
             <h1>Customer List</h1>
         </div>
@@ -20,7 +23,7 @@
         echo "<a href='customer.php' class='btn btn-primary mb-2'>Create New Customer</a>";
         if ($num > 0) {
 
-            echo "<table class='table table-hover table-responsive table-bordered'>"; 
+            echo "<table class='table table-hover table-responsive table-bordered'>";
 
             echo "<tr>";
             echo "<th>Username</th>";
@@ -29,7 +32,7 @@
             echo "<th>Date Of Birth</th>";
             echo "<th>Action</th>";
             echo "</tr>";
-            
+
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 echo "<tr>";
@@ -45,8 +48,7 @@
                 echo "</tr>";
             }
             echo "</table>";
-        }
-        else {
+        } else {
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
         ?>
