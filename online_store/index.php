@@ -18,6 +18,24 @@
                 </h1>
             </div>
         </div>
+        <div id="footer" class=" justify-content-between">
+                    <div class="iconLink">
+                        <a class="nav-link" href="https://www.facebook.com/"><img src="image/facebook.png" alt="Facebook"></a>
+                    </div>
+                    <div class="iconLink">
+                        <a class="nav-link" href="https://www.instagram.com/"><img src="image/instagram.png" alt="Instagram"></a>
+                    </div>
+                    <div class="iconLink">
+                        <a class="nav-link" href="#"><img src="image/whatsapp.png" alt="Whatsapp"></a>
+                    </div>
+                    <div class="iconLink">
+                        <a class="nav-link" href="#"><img src="image/email.png" alt="Email"></a>
+                    </div>
+                    <div class="iconLink">
+                        <a class="nav-link" href="#"><img src="image/wechat.png" alt="Wechat"></a>
+                    </div>
+            </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

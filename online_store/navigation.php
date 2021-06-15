@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <h3 class="text-light">Claire_Store</h3>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse justify-content-around" id="navbarToggle">
             <div>
                 <ul class="navbar-nav">
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                     </li>
                 </ul>
@@ -22,7 +22,21 @@
             <div>
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <a class="nav-link" href="product_list.php">View Product</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
                         <a class="nav-link" href="customer.php">Create Customer</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="customer_list.php">View Customer</a>
                     </li>
                 </ul>
             </div>

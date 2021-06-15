@@ -16,68 +16,63 @@
         </div>
         <?php
         if ($_POST) {
-            if ($_POST['username'] != "" &&  $_POST['password'] != "" &&  $_POST['confirmPassword'] != "" &&  $_POST['firstName'] != "" &&  $_POST['lastName'] != "" &&  $_POST['gender'] != "" &&  $_POST['dateOfBirth'] != "" &&  $_POST['accountStatus']) {
-                if (strlen($_POST['username']) >= 6 && (strrpos($_POST['username'], " ") == false)) {
-                    if ($_POST['password'] == $_POST['confirmPassword']) {
-                        if (strlen($_POST['password']) >= 8) {
-                            if (preg_match("@[0-9]@", $_POST['password'])) {
-                                if (preg_match("@[a-z]@", $_POST['password'])) {
-                                    if (preg_match("@[A-Z]@", $_POST['password'])) {
-                                        $today = date('Y-M-D');
-                                        if ($today - $_POST['dateOfBirth'] >= 18) {
-                                            include 'config/database.php';
-                                            try {
-                                                $query = "INSERT INTO customers SET username=:username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
-                                                $stmt = $con->prepare($query);
-                                                $username = $_POST['username'];
-                                                $password = $_POST['password'];
-                                                $confirmPassword = $_POST['confirmPassword'];
-                                                $firstName = $_POST['firstName'];
-                                                $lastName = $_POST['lastName'];
-                                                $gender = $_POST['gender'];
-                                                $dateOfBirth = $_POST['dateOfBirth'];
-                                                $accountStatus = $_POST['accountStatus'];
-                                                $stmt->bindParam(':username', $username);
-                                                $stmt->bindParam(':password', $password);
-                                                $stmt->bindParam(':confirmPassword', $confirmPassword);
-                                                $stmt->bindParam(':firstName', $firstName);
-                                                $stmt->bindParam(':lastName', $lastName);
-                                                $stmt->bindParam(':gender', $gender);
-                                                $stmt->bindParam(':dateOfBirth', $dateOfBirth);
-                                                $stmt->bindParam(':accountStatus', $accountStatus);
-                                                if ($stmt->execute()) {
-                                                    echo "<div class='alert alert-success'>Record was saved.</div>";
-                                                } else {
-                                                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
-                                                }
-                                            } catch (PDOException $exception) {
-                                                die('ERROR: ' . $exception->getMessage());
-                                            }
-                                        } else {
-                                            echo "<div class='alert alert-danger'> User must be 18 years old and above. </div>";
-                                        }
-                                    } else {
-                                        echo "<div class='alert alert-danger'> Passowrd must 
-                            contain at least a<strong> CAPITAL </strong>letter. </div>";
-                                    }
-                                } else {
-                                    echo "<div class='alert alert-danger'> Passowrd must 
-                        contain at least a <strong>SMALL</strong> letter. </div>";
-                                }
-                            } else {
-                                echo "<div class='alert alert-danger'> Passowrd must contain at least a number. </div>";
-                            }
-                        } else {
-                            echo "<div class='alert alert-danger'> Password should be at least 8 character.</div>";
-                        }
-                    } else {
-                        echo "<div class='alert alert-danger'> Password and confirm password are not the same.</div>";
-                    }
-                } else {
-                    echo "<div class='alert alert-danger'>Username must be at least 6 characters and no space included.</div>";
+            include 'config/database.php';
+            try {
+                if (empty($_POST['username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
+                    throw new Exception("Make sure all fields are not empty");
                 }
-            } else {
-                echo "<div class='alert alert-danger'>Make sure all fields are not empty</div>";
+                if (strlen($_POST['username']) < 6 && (strrpos($_POST['username'], " ") == true)) {
+                    throw new Exception("Username must be at least 6 characters and no space included.");
+                }
+                if ($_POST['password'] != $_POST['confirmPassword']) {
+                    throw new Exception("Password and confirm password are not the same.");
+                }
+                if (strlen($_POST['password']) < 8) {
+                    throw new Exception("Password should be at least 8 character.");
+                }
+                if (!preg_match("@[0-9]@", $_POST['password'])) {
+                    throw new Exception("Passowrd must contain at least a number.");
+                }
+                if (!preg_match("@[a-z]@", $_POST['password'])) {
+                    throw new Exception("Passowrd must 
+                    contain at least a <strong>SMALL</strong> letter.");
+                }
+                if (!preg_match("@[A-Z]@", $_POST['password'])) {
+                    throw new Exception("Passowrd must 
+                    contain at least a<strong> CAPITAL </strong>letter.");
+                }
+                $today = date('Y-M-D');
+                if ($today - $_POST['dateOfBirth'] < 18) {
+                    throw new Exception("User must be 18 years old and above.");
+                }
+
+                $query = "INSERT INTO customers SET username=:username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
+                $stmt = $con->prepare($query);
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+                $confirmPassword = $_POST['confirmPassword'];
+                $firstName = $_POST['firstName'];
+                $lastName = $_POST['lastName'];
+                $gender = $_POST['gender'];
+                $dateOfBirth = $_POST['dateOfBirth'];
+                $accountStatus = $_POST['accountStatus'];
+                $stmt->bindParam(':username', $username);
+                $stmt->bindParam(':password', $password);
+                $stmt->bindParam(':confirmPassword', $confirmPassword);
+                $stmt->bindParam(':firstName', $firstName);
+                $stmt->bindParam(':lastName', $lastName);
+                $stmt->bindParam(':gender', $gender);
+                $stmt->bindParam(':dateOfBirth', $dateOfBirth);
+                $stmt->bindParam(':accountStatus', $accountStatus);
+                if ($stmt->execute()) {
+                    echo "<div class='alert alert-success'>Record was saved.</div>";
+                } else {
+                    throw new Exception("Unable to save record.");
+                }
+            } catch (PDOException $exception) {
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            } catch (Exception $exception) {
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
         ?>
