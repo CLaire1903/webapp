@@ -16,13 +16,12 @@
 
         <?php
         include 'config/database.php';
-        $query = "SELECT username, firstName, lastName, dateOfBirth FROM customers";
+        $query = "SELECT cus_username, firstName, lastName, dateOfBirth FROM customers";
         $stmt = $con->prepare($query);
         $stmt->execute();
         $num = $stmt->rowCount();
         echo "<a href='customer.php' class='btn btn-primary mb-2'>Create New Customer</a>";
         if ($num > 0) {
-
             echo "<table class='table table-hover table-responsive table-bordered'>";
 
             echo "<tr>";
@@ -36,14 +35,14 @@
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 echo "<tr>";
-                echo "<td>{$username}</td>";
+                echo "<td>{$cus_username}</td>";
                 echo "<td>{$firstName}</td>";
                 echo "<td>{$lastName}</td>";
                 echo "<td>{$dateOfBirth}</td>";
                 echo "<td>";
-                echo "<a href='customer_detail.php?username={$username}' class='btn btn-info me-2'>Detail</a>";
-                echo "<a href='customer_update.php?id={$username}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_user({$username});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='customer_detail.php?cus_username={$cus_username}' class='btn btn-info me-2'>Detail</a>";
+                echo "<a href='customer_update.php?cus_username={$cus_username}' class='btn btn-primary me-2'>Edit</a>";
+                echo "<a href='#' onclick='delete_user({$cus_username});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

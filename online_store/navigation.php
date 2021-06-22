@@ -22,7 +22,7 @@
             <div>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="product_list.php">View Product</a>
+                        <a class="nav-link" href="product_list.php">Product List</a>
                     </li>
                 </ul>
             </div>
@@ -36,7 +36,21 @@
             <div>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="customer_list.php">View Customer</a>
+                        <a class="nav-link" href="customer_list.php">Customer list</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="order.php">Create Order</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="order_list.php">Order List</a>
                     </li>
                 </ul>
             </div>

@@ -14,18 +14,18 @@
         </div>
 
         <?php
-        $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+        $productId = isset($_GET['productId']) ? $_GET['productId'] : die('ERROR: Product record not found.');
 
         include 'config/database.php';
 
         try {
-            $query = "SELECT id, name, name_malay, description, price, promotion_price FROM products WHERE id = :id ";
+            $query = "SELECT productId, name, name_malay, description, price, promotion_price FROM products WHERE productId = :productId ";
             $stmt = $con->prepare($query);
-            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":productId", $productId);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $id = $row['id'];
+            $id = $row['productId'];
             $name = $row['name'];
             $name_malay = $row['name_malay'];
             $description = $row['description'];
@@ -38,8 +38,8 @@
 
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
-                <td>Id</td>
-                <td><?php echo htmlspecialchars($id, ENT_QUOTES);  ?></td>
+                <td>Product ID</td>
+                <td><?php echo htmlspecialchars($productId, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Name</td>

@@ -46,9 +46,9 @@
                     throw new Exception("User must be 18 years old and above.");
                 }
 
-                $query = "INSERT INTO customers SET username=:username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
+                $query = "INSERT INTO customers SET cus_username=:cus_username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
                 $stmt = $con->prepare($query);
-                $username = $_POST['username'];
+                $cus_username = $_POST['cus_username'];
                 $password = $_POST['password'];
                 $confirmPassword = $_POST['confirmPassword'];
                 $firstName = $_POST['firstName'];
@@ -56,7 +56,7 @@
                 $gender = $_POST['gender'];
                 $dateOfBirth = $_POST['dateOfBirth'];
                 $accountStatus = $_POST['accountStatus'];
-                $stmt->bindParam(':username', $username);
+                $stmt->bindParam(':cus_username', $cus_username);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':confirmPassword', $confirmPassword);
                 $stmt->bindParam(':firstName', $firstName);
@@ -80,7 +80,7 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='username' class='form-control' /></td>
+                    <td><input type='text' name='cus_username' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
@@ -130,14 +130,13 @@
                                 <option value="inactive">Inactive</option>
                             </select>
                         </div>
-
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='index.php' class='btn btn-danger'>Back</a>
+                        <a href='customer_list.php' class='btn btn-danger'>View Customer</a>
                     </td>
                 </tr>
             </table>

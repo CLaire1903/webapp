@@ -13,18 +13,18 @@
         </div>
 
         <?php
-        $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Customer record not found.');
-        
+        $cus_username = isset($_GET['cus_username']) ? $_GET['cus_username'] : die('ERROR: Customer record not found.');
+
         include 'config/database.php'; // JW: inside the database.php, there is a variable called $username as well. It will just replace what you have in the line 16. So what you can do is give different variable name for the line 16, then the line 23 replace with the new variable name will do.
 
         try {
-            $query = "SELECT * FROM customers WHERE username = :username";
+            $query = "SELECT * FROM customers WHERE cus_username = :cus_username";
             $stmt = $con->prepare($query);
-            $stmt->bindParam(":username", $username);
-            $stmt->execute();           
+            $stmt->bindParam(":cus_username", $cus_username);
+            $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $username = $row['username'];
+            $cus_username = $row['cus_username'];
             $password = $row['password'];
             $firstName = $row['firstName'];
             $lastName = $row['lastName'];
@@ -32,7 +32,6 @@
             $dateOfBirth = $row['dateOfBirth'];
             $regdDateNTime = $row['regdDateNTime'];
             $accountStatus = $row['accountStatus'];
-            
         } catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
@@ -41,7 +40,7 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Username</td>
-                <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>password</td>
@@ -80,4 +79,5 @@
         </table>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
+
 </html>
