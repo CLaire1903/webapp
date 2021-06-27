@@ -9,6 +9,9 @@
 
 <body>
     <div class="container">
+        <?php
+        include 'navigation.php';
+        ?>
         <div class="page-header">
             <h1>Read Product</h1>
         </div>
@@ -25,7 +28,7 @@
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $id = $row['productId'];
+            $productId = $row['productId'];
             $name = $row['name'];
             $name_malay = $row['name_malay'];
             $description = $row['description'];

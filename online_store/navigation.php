@@ -14,43 +14,40 @@
             </div>
             <div>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="product.php">Create Product</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Product
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="product.php">Create Product</a></li>
+                            <li><a class="dropdown-item" href="product_list.php">Product List</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
             <div>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="product_list.php">Product List</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Customer
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="customer.php">Create Customer</a></li>
+                            <li><a class="dropdown-item" href="customer_list.php">Customer List</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
             <div>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="customer.php">Create Customer</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="customer_list.php">Customer list</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="order.php">Create Order</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="order_list.php">Order List</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Order
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="order.php">Create Order</a></li>
+                            <li><a class="dropdown-item" href="order_list.php">Order List</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

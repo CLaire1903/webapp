@@ -8,6 +8,9 @@
 
 <body>
     <div class="container">
+        <?php
+        include 'navigation.php';
+        ?>
         <div class="page-header">
             <h1>Read Order</h1>
         </div>
@@ -15,20 +18,18 @@
         <?php
         $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Order record not found.');
 
-        include 'config/database.php'; 
+        include 'config/database.php';
 
         try {
-            $query = "SELECT * FROM orders WHERE orderID = :orderID";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(":orderID", $orderID);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $o_query = "SELECT * FROM orders WHERE orderID = :orderID";
+            $o_stmt = $con->prepare($o_query);
+            $o_stmt->bindParam(":orderID", $orderID);
+            $o_stmt->execute();
+            $o_row = $o_stmt->fetch(PDO::FETCH_ASSOC);
 
-            $orderID = $row['orderID'];
-            $orderDateNTime = $row['orderDateNTime'];
-            $cus_username = $row['cus_username'];
-            $productID = $row['productID'];
-            $quantity = $row['quantity'];
+            $orderID = $o_row['orderID'];
+            $orderDateNTime = $o_row['orderDateNTime'];
+            $cus_username = $o_row['cus_username'];
         } catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
@@ -47,14 +48,24 @@
                 <td>Customer Username</td>
                 <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
             </tr>
-            <tr>
-                <td>Product ID</td>
-                <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-                <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-            </tr>
+            <?php
+            $od_query = "SELECT p.productID, name, quantity, price
+                        FROM order_detail od
+                        INNER JOIN products p ON od.productID = p.productID
+                        WHERE orderID = :orderID";
+            $od_stmt = $con->prepare($od_query);
+            $od_stmt->bindParam(":orderID", $orderID);
+            $od_stmt->execute();
+            echo "<th class='col-4'>Product</th>";
+            echo "<th class='col-4'>Quantity</th>";
+            echo "<th class='col-4'>Price</th>";
+            while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr>";
+                echo "<td>$od_row[name]</td>";
+                echo "<td>$od_row[quantity]</td>";
+                echo "<td>$od_row[price]</td>";
+                echo "</tr>";
+            } ?>
             <tr>
                 <td></td>
                 <td>

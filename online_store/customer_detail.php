@@ -8,6 +8,9 @@
 
 <body>
     <div class="container">
+        <?php
+        include 'navigation.php';
+        ?>
         <div class="page-header">
             <h1>Read Customer</h1>
         </div>

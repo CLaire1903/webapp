@@ -18,10 +18,10 @@
         if ($_POST) {
             include 'config/database.php';
             try {
-                if (empty($_POST['username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
+                if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
-                if (strlen($_POST['username']) < 6 && (strrpos($_POST['username'], " ") == true)) {
+                if (strlen($_POST['cus_username']) < 6 && (strrpos($_POST['username'], " ") == true)) {
                     throw new Exception("Username must be at least 6 characters and no space included.");
                 }
                 if ($_POST['password'] != $_POST['confirmPassword']) {
@@ -122,14 +122,11 @@
                 <tr>
                     <td>Account Status</td>
                     <td>
-                        <div class="col-auto">
-                            <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-                            <select class="form-select" id="autoSizingSelect" name="accountStatus">
-                                <option selected>Choose...</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
+                        <select class="form-select" id="autoSizingSelect" name="accountStatus">
+                            <option selected>Choose...</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
