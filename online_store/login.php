@@ -7,34 +7,43 @@
 </head>
 
 <body>
-    <div class="container d-flex justify-content-center">
-        <div class="d-flex justify-content-center flex-column m-5 border-3">
+    <div class="container-flex bg-secondary d-flex justify-content-center" style="height:577px">
+        <div class="d-flex justify-content-center flex-column m-5 border-3 bg-light col-4 rounded-3" >
             <?php
             if ($_POST) {
                 include 'config/database.php';
                 try {
+                    if (empty($_POST['cus_username']) || empty($_POST['password'])) {
+                            throw new Exception("Make sure all fields are not empty");
+                        }
                     $query = "SELECT * FROM customers WHERE cus_username=:cus_username";
                     $stmt = $con->prepare($query);
                     $stmt->bindParam(":cus_username", $cus_username);
                     $stmt->execute();
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        if (empty($_POST['cus_username']) || empty($_POST['password'])) {
-                            throw new Exception("Make sure all fields are not empty");
+                    $num = $stmt->rowCount();
+                    if($num = 1){
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if($_POST["password"] == $row["password"]){
+                            throw new Exception("Password incorrectly");
                         }
-                        if ($_POST['cus_username'] != $row['cus_username']) {
-                            throw new Exception("Username does not exist.");
+                        if($bdaccountStatus == "active"){
+                            throw new Exception("Sorry. Your account is not active");
                         }
+                        header("Location: index.php");
+                    }else {
+                        echo"<div class='alert alert-danger'>Username does not exist";
                     }
+                    
                 } catch (PDOException $exception) {
-                    //for databae 'PDO'
-                    echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+                    //for database 'PDO'
+                    echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . "</div>";
                 } catch (Exception $exception) {
-                    echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+                    echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . "</div>";
                 }
             }
             ?>
-            <div class="page-header m-2 p-2">
-                <h1 class="header text-center m-5">Claire_Store</h1>
+            <div class=" m-2 p-2 mx-auto">
+                <h1 class="header text-center mb-4">Claire_Store</h1>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <h4 class="instruction text-center">Please sign in</h4>
                     <div class="username mt-3 input-group-lg">
