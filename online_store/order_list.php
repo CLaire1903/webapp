@@ -16,7 +16,7 @@
 
         <?php
         include 'config/database.php';
-        $query = "SELECT * FROM orders";
+        $query = "SELECT * FROM orders ORDER BY orderId DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
         $num = $stmt->rowCount();

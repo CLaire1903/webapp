@@ -75,8 +75,7 @@
                 </tr>
                 <?php
                 echo"<tr class='productQuantity'>";
-                $x = 1;
-                echo "<td>Product " . ($x) . " </td>";
+                echo "<td>Product</td>";
                 echo "<td>";
                 echo "<div>";
                 echo "<select class='form-select' id='autoSizingSelect' name='productID[]'> ";
@@ -121,7 +120,6 @@
                 var element = document.querySelector('.productQuantity');
                 var clone = element.cloneNode(true);
                 element.after(clone);
-                clone.$x++;
             }
             if (event.target.matches('.delete_one')) {
                 var total = document.querySelectorAll('.productQuantity').length;
