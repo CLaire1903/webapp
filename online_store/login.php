@@ -8,32 +8,31 @@
 
 <body>
     <div class="container-flex bg-secondary d-flex justify-content-center" style="height:577px">
-        <div class="d-flex justify-content-center flex-column m-5 border-3 bg-light col-4 rounded-3" >
+        <div class="d-flex justify-content-center flex-column m-5 border-3 bg-light col-4 rounded-3">
             <?php
+            include 'config/database.php';
             if ($_POST) {
-                include 'config/database.php';
                 try {
-                    if (empty($_POST['cus_username']) || empty($_POST['password'])) {
-                            throw new Exception("Make sure all fields are not empty");
-                        }
-                    $query = "SELECT * FROM customers WHERE cus_username=:cus_username";
+                    $cus_username = $_POST['cus_username'];
+                    $password = $_POST['password'];
+                    $query = "SELECT * FROM customers WHERE cus_username='$cus_username'";
                     $stmt = $con->prepare($query);
-                    $stmt->bindParam(":cus_username", $cus_username);
                     $stmt->execute();
-                    $num = $stmt->rowCount();
-                    if($num = 1){
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                        if($_POST["password"] == $row["password"]){
-                            throw new Exception("Password incorrectly");
-                        }
-                        if($bdaccountStatus == "active"){
-                            throw new Exception("Sorry. Your account is not active");
-                        }
-                        header("Location: index.php");
-                    }else {
-                        echo"<div class='alert alert-danger'>Username does not exist";
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if (empty($_POST['cus_username']) || empty($_POST['password'])) {
+                        throw new Exception("Make sure all fields are not empty");
                     }
-                    
+                    if ($row['cus_username'] != $cus_username) {
+                        throw new Exception("Username does not exist!");
+                    }
+                    if($row['password'] != $password){
+                        throw new exception("Password incorrect!");
+                    } 
+                    if($row['accountStatus'] != 'active'){
+                        throw new Exception("Sorry, your account is inactive!");
+                    } 
+                    header("Location: index.php");
                 } catch (PDOException $exception) {
                     //for database 'PDO'
                     echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . "</div>";
