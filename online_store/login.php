@@ -10,16 +10,20 @@
     <div class="container-flex bg-secondary d-flex justify-content-center" style="height:577px">
         <div class="d-flex justify-content-center flex-column m-5 border-3 bg-light col-4 rounded-3">
             <?php
+            session_start();
             include 'config/database.php';
             if ($_POST) {
                 try {
-                    $cus_username = $_POST['cus_username'];
-                    $password = $_POST['password'];
-                    $query = "SELECT * FROM customers WHERE cus_username='$cus_username'";
+                    $query = "SELECT * FROM customers WHERE cus_username=':cus_username'";
                     $stmt = $con->prepare($query);
+                    $cus_username = $_POST['cus_username']; 
+                    $password = $_POST['password'];
+                    $stmt->bindParam(':cus_username', $cus_username);
+                    $stmt->bindParam(':password', $password);
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+                    $_SESSION['cus_username']=$row['cus_username'];
+                    $_SESSION['password']=$row['password'];
                     if (empty($_POST['cus_username']) || empty($_POST['password'])) {
                         throw new Exception("Make sure all fields are not empty");
                     }
