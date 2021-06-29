@@ -12,30 +12,33 @@
             <?php
             session_start();
             include 'config/database.php';
+            if (isset($_GET['error']) && $_GET['error'] == "restrictedAccess") {
+                $errorMessage = "Please login for further proceed!";
+            }
             if ($_POST) {
                 try {
-                    $query = "SELECT * FROM customers WHERE cus_username=':cus_username'";
+
+                    $cus_username = $_POST['cus_username'];
+                    $query = "SELECT * FROM customers WHERE cus_username= :cus_username";
                     $stmt = $con->prepare($query);
-                    $cus_username = $_POST['cus_username']; 
                     $password = $_POST['password'];
                     $stmt->bindParam(':cus_username', $cus_username);
-                    $stmt->bindParam(':password', $password);
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    $_SESSION['cus_username']=$row['cus_username'];
-                    $_SESSION['password']=$row['password'];
+
                     if (empty($_POST['cus_username']) || empty($_POST['password'])) {
                         throw new Exception("Make sure all fields are not empty");
                     }
                     if ($row['cus_username'] != $cus_username) {
                         throw new Exception("Username does not exist!");
                     }
-                    if($row['password'] != $password){
+                    if ($row['password'] != $password) {
                         throw new exception("Password incorrect!");
-                    } 
-                    if($row['accountStatus'] != 'active'){
+                    }
+                    if ($row['accountStatus'] != 'active') {
                         throw new Exception("Sorry, your account is inactive!");
-                    } 
+                    }
+                    $_SESSION['cus_username'] = $row['cus_username'];
                     header("Location: index.php");
                 } catch (PDOException $exception) {
                     //for database 'PDO'
@@ -55,6 +58,10 @@
                     <div class="password mb-3 input-group-lg">
                         <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
+                    <?php
+                    if (isset($errorMessage)) { ?>
+                        <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>
+                    <?php } ?>
                     <div class="button d-grid">
                         <button type='submit' class='btn btn-primary btn-large'>Login</button>
                     </div>

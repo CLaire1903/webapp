@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION["cus_username"])) {
+    header("Location: login.php?error=restrictedAccess");
+}
+?>
 <!DOCTYPE HTML>
 <html>
 
@@ -9,14 +15,13 @@
 <body>
     <div class="container">
         <?php
-        session_start();
-        if (!isset($_SESSION["cus_username"])) {
-            header("login.php");
-        }
         include 'navigation.php';
         ?>
         <div class="contain d-flex justify-content-center" style="background-image: url('image/background.jpg'); background-size:cover; height:500px;">
             <div>
+                <?php 
+                echo "<h1 class='text-center text-light p-5'> Hi, $_SESSION[cus_username].</h1>";
+                ?>
                 <h1 class="text-light p-5">
                     Welcome to Claire's Online Store.
                 </h1>
