@@ -10,6 +10,10 @@
 <body>
     <div class="container">
         <?php
+        session_start();
+        if (!isset($_SESSION["cus_username"])) {
+            header("login.php");
+        }
         include 'navigation.php';
         ?>
         <div class="page-header">

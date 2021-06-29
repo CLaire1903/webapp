@@ -21,6 +21,7 @@
                 if (empty($_POST['cus_username'])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
+                $con->beginTransaction();
                 $query = "INSERT INTO orders SET cus_username=:cus_username";
                 $stmt = $con->prepare($query);
                 $cus_username = $_POST['cus_username'];
@@ -31,8 +32,11 @@
                         $product = $_POST['productID'][$i];
                         $quant = $_POST['quantity'][$i];
                         if ($product != '' && $quant != '') {
-                            $query = "INSERT INTO order_detail SET orderID=$lastID, productID=$product, quantity=$quant";
+                            $query = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity";
                             $stmt = $con->prepare($query);
+                            $stmt->bindParam(':orderID', $lastID);
+                            $stmt->bindParam(':productID', $product);
+                            $stmt->bindParam(':quantity', $quant);
                             $stmt->execute();
                         } else {
                             throw new Exception("Please make sure the product and quantity is selected.");
@@ -42,9 +46,15 @@
                 } else {
                     throw new Exception("Unable to save record.");
                 }
+                $con->commit();
             } catch (PDOException $exception) {
                 //for databae 'PDO'
-                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+                if ($con->inTransaction()) {
+                    $con->rollback();
+                    echo "<div class='alert alert-danger'>Please make sure no duplicate product chosen!</div>";
+                } else {
+                    echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+                }
             } catch (Exception $exception) {
                 echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
@@ -74,7 +84,7 @@
                     </td>
                 </tr>
                 <?php
-                echo"<tr class='productQuantity'>";
+                echo "<tr class='productQuantity'>";
                 echo "<td>Product</td>";
                 echo "<td>";
                 echo "<div>";
@@ -90,17 +100,17 @@
                 echo "</select>";
                 echo "<select class='form-select' id='autoSizingSelect' name='quantity[]'>";
                 echo "<option value=''>-- Select Quantity --</option>";
-                $number = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
-                for($i=0; $i<count($number); $i++){
+                $number = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+                for ($i = 0; $i < count($number); $i++) {
                     echo "<option value='$number[$i]'> $number[$i] </option>";
                 }
                 echo "</select>";
                 echo "</div>";
                 echo "</td>";
-            
+
                 ?>
                 </tr>
-                
+
                 <tr>
                     <td></td>
                     <td>
@@ -115,7 +125,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>
-        document.addEventListener('click', function (event) {
+        document.addEventListener('click', function(event) {
             if (event.target.matches('.add_one')) {
                 var element = document.querySelector('.productQuantity');
                 var clone = element.cloneNode(true);
@@ -123,11 +133,11 @@
             }
             if (event.target.matches('.delete_one')) {
                 var total = document.querySelectorAll('.productQuantity').length;
-                if (total > 1){
+                if (total > 1) {
                     var element = document.querySelector('.productQuantity');
                     element.remove(element);
                 }
-            }        
+            }
         }, false);
     </script>
 
