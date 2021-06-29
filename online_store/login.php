@@ -49,19 +49,20 @@
             }
             ?>
             <div class=" m-2 p-2 mx-auto">
-                <h1 class="header text-center mb-4">Claire_Store</h1>
+                <h1 class="logo text-center mb-4">Claire_Store</h1>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <h4 class="instruction text-center">Please sign in</h4>
+                    <?php
+                    if (isset($errorMessage)) { ?>
+                        <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>
+                    <?php } ?>
                     <div class="username mt-3 input-group-lg">
                         <input type="text" class="form-control" name="cus_username" placeholder="Username">
                     </div>
                     <div class="password mb-3 input-group-lg">
                         <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
-                    <?php
-                    if (isset($errorMessage)) { ?>
-                        <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>
-                    <?php } ?>
+
                     <div class="button d-grid">
                         <button type='submit' class='btn btn-primary btn-large'>Login</button>
                     </div>
