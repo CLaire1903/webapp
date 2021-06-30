@@ -102,7 +102,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Expired Date</td>
-                    <td><input type='date' name='expired_date' class='form-control datepicker' /></td>
+                    <td><input type='date' name='expired_date' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td></td>

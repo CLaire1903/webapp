@@ -48,7 +48,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$price}</td>";
                 echo "<td>";
                 echo "<a href='product_detail.php?productId={$productId}' class='btn btn-info me-2'>Detail</a>";
-                echo "<a href='product_update.php?id={$productId}' class='btn btn-primary me-2'>Edit</a>";
+                echo "<a href='product_update.php?productId={$productId}' class='btn btn-primary me-2'>Edit</a>";
                 echo "<a href='#' onclick='delete_user({$productId});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
