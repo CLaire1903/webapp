@@ -35,6 +35,7 @@ if (!isset($_SESSION["cus_username"])) {
 
             $cus_username = $row['cus_username'];
             $password = $row['password'];
+            $confirmPassword = $row['confirmPassword'];
             $firstName = $row['firstName'];
             $lastName = $row['lastName'];
             $gender = $row['gender'];
@@ -54,6 +55,10 @@ if (!isset($_SESSION["cus_username"])) {
             <tr>
                 <td>password</td>
                 <td><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Confirm password</td>
+                <td><?php echo htmlspecialchars($confirmPassword, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>First Name</td>
