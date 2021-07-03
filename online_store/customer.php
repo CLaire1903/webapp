@@ -108,15 +108,17 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>Gender</td>
                     <td>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="maleButton" value="male">
-                            <label class="form-check-label" for="maleButton">
+                            <label>
+                                <input type="radio" name="gender" value="male">
                                 Male
+                                <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="femaleButton" value="female">
-                            <label class="form-check-label" for="femaleButton">
+                            <label>
+                                <input type="radio" name="gender" value="female">
                                 Female
+                                <span class="select"></span>
                             </label>
                         </div>
                     </td>
@@ -128,11 +130,20 @@ if (!isset($_SESSION["cus_username"])) {
                 <tr>
                     <td>Account Status</td>
                     <td>
-                        <select class="form-select" id="autoSizingSelect" name="accountStatus">
-                            <option selected>Choose...</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                        <div class="form-check">
+                            <label>
+                                <input type="radio" name="accountStatus" value="active">
+                                Active
+                                <span class="select"></span>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label>
+                                <input type="radio" name="accountStatus" value="inactive">
+                                Inactive
+                                <span class="select"></span>
+                            </label>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -147,4 +158,5 @@ if (!isset($_SESSION["cus_username"])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
+
 </html>
