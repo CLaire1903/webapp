@@ -22,7 +22,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         <?php
         include 'config/database.php';
-        $query = "SELECT productId, name, description, price FROM products ORDER BY productId DESC";
+        $query = "SELECT productID, name, description, price FROM products ORDER BY productID DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
         $num = $stmt->rowCount();
@@ -42,14 +42,14 @@ if (!isset($_SESSION["cus_username"])) {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 echo "<tr>";
-                echo "<td>{$productId}</td>";
+                echo "<td>{$productID}</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
                 echo "<td>";
-                echo "<a href='product_detail.php?productId={$productId}' class='btn btn-info me-2'>Detail</a>";
-                echo "<a href='product_update.php?productId={$productId}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_user({$productId});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='product_detail.php?productID={$productID}' class='btn btn-info me-2'>Detail</a>";
+                echo "<a href='product_update.php?productID={$productID}' class='btn btn-primary me-2'>Edit</a>";
+                echo "<a href='#' onclick='delete_user({$productID});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

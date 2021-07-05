@@ -23,18 +23,18 @@ if (!isset($_SESSION["cus_username"])) {
         </div>
 
         <?php
-        $productId = isset($_GET['productId']) ? $_GET['productId'] : die('ERROR: Product record not found.');
+        $productID = isset($_GET['productID']) ? $_GET['productID'] : die('ERROR: Product record not found.');
 
         include 'config/database.php';
 
         try {
-            $query = "SELECT productId, name, name_malay, description, price, promotion_price FROM products WHERE productId = :productId ";
+            $query = "SELECT productID, name, name_malay, description, price, promotion_price FROM products WHERE productID = :productID ";
             $stmt = $con->prepare($query);
-            $stmt->bindParam(":productId", $productId);
+            $stmt->bindParam(":productID", $productID);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $productId = $row['productId'];
+            $productID = $row['productID'];
             $name = $row['name'];
             $name_malay = $row['name_malay'];
             $description = $row['description'];
@@ -48,7 +48,7 @@ if (!isset($_SESSION["cus_username"])) {
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Product ID</td>
-                <td><?php echo htmlspecialchars($productId, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Name</td>
