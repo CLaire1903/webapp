@@ -39,18 +39,11 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             try {
                 $con->beginTransaction();
-                $query = "UPDATE orders SET cus_username=:cus_username WHERE orderID = :orderID";
-                $stmt = $con->prepare($query);
-                $cus_username = htmlspecialchars(strip_tags($_POST['cus_username']));
+                $delete_query = "DELETE FROM order_detail WHERE orderID = :orderID";
+                $stmt = $con->prepare($delete_query);
                 $stmt->bindParam(':orderID', $orderID);
-                $stmt->bindParam(':cus_username', $cus_username);
-
+                $stmt->execute();
                 if ($stmt->execute()) {
-
-                    $delete_query = "DELETE FROM order_detail WHERE orderID = :orderID";
-                    $stmt = $con->prepare($delete_query);
-                    $stmt->bindParam(':orderID', $orderID);
-                    $stmt->execute();
 
                     for ($i = 0; $i < count($_POST['productID']); $i++) {
                         $product = htmlspecialchars(strip_tags($_POST['productID'][$i]));
@@ -101,22 +94,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Customer Username</td>
-                    <td>
-                        <div>
-                            <select class="form-select" id="autoSizingSelect" name="cus_username">
-                                <option value="<?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?>" selected><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></option>
-                                <?php
-                                include 'config/database.php';
-                                $select_user_query = "SELECT cus_username FROM customers";
-                                $select_user_stmt = $con->prepare($select_user_query);
-                                $select_user_stmt->execute();
-                                while ($get_cus_username = $select_user_stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<option value = '$get_cus_username[cus_username]'> $get_cus_username[cus_username] </option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </td>
+                    <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
                 </tr>
                 <th class='col-4'>Product</th>
                 <th class='col-4'>Quantity</th>
@@ -142,21 +120,22 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<tr>";
                     echo "<td>";
                     echo "<select class='form-select' id='autoSizingSelect' name='productID[]'> ";
-                    echo "<option value='$productID' selected>$productName</option> ";
+                    echo "<option value='' disabled selected>-- Select Product --</option> ";
                     $select_product_query = "SELECT productID, name FROM products";
                     $select_product_stmt = $con->prepare($select_product_query);
                     $select_product_stmt->execute();
                     while ($get_product = $select_product_stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<option value = '$get_product[productID]'> $get_product[name] </option>";
+                        $result = $productID == $get_product['productID'] ? 'selected' : '';
+                        echo "<option value = '$get_product[productID]' $result> $get_product[name] </option>";
                     }
                     echo "</select>";
                     echo "</td>";
                     echo "<td>";
                     echo "<select class='form-select' id='autoSizingSelect' name='quantity[]'>";
-                    echo "<option value='$quantity' selected> $quantity </option>";
-                    $number = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-                    for ($i = 0; $i < count($number); $i++) {
-                        echo "<option value='$number[$i]'> $number[$i] </option>";
+                    echo "<option value='' disabled selected> -- Select Quantity -- </option>";
+                    for ($i = 0; $i <= 20; $i++) {
+                        $result = $productQuantity == $i ? 'selected' : '';
+                        echo "<option value='$i' $result> $i </option>";
                     }
                     echo "</select>";
                     echo "</td>";
@@ -182,9 +161,8 @@ if (!isset($_SESSION["cus_username"])) {
                         <select class='form-select' id='autoSizingSelect' name='quantity[]'>
                             <option value='' disabled selected>-- Select Quantity --</option>
                             <?php
-                            $number = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-                            for ($i = 0; $i < count($number); $i++) {
-                                echo "<option value='$number[$i]'> $number[$i] </option>";
+                            for ($i = 0; $i <= 20; $i++) {
+                                echo "<option value='$i'> $i </option>";
                             }
                             ?>
                         </select>

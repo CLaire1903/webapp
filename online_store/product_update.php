@@ -44,6 +44,9 @@ if (!isset($_SESSION["cus_username"])) {
 
         if ($_POST) {
             try {
+                if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
+                    throw new Exception("Make sure all fields are not empty");
+                }
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
                     throw new Exception("Please make sure the price is a number");
                 }
@@ -84,6 +87,9 @@ if (!isset($_SESSION["cus_username"])) {
                 }
             } catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
+            
+            } catch (Exception $exception) {
+                echo "<div class='alert alert-danger'>".$exception->getMessage()."</div>";
             }
         } ?>
 

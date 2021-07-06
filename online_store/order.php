@@ -74,7 +74,7 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>
                         <div>
                             <select class="form-select" id="autoSizingSelect" name="cus_username">
-                                <option selected>-- Select User --</option>
+                                <option value='' disabled selected>-- Select User --</option>
                                 <?php
                                 include 'config/database.php';
                                 $select_user_query = "SELECT cus_username FROM customers";
@@ -95,7 +95,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>";
                 echo "<div>";
                 echo "<select class='form-select' id='autoSizingSelect' name='productID[]'> ";
-                echo "<option value=''>-- Select Product --</option> ";
+                echo "<option value='' disabled selected>-- Select Product --</option> ";
                 include 'config/database.php';
                 $select_product_query = "SELECT productID, name FROM products";
                 $select_product_stmt = $con->prepare($select_product_query);
@@ -105,7 +105,7 @@ if (!isset($_SESSION["cus_username"])) {
                 }
                 echo "</select>";
                 echo "<select class='form-select' id='autoSizingSelect' name='quantity[]'>";
-                echo "<option value=''>-- Select Quantity --</option>";
+                echo "<option value='' disabled selected>-- Select Quantity --</option>";
                 $number = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
                 for ($i = 0; $i < count($number); $i++) {
                     echo "<option value='$number[$i]'> $number[$i] </option>";

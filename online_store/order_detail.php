@@ -62,16 +62,29 @@ if (!isset($_SESSION["cus_username"])) {
             $od_stmt = $con->prepare($od_query);
             $od_stmt->bindParam(":orderID", $orderID);
             $od_stmt->execute();
-            echo "<th class='col-4'>Product</th>";
-            echo "<th class='col-4'>Quantity</th>";
-            echo "<th class='col-4'>Price</th>";
+            echo "<th class='col-3'>Product</th>";
+            echo "<th class='col-3'>Quantity</th>";
+            echo "<th class='col-3'>Price per piece</th>";
+            echo "<th class='col-3'>Total Price</th>";
+            $totalAmount = 0;
             while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
                 echo "<td>$od_row[name]</td>";
                 echo "<td>$od_row[quantity]</td>";
-                echo "<td>$od_row[price]</td>";
+                $productPrice = sprintf('%.2f', $od_row['price']);
+                echo "<td>RM $productPrice</td>";
+                $productTotal = sprintf('%.2f', $productPrice * $od_row['quantity']);
+                echo "<td>RM $productTotal</td>";
+                $totalAmount += $productTotal;
                 echo "</tr>";
-            } ?>
+             }
+                echo "<tr>";
+                echo "<td></td>";
+                echo "<td></td>";
+                echo "<td>You need to pay:</td>";
+                echo "<td>RM $totalAmount</td>";
+                echo "</tr>";
+            ?>
             <tr>
                 <td></td>
                 <td>
