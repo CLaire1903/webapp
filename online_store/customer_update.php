@@ -17,7 +17,7 @@ if (!isset($_SESSION["cus_username"])) {
         include 'navigation.php';
         ?>
         <div class="page-header">
-            <h1>Update Product</h1>
+            <h1>Update Customer</h1>
         </div>
         <?php
         $cus_username = isset($_GET['cus_username']) ? $_GET['cus_username'] : die('ERROR: Customer record not found.');
@@ -44,8 +44,8 @@ if (!isset($_SESSION["cus_username"])) {
 
         if ($_POST) {
             try {
-                if (strlen($_POST['cus_username']) < 6 && (strrpos($_POST['username'], " ") == true)) {
-                    throw new Exception("Username must be at least 6 characters and no space included.");
+                if (empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
+                    throw new Exception("Make sure all fields are not empty");
                 }
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
