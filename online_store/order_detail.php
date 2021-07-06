@@ -54,6 +54,8 @@ if (!isset($_SESSION["cus_username"])) {
                 <td>Customer Username</td>
                 <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
             </tr>
+        </table>
+        <table class='table table-hover table-responsive table-bordered'>
             <?php
             $od_query = "SELECT p.productID, name, quantity, price
                         FROM order_detail od
@@ -76,22 +78,20 @@ if (!isset($_SESSION["cus_username"])) {
                 $productTotal = sprintf('%.2f', $productPrice * $od_row['quantity']);
                 echo "<td>RM $productTotal</td>";
                 $totalAmount += $productTotal;
+                $dec_totalAmount = sprintf('%.2f', $totalAmount);
                 echo "</tr>";
-             }
-                echo "<tr>";
-                echo "<td></td>";
-                echo "<td></td>";
-                echo "<td>You need to pay:</td>";
-                echo "<td>RM $totalAmount</td>";
-                echo "</tr>";
-            ?>
-            <tr>
-                <td></td>
-                <td>
-                    <a href='order_list.php' class='btn btn-danger'>Back to order list</a>
-                </td>
-            </tr>
+            }
+            echo "<tr>";
+            echo "<td></td>";
+            echo "<td></td>";
+            echo "<td>You need to pay:</td>";
+            echo "<td>RM $dec_totalAmount</td>";
+            echo "</tr>";
+            ?>   
         </table>
+        <div class="d-flex justify-content-center">
+            <a href='order_list.php' class='btn btn-danger'>Back to order list</a>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 

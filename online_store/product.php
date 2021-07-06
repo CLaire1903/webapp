@@ -19,6 +19,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h4 class="p-1">Create Product</h4>
+            <h6 class="text-danger"> Please complete the form below with * completely. </h6>
         </div>
         <?php
         if ($_POST) {
@@ -77,41 +78,38 @@ if (!isset($_SESSION["cus_username"])) {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
+                    <td>Name <span class="text-danger">*</span></td>
                     <td><input type='text' name='name' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Name_Malay</td>
+                    <td>Name_Malay <span class="text-danger">*</span></td>
                     <td><input type='text' name='name_malay' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
+                    <td>Description <span class="text-danger">*</span></td>
                     <td><textarea type='text' name='description' class='form-control' rows="3"></textarea></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
+                    <td>Price <span class="text-danger">*</span></td>
                     <td><input type='text' name='price' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Promotion Price</td>
+                    <td>Promotion Price <span class="text-danger">*</span></td>
                     <td><input type='text' name='promotion_price' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Manufacture Date</td>
+                    <td>Manufacture Date <span class="text-danger">*</span></td>
                     <td><input type='date' name='manufacture_date' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Expired Date</td>
+                    <td>Expired Date <span class="text-danger">*</span></td>
                     <td><input type='date' name='expired_date' class='form-control' /></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='product_list.php' class='btn btn-danger'>View Products</a>
-                    </td>
-                </tr>
             </table>
+            <div class="d-flex justify-content-center">
+                <input type='submit' value='Save' class='btn btn-primary mx-1' />
+                <a href='product_list.php' class='btn btn-danger mx-1'>View Products</a>
+            </div>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

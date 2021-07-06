@@ -24,9 +24,8 @@ if (!isset($_SESSION["cus_username"])) {
         include 'config/database.php';
 
         $action = isset($_GET['action']) ? $_GET['action'] : "";
-        // if it was redirected from delete.php
         if ($action == 'productInStock') {
-            echo "<div class='alert alert-danger'>Product could not be deleted.</div>";
+            echo "<div class='alert alert-danger'>Product could not be deleted as it involved in order.</div>";
         }
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
@@ -72,12 +71,9 @@ if (!isset($_SESSION["cus_username"])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type='text/javascript'>
-        // confirm record deletion
         function delete_product(productID) {
 
             if (confirm('Are you sure?')) {
-                // if user clicked ok,
-                // pass the id to delete.php and execute the delete query
                 window.location = 'product_delete.php?productID=' + productID;
             }
         }

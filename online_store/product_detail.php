@@ -70,13 +70,10 @@ if (!isset($_SESSION["cus_username"])) {
                 <td>Promotion Price</td>
                 <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
             </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <a href='product_list.php' class='btn btn-danger'>Back to product list</a>
-                </td>
-            </tr>
         </table>
+        <div class="d-flex justify-content-center">
+            <a href='product_list.php' class='btn btn-danger'>Back to product list</a>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 

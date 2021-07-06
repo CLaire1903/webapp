@@ -96,9 +96,12 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>Customer Username</td>
                     <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
                 </tr>
-                <th class='col-4'>Product</th>
-                <th class='col-4'>Quantity</th>
-                <th class='col-4'>Price</th>
+                </table>
+                <table class='table table-hover table-responsive table-bordered'>
+                <th class='col-3'>Product</th>
+                <th class='col-3'>Quantity</th>
+                <th class='col-3'>Price per Piece</th>
+                <th class='col-3'>Total</th>
                 <?php
                 $od_query = "SELECT orderID, p.productID, name, quantity, price
                         FROM order_detail od
@@ -108,6 +111,7 @@ if (!isset($_SESSION["cus_username"])) {
                 $od_stmt->bindParam(":orderID", $orderID);
                 $od_stmt->execute();
 
+                $totalAmount = 0;
                 while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
                     $ori_productID = $od_row['productID'];
                     $productID = $od_row['productID'];
@@ -139,10 +143,25 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                     echo "</select>";
                     echo "</td>";
-                    echo "<td>$price</td>";
+                    $productPrice = sprintf('%.2f', $od_row['price']);
+                    echo "<td>RM $productPrice</td>";
+                    $productTotal = sprintf('%.2f', $productPrice * $od_row['quantity']);
+                    echo "<td>RM $productTotal</td>";
+                    $totalAmount += $productTotal;
+                    $dec_totalAmount = sprintf('%.2f', $totalAmount);
                     echo "</tr>";
-                } ?>
+                    }
+                    echo "<tr>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td>You need to pay:</td>";
+                    echo "<td>RM $dec_totalAmount</td>";
+                    echo "</tr>";
+                ?>
+                </table>
+                <table class='table table-hover table-responsive table-bordered'>
                 <tr class='productQuantity'>
+                <td>Add more product (*optional) :</td>
                     <td>
                         <select class='form-select' id='autoSizingSelect' name='productID[]'>
                             <option value='' disabled selected>-- Select Product --</option>

@@ -19,6 +19,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h1>Update Product</h1>
+            <h6 class="text-danger"> Please complete the form below with * completely. </h6>
         </div>
         <?php
         $productID = isset($_GET['productID']) ? $_GET['productID'] : die('ERROR: Product record not found.');
@@ -100,41 +101,38 @@ if (!isset($_SESSION["cus_username"])) {
                     <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
-                    <td>Name</td>
+                    <td>Name <span class="text-danger">*</span></td>
                     <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Malay Name</td>
+                    <td>Malay Name <span class="text-danger">*</span></td>
                     <td><input type='text' name='name_malay' value="<?php echo htmlspecialchars($name_malay, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
+                    <td>Description <span class="text-danger">*</span></td>
                     <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES); ?></textarea></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
+                    <td>Price <span class="text-danger">*</span></td>
                     <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Promotion Price</td>
+                    <td>Promotion Price <span class="text-danger">*</span></td>
                     <td><input type='text' name='promotion_price' value="<?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Manufacture Date</td>
+                    <td>Manufacture Date <span class="text-danger">*</span></td>
                     <td><input type='date' name='manufacture_date' value="<?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Expired Date</td>
+                    <td>Expired Date <span class="text-danger">*</span></td>
                     <td><input type='date' name='expired_date' value="<?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='product_list.php' class='btn btn-danger'>Back to product list</a>
-                    </td>
-                </tr>
             </table>
+            <div class="d-flex justify-content-center">
+                <input type='submit' value='Save Changes' class='btn btn-primary mx-1' />
+                <a href='product_list.php' class='btn btn-danger mx-1'>Back to product list</a>
+            </div>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
