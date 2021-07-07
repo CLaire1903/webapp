@@ -1,7 +1,6 @@
 <?php
 include 'config/database.php';
 try {     
-    //$con->beginTransaction();
     $productID = isset($_GET['productID']) ? $_GET['productID'] :  die('ERROR: Record ID not found.');
 
     $checkQuery = "SELECT * FROM order_detail WHERE productID = ?";
@@ -21,7 +20,6 @@ try {
         die('Unable to delete record.');
     }
 }
-    //$con->commit();
 } catch(PDOException $exception){
     die('ERROR: ' . $exception->getMessage());
 }

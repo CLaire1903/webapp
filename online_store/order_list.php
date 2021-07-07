@@ -22,6 +22,10 @@ if (!isset($_SESSION["cus_username"])) {
 
         <?php
         include 'config/database.php';
+        $action = isset($_GET['action']) ? $_GET['action'] : "";
+        if ($action == 'deleted') {
+            echo "<div class='alert alert-success'>Record was deleted.</div>";
+        }
         $query = "SELECT * FROM orders ORDER BY orderId DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
@@ -45,7 +49,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>";
                 echo "<a href='order_detail.php?orderID={$orderID}' class='btn btn-info me-2'>Detail</a>";
                 echo "<a href='order_update.php?orderID={$orderID}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_user({$orderID});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_order({$orderID});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -57,6 +61,14 @@ if (!isset($_SESSION["cus_username"])) {
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script type='text/javascript'>
+        function delete_order(orderID) {
+
+            if (confirm('Are you sure?')) {
+                window.location = 'order_delete.php?orderID=' + orderID;
+            }
+        }
+    </script>
 </body>
 
 </html>

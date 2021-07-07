@@ -19,6 +19,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h4 class="p-1">Create Customer</h4>
+            <h6 class="text-danger"> Please complete the form below with * completely. </h6>
         </div>
         <?php
         if ($_POST) {
@@ -85,27 +86,27 @@ if (!isset($_SESSION["cus_username"])) {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Username</td>
+                    <td>Username <span class="text-danger">*</span></td>
                     <td><input type='text' name='cus_username' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Password</td>
+                    <td>Password <span class="text-danger">*</span></td>
                     <td><input type='password' name='password' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Confirm Password</td>
+                    <td>Confirm Password <span class="text-danger">*</span></td>
                     <td><input type='password' name='confirmPassword' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>First Name</td>
+                    <td>First Name <span class="text-danger">*</span></td>
                     <td><input type='text' name='firstName' class='form-control'></td>
                 </tr>
                 <tr>
-                    <td>Last Name</td>
+                    <td>Last Name <span class="text-danger">*</span></td>
                     <td><input type='text' name='lastName' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Gender</td>
+                    <td>Gender <span class="text-danger">*</span></td>
                     <td>
                         <div class="form-check">
                             <label>
@@ -124,11 +125,11 @@ if (!isset($_SESSION["cus_username"])) {
                     </td>
                 </tr>
                 <tr>
-                    <td>Date Of Birth</td>
+                    <td>Date Of Birth <span class="text-danger">*</span></td>
                     <td><input type='date' name='dateOfBirth' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Account Status</td>
+                    <td>Account Status <span class="text-danger">*</span></td>
                     <td>
                         <div class="form-check">
                             <label>
@@ -146,14 +147,11 @@ if (!isset($_SESSION["cus_username"])) {
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='customer_list.php' class='btn btn-danger'>View Customer</a>
-                    </td>
-                </tr>
             </table>
+            <div class="d-flex justify-content-center">
+                <input type='submit' value='Save' class='btn btn-primary mx-1' />
+                <a href='customer_list.php' class='btn btn-danger mx-1'>View Customer</a>
+            </div>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

@@ -49,7 +49,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
-                <td>Username</td>
+                <td class="col-4">Username</td>
                 <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
@@ -84,13 +84,10 @@ if (!isset($_SESSION["cus_username"])) {
                 <td>Account Status</td>
                 <td><?php echo htmlspecialchars($accountStatus, ENT_QUOTES);  ?></td>
             </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <a href='customer_list.php' class='btn btn-danger'>Back to customer list</a>
-                </td>
-            </tr>
         </table>
+        <div class="d-flex justify-content-center">
+            <a href='customer_list.php' class='btn btn-danger'>Back to customer list</a>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 

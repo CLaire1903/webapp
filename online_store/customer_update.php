@@ -11,6 +11,7 @@ if (!isset($_SESSION["cus_username"])) {
     <title>Homework - Update Customer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
+
 <body>
     <div class="container">
         <?php
@@ -70,9 +71,9 @@ if (!isset($_SESSION["cus_username"])) {
                 }
                 $query = "UPDATE customers SET password=:password, confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName,
                          gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus WHERE cus_username = :cus_username";
-                $stmt = $con->prepare($query); 
-                $password = htmlspecialchars(strip_tags($_POST['password'])); 
-                $confirmPassword = htmlspecialchars(strip_tags($_POST['confirmPassword'])); 
+                $stmt = $con->prepare($query);
+                $password = htmlspecialchars(strip_tags($_POST['password']));
+                $confirmPassword = htmlspecialchars(strip_tags($_POST['confirmPassword']));
                 $firstName = htmlspecialchars(strip_tags($_POST['firstName']));
                 $lastName = htmlspecialchars(strip_tags($_POST['lastName']));
                 $gender = htmlspecialchars(strip_tags($_POST['gender']));
@@ -101,7 +102,7 @@ if (!isset($_SESSION["cus_username"])) {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?cus_username={$cus_username}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Username</td>
+                    <td class="col-5">Username</td>
                     <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
@@ -125,14 +126,14 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="gender" value="male" <?php echo ($gender=='male')?'checked':'' ?>>
+                                <input type="radio" name="gender" value="male" <?php echo ($gender == 'male') ? 'checked' : '' ?>>
                                 Male
                                 <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="gender" value="female" <?php echo ($gender=='female')?'checked':'' ?>>
+                                <input type="radio" name="gender" value="female" <?php echo ($gender == 'female') ? 'checked' : '' ?>>
                                 Female
                                 <span class="select"></span>
                             </label>
@@ -152,28 +153,25 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="accountStatus" value="active" <?php echo ($accountStatus=='active')?'checked':'' ?>>
+                                <input type="radio" name="accountStatus" value="active" <?php echo ($accountStatus == 'active') ? 'checked' : '' ?>>
                                 Active
                                 <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="accountStatus" value="inactive" <?php echo ($accountStatus=='inactive')?'checked':'' ?>>
+                                <input type="radio" name="accountStatus" value="inactive" <?php echo ($accountStatus == 'inactive') ? 'checked' : '' ?>>
                                 Inactive
                                 <span class="select"></span>
                             </label>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='customer_list.php' class='btn btn-danger'>Back to customer list</a>
-                    </td>
-                </tr>
             </table>
+            <div class="d-flex justify-content-center">
+                <input type='submit' value='Save Changes' class='btn btn-primary mx-1' />
+                <a href='customer_list.php' class='btn btn-danger mx-1'>Back to customer list</a>
+            </div>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
