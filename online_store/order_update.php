@@ -32,6 +32,7 @@ if (!isset($_SESSION["cus_username"])) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $orderDateNTime = $row['orderDateNTime'];
             $cus_username = $row['cus_username'];
+            $total_amount = $row['total_amount'];
         } catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
@@ -39,28 +40,58 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             try {
                 $con->beginTransaction();
-                $delete_query = "DELETE FROM order_detail WHERE orderID = :orderID";
-                $stmt = $con->prepare($delete_query);
-                $stmt->bindParam(':orderID', $orderID);
-                $stmt->execute();
-                if ($stmt->execute()) {
 
+                $updateTotalAmountQuery = "UPDATE orders SET total_amount=:total_amount WHERE orderID=:orderID";
+                $updateTotalAmountStmt = $con->prepare($updateTotalAmountQuery);
+                $total_amount = 0;
+                for ($i = 0; $i < count($_POST['productID']); $i++) {
+                    $productPrice = htmlspecialchars(strip_tags($_POST['productID'][$i]));
+                    $selectPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                    $selectPriceStmt = $con->prepare($selectPriceQuery);
+                    $selectPriceStmt->bindParam(':productID', $productPrice);
+                    $selectPriceStmt->execute();
+                    while ($row = $selectPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                        $productPrice = $row['price'];
+                        $quant = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
+                        $product_total = $productPrice * $quant;
+                        $total_amount += $product_total;
+                    }
+                }
+                $updateTotalAmountStmt->bindParam(':orderID', $orderID);
+                $updateTotalAmountStmt->bindParam(':total_amount', $total_amount);
+
+                $delete_query = "DELETE FROM order_detail WHERE orderID = :orderID";
+                $delete_stmt = $con->prepare($delete_query);
+                $delete_stmt->bindParam(':orderID', $orderID);
+                $delete_stmt->execute();
+                if ($delete_stmt->execute()) {
                     for ($i = 0; $i < count($_POST['productID']); $i++) {
+                        $getPrice = htmlspecialchars(strip_tags($_POST['productID'][$i]));
+                        $getPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                        $getPriceStmt = $con->prepare($getPriceQuery);
+                        $getPriceStmt->bindParam(':productID', $getPrice);
+                        $getPriceStmt->execute();
+                        while ($row = $getPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                            $productPrice = $row['price'];
+                            $quant = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
+                            $product_TA = $productPrice * $quant;
+                        }
                         $product = htmlspecialchars(strip_tags($_POST['productID'][$i]));
                         $quant = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
                         if ($product != '' && $quant != '') {
-                            $query = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity";
-                            $stmt = $con->prepare($query);
-                            $stmt->bindParam(':orderID', $orderID);
-                            $stmt->bindParam(':productID', $product);
-                            $stmt->bindParam(':quantity', $quant);
-                            $stmt->execute();
+                            $insertodQuery = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity, product_TA=:product_TA";
+                            $insertodStmt = $con->prepare($insertodQuery);
+                            $insertodStmt->bindParam(':orderID', $orderID);
+                            $insertodStmt->bindParam(':productID', $product);
+                            $insertodStmt->bindParam(':quantity', $quant);
+                            $insertodStmt->bindParam(':product_TA', $product_TA);
+                            $insertodStmt->execute();
 
                             if ($quant == 0) {
-                                $delete_product = "DELETE FROM order_detail WHERE quantity = :quantity";
-                                $stmt = $con->prepare($delete_product);
-                                $stmt->bindParam(':quantity', $quant);
-                                $stmt->execute();
+                                $delete_productQuery = "DELETE FROM order_detail WHERE quantity = :quantity";
+                                $delete_productStmt = $con->prepare($delete_productQuery);
+                                $delete_productStmt->bindParam(':quantity', $quant);
+                                $delete_productStmt->execute();
                             }
                         } else {
                             throw new Exception("Please make sure the product and quantity is selected.");
@@ -96,14 +127,14 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>Customer Username</td>
                     <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
                 </tr>
-                </table>
-                <table class='table table-hover table-responsive table-bordered'>
+            </table>
+            <table class='table table-hover table-responsive table-bordered'>
                 <th class='col-3'>Product</th>
                 <th class='col-3'>Quantity</th>
                 <th class='col-3'>Price per Piece</th>
                 <th class='col-3'>Total</th>
                 <?php
-                $od_query = "SELECT orderID, p.productID, name, quantity, price
+                $od_query = "SELECT orderID, p.productID, name, quantity, price, product_TA
                         FROM order_detail od
                         INNER JOIN products p ON od.productID = p.productID
                         WHERE orderID = :orderID";
@@ -111,7 +142,6 @@ if (!isset($_SESSION["cus_username"])) {
                 $od_stmt->bindParam(":orderID", $orderID);
                 $od_stmt->execute();
 
-                $totalAmount = 0;
                 while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
                     $ori_productID = $od_row['productID'];
                     $productID = $od_row['productID'];
@@ -145,23 +175,21 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "</td>";
                     $productPrice = sprintf('%.2f', $od_row['price']);
                     echo "<td>RM $productPrice</td>";
-                    $productTotal = sprintf('%.2f', $productPrice * $od_row['quantity']);
+                    $productTotal = sprintf('%.2f', $od_row['product_TA']);
                     echo "<td>RM $productTotal</td>";
-                    $totalAmount += $productTotal;
-                    $dec_totalAmount = sprintf('%.2f', $totalAmount);
                     echo "</tr>";
-                    }
-                    echo "<tr>";
-                    echo "<td></td>";
-                    echo "<td></td>";
-                    echo "<td>You need to pay:</td>";
-                    echo "<td>RM $dec_totalAmount</td>";
-                    echo "</tr>";
+                }
+                echo "<tr>";
+                echo "<td></td>";
+                echo "<td></td>";
+                echo "<td>You need to pay:</td>";
+                echo "<td>RM $total_amount</td>";
+                echo "</tr>";
                 ?>
-                </table>
-                <table class='table table-hover table-responsive table-bordered'>
+            </table>
+            <table class='table table-hover table-responsive table-bordered'>
                 <tr class='productQuantity'>
-                <td>Add more product (*optional) :</td>
+                    <td>Add more product (*optional) :</td>
                     <td>
                         <select class='form-select' id='autoSizingSelect' name='productID[]'>
                             <option value='' disabled selected>-- Select Product --</option>
