@@ -28,22 +28,50 @@ if (!isset($_SESSION["cus_username"])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
                 $con->beginTransaction();
-                $query = "INSERT INTO orders SET cus_username=:cus_username";
+                $query = "INSERT INTO orders SET cus_username=:cus_username, total_amount=:total_amount";
                 $stmt = $con->prepare($query);
                 $cus_username = $_POST['cus_username'];
+                $total_amount = 0;
+
+                for ($i = 0; $i < count($_POST['productID']); $i++) {
+                    $productPrice = $_POST['productID'][$i];
+                    $selectPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                    $selectPriceStmt = $con->prepare($selectPriceQuery);
+                    $selectPriceStmt->bindParam(':productID', $productPrice);
+                    $selectPriceStmt->execute();
+                    while ($row = $selectPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                        $productPrice = $row['price'];
+                        $quant = $_POST['quantity'][$i];
+                        $product_total = $productPrice * $quant;
+                        $total_amount += $product_total;
+                    }
+                }
                 $stmt->bindParam(':cus_username', $cus_username);
+                $stmt->bindParam(':total_amount', $total_amount);
+
                 if ($stmt->execute()) {
                     $lastID = $con->lastInsertId();
                     for ($i = 0; $i < count($_POST['productID']); $i++) {
+                        $getPrice = $_POST['productID'][$i];
+                        $getPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                        $getPriceStmt = $con->prepare($getPriceQuery);
+                        $getPriceStmt->bindParam(':productID', $getPrice);
+                        $getPriceStmt->execute();
+                        while ($row = $getPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                            $productPrice = $row['price'];
+                            $quant = $_POST['quantity'][$i];
+                            $product_TA = $productPrice * $quant;
+                        }
                         $product = $_POST['productID'][$i];
                         $quant = $_POST['quantity'][$i];
                         if ($product != '' && $quant != '') {
-                            $query = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity";
-                            $stmt = $con->prepare($query);
-                            $stmt->bindParam(':orderID', $lastID);
-                            $stmt->bindParam(':productID', $product);
-                            $stmt->bindParam(':quantity', $quant);
-                            $stmt->execute();
+                            $insertodQuery = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity, product_TA=:product_TA";
+                            $insertodStmt = $con->prepare($insertodQuery);
+                            $insertodStmt->bindParam(':orderID', $lastID);
+                            $insertodStmt->bindParam(':productID', $product);
+                            $insertodStmt->bindParam(':quantity', $quant);
+                            $insertodStmt->bindParam(':product_TA', $product_TA);
+                            $insertodStmt->execute();
                         } else {
                             throw new Exception("Please make sure the product and quantity is selected.");
                         }
@@ -84,7 +112,6 @@ if (!isset($_SESSION["cus_username"])) {
                                     echo "<option value = '$cus_username[cus_username]'> $cus_username[cus_username] </option>";
                                 }
                                 ?>
-
                             </select>
                         </div>
                     </td>
@@ -97,7 +124,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<select class='form-select' id='autoSizingSelect' name='productID[]'> ";
                 echo "<option value='' disabled selected>-- Select Product --</option> ";
                 include 'config/database.php';
-                $select_product_query = "SELECT productID, name FROM products";
+                $select_product_query = "SELECT productID, name, price FROM products";
                 $select_product_stmt = $con->prepare($select_product_query);
                 $select_product_stmt->execute();
                 while ($productID = $select_product_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -113,7 +140,6 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</select>";
                 echo "</div>";
                 echo "</td>";
-
                 ?>
                 </tr>
 
