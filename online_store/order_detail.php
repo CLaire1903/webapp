@@ -32,10 +32,10 @@ if (!isset($_SESSION["cus_username"])) {
             $o_stmt->bindParam(":orderID", $orderID);
             $o_stmt->execute();
             $o_row = $o_stmt->fetch(PDO::FETCH_ASSOC);
-
             $orderID = $o_row['orderID'];
             $orderDateNTime = $o_row['orderDateNTime'];
             $cus_username = $o_row['cus_username'];
+            $total_amount = $o_row['total_amount'];
         } catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
@@ -43,7 +43,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
-                <td>Order ID</td>
+                <td class="col-4">Order ID</td>
                 <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
@@ -57,7 +57,7 @@ if (!isset($_SESSION["cus_username"])) {
         </table>
         <table class='table table-hover table-responsive table-bordered'>
             <?php
-            $od_query = "SELECT p.productID, name, quantity, price
+            $od_query = "SELECT p.productID, name, quantity, price, product_TA
                         FROM order_detail od
                         INNER JOIN products p ON od.productID = p.productID
                         WHERE orderID = :orderID";
@@ -68,24 +68,21 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<th class='col-3'>Quantity</th>";
             echo "<th class='col-3'>Price per piece</th>";
             echo "<th class='col-3'>Total Price</th>";
-            $totalAmount = 0;
             while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
                 echo "<td>$od_row[name]</td>";
                 echo "<td>$od_row[quantity]</td>";
                 $productPrice = sprintf('%.2f', $od_row['price']);
                 echo "<td>RM $productPrice</td>";
-                $productTotal = sprintf('%.2f', $productPrice * $od_row['quantity']);
+                $productTotal = sprintf('%.2f', $od_row['product_TA']);
                 echo "<td>RM $productTotal</td>";
-                $totalAmount += $productTotal;
-                $dec_totalAmount = sprintf('%.2f', $totalAmount);
                 echo "</tr>";
             }
             echo "<tr>";
             echo "<td></td>";
             echo "<td></td>";
             echo "<td>You need to pay:</td>";
-            echo "<td>RM $dec_totalAmount</td>";
+            echo "<td>RM $total_amount</td>";
             echo "</tr>";
             ?>   
         </table>

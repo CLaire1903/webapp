@@ -38,6 +38,7 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<th>Order ID</th>";
             echo "<th>Order Date and Time</th>";
             echo "<th>Customer Username</th>";
+            echo "<th>Total Amount</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -46,6 +47,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$orderID}</td>";
                 echo "<td>{$orderDateNTime}</td>";
                 echo "<td>{$cus_username}</td>";
+                echo "<td>{$total_amount}</td>";
                 echo "<td>";
                 echo "<a href='order_detail.php?orderID={$orderID}' class='btn btn-info me-2'>Detail</a>";
                 echo "<a href='order_update.php?orderID={$orderID}' class='btn btn-primary me-2'>Edit</a>";
