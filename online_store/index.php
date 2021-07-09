@@ -71,7 +71,7 @@ if (!isset($_SESSION["cus_username"])) {
             <div class="m-3">
                 <h5>Latest Order Summary:</h5>
                 <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr>
+                    <tr style="background-color: #f8f9fa;">
                         <th>Order ID</th>
                         <th>Order Date and Time</th>
                         <th>Customer Username </th>
@@ -99,7 +99,7 @@ if (!isset($_SESSION["cus_username"])) {
             <div class="m-3">
                 <h5>Highest Purchase Amount Order Summary:</h5>
                 <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr>
+                    <tr style="background-color: #f8f9fa;">
                         <th>Order ID</th>
                         <th>Order Date and Time</th>
                         <th>Customer Username </th>
@@ -128,7 +128,7 @@ if (!isset($_SESSION["cus_username"])) {
         <div class="m-3">
             <h5> 5 Top selling products:</h5>
             <table class='table table-hover table-responsive table-bordered text-center'>
-                <tr>
+                <tr style="background-color: #f8f9fa;">
                     <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Product Description</th>

@@ -91,11 +91,11 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Password <span class="text-danger">*</span></td>
-                    <td><input type='password' name='password' class='form-control' /></td>
+                    <td><input type='text' name='password' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Confirm Password <span class="text-danger">*</span></td>
-                    <td><input type='password' name='confirmPassword' class='form-control' /></td>
+                    <td><input type='text' name='confirmPassword' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>First Name <span class="text-danger">*</span></td>
