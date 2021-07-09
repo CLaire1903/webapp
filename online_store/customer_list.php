@@ -57,7 +57,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>";
                 echo "<a href='customer_detail.php?cus_username={$cus_username}' class='btn btn-info me-2'>Detail</a>";
                 echo "<a href='customer_update.php?cus_username={$cus_username}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_customer({$cus_username});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_customer({$cus_username})'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -69,14 +69,13 @@ if (!isset($_SESSION["cus_username"])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type='text/javascript'>
-        function delete_customer(cus_username) {
+        function delete_customer($cus_username) {
+
             if (confirm('Are you sure?')) {
                 window.location = 'customer_delete.php?cus_username=' + cus_username;
             }
         }
     </script>
-
-
 
 </body>
 

@@ -35,7 +35,7 @@ if (!isset($_SESSION["cus_username"])) {
             $orderID = $o_row['orderID'];
             $orderDateNTime = $o_row['orderDateNTime'];
             $cus_username = $o_row['cus_username'];
-            $total_amount = $o_row['total_amount'];
+            $total_amount = sprintf('%.2f', $o_row['total_amount']);
         } catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }

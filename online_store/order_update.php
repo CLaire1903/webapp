@@ -40,25 +40,27 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             try {
                 $con->beginTransaction();
-
-                $updateTotalAmountQuery = "UPDATE orders SET total_amount=:total_amount WHERE orderID=:orderID";
+                $updateTotalAmountQuery = "UPDATE orders SET total_amount=:setTotal_amount WHERE orderID=:orderID";
                 $updateTotalAmountStmt = $con->prepare($updateTotalAmountQuery);
-                $total_amount = 0;
+                $setTotal_amount = 0;
                 for ($i = 0; $i < count($_POST['productID']); $i++) {
                     $productPrice = htmlspecialchars(strip_tags($_POST['productID'][$i]));
                     $selectPriceQuery = "SELECT price FROM products WHERE productID=:productID";
                     $selectPriceStmt = $con->prepare($selectPriceQuery);
                     $selectPriceStmt->bindParam(':productID', $productPrice);
                     $selectPriceStmt->execute();
-                    while ($row = $selectPriceStmt->fetch(PDO::FETCH_ASSOC)) {
-                        $productPrice = $row['price'];
+                    while ($selectPriceRow = $selectPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                        $productPrice = $selectPriceRow['price'];
                         $quant = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
                         $product_total = $productPrice * $quant;
-                        $total_amount += $product_total;
+                        $setTotal_amount += $product_total;
                     }
                 }
                 $updateTotalAmountStmt->bindParam(':orderID', $orderID);
-                $updateTotalAmountStmt->bindParam(':total_amount', $total_amount);
+                $updateTotalAmountStmt->bindParam(':setTotal_amount', $setTotal_amount);
+                $updateTotalAmountStmt->execute();
+
+                
 
                 $delete_query = "DELETE FROM order_detail WHERE orderID = :orderID";
                 $delete_stmt = $con->prepare($delete_query);
@@ -71,8 +73,8 @@ if (!isset($_SESSION["cus_username"])) {
                         $getPriceStmt = $con->prepare($getPriceQuery);
                         $getPriceStmt->bindParam(':productID', $getPrice);
                         $getPriceStmt->execute();
-                        while ($row = $getPriceStmt->fetch(PDO::FETCH_ASSOC)) {
-                            $productPrice = $row['price'];
+                        while ($getPriceRow = $getPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                            $productPrice = $getPriceRow['price'];
                             $quant = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
                             $product_TA = $productPrice * $quant;
                         }
@@ -178,14 +180,21 @@ if (!isset($_SESSION["cus_username"])) {
                     $productTotal = sprintf('%.2f', $od_row['product_TA']);
                     echo "<td>RM $productTotal</td>";
                     echo "</tr>";
-                }
-                echo "<tr>";
-                echo "<td></td>";
-                echo "<td></td>";
-                echo "<td>You need to pay:</td>";
-                echo "<td>RM $total_amount</td>";
-                echo "</tr>";
-                ?>
+                } ?>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>You need to pay:</td>
+                    <?php 
+                    $query = "SELECT * FROM orders WHERE orderID = :orderID ";
+                    $stmt = $con->prepare($query);
+                    $stmt->bindParam(":orderID", $orderID);
+                    $stmt->execute();
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $total_amount = sprintf('%.2f', $row['total_amount']);
+                    echo "<td>RM $total_amount</td>"; ?>
+                </tr>
+
             </table>
             <table class='table table-hover table-responsive table-bordered'>
                 <tr class='productQuantity'>
