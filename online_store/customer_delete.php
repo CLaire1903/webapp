@@ -1,7 +1,7 @@
 <?php
 include 'config/database.php';
 try {     
-    $cus_username = isset($_GET['cus_username']) ? $_GET['cus_username'] :  die('ERROR: Customer record not found.');
+    $cus_username = isset($_GET['cus_username']) ? $_GET['cus_username'] :  die('ERROR: Record ID not found.');
 
     $checkQuery = "SELECT * FROM orders WHERE cus_username = ?";
     $checkStmt = $con->prepare($checkQuery);

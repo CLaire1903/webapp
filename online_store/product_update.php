@@ -130,8 +130,8 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
             </table>
             <div class="d-flex justify-content-center">
-                <input type='submit' value='Save Changes' class='btn btn-primary mx-1' />
-                <a href='product_list.php' class='btn btn-danger mx-1'>Back to product list</a>
+                <input type='submit' value='Save Changes' class='btn btn-primary m-2' />
+                <a href='product_list.php' class='btn btn-danger m-2'>Back to product list</a>
             </div>
         </form>
     </div>
