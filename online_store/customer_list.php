@@ -25,7 +25,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         $action = isset($_GET['action']) ? $_GET['action'] : "";
         if ($action == 'activeCustomer') {
-            echo "<div class='alert alert-danger'>Customer could not be deleted as it involved in order.</div>";
+            echo "<div class='alert alert-danger'>Customer could not be deleted as he/she has make an order.</div>";
         }
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Customer was deleted.</div>";
@@ -57,7 +57,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>";
                 echo "<a href='customer_detail.php?cus_username={$cus_username}' class='btn btn-info me-2'>Detail</a>";
                 echo "<a href='customer_update.php?cus_username={$cus_username}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_customer({$cus_username});' class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_customer(&#39;$cus_username&#39;)' class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
