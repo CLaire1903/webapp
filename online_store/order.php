@@ -105,7 +105,7 @@ if (!isset($_SESSION["cus_username"])) {
                                 <option value='' disabled selected>-- Select User --</option>
                                 <?php
                                 include 'config/database.php';
-                                $select_user_query = "SELECT cus_username FROM customers";
+                                $select_user_query = "SELECT cus_username FROM customers WHERE accountStatus = 'active'";
                                 $select_user_stmt = $con->prepare($select_user_query);
                                 $select_user_stmt->execute();
                                 while ($cus_username = $select_user_stmt->fetch(PDO::FETCH_ASSOC)) {
