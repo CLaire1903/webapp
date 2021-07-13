@@ -133,9 +133,8 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</select>";
                 echo "<select class='form-select' id='autoSizingSelect' name='quantity[]'>";
                 echo "<option value='' disabled selected>-- Select Quantity --</option>";
-                $number = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-                for ($i = 0; $i < count($number); $i++) {
-                    echo "<option value='$number[$i]'> $number[$i] </option>";
+                for ($i = 0; $i <= 20; $i++) {
+                    echo "<option value='$i'> $i </option>";
                 }
                 echo "</select>";
                 echo "</div>";
