@@ -24,7 +24,7 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             include 'config/database.php';
             try {
-                if (empty($_POST['cus_username'])) {
+                if (empty($_POST['cus_username']) || empty($_POST['productID']) || empty($_POST['quantity'])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
                 $con->beginTransaction();
@@ -95,13 +95,13 @@ if (!isset($_SESSION["cus_username"])) {
         }
         ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Customer Username</td>
                     <td>
                         <div>
-                            <select class="form-select" id="autoSizingSelect" name="cus_username">
+                            <select class="form-select" name="cus_username" id="cus_username">
                                 <option value='' disabled selected>-- Select User --</option>
                                 <?php
                                 include 'config/database.php';
@@ -121,7 +121,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>Product</td>";
                 echo "<td>";
                 echo "<div>";
-                echo "<select class='form-select' id='autoSizingSelect' name='productID[]'> ";
+                echo "<select class='form-select' name='productID[]' id='productID'>";
                 echo "<option value='' disabled selected>-- Select Product --</option> ";
                 include 'config/database.php';
                 $select_product_query = "SELECT productID, name, price FROM products";
@@ -131,7 +131,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<option value = '$productID[productID]'> $productID[name] </option>";
                 }
                 echo "</select>";
-                echo "<select class='form-select' id='autoSizingSelect' name='quantity[]'>";
+                echo "<select class='form-select' name='quantity[]' id='quantity'>";
                 echo "<option value='' disabled selected>-- Select Quantity --</option>";
                 for ($i = 0; $i <= 20; $i++) {
                     echo "<option value='$i'> $i </option>";
@@ -170,6 +170,24 @@ if (!isset($_SESSION["cus_username"])) {
                 }
             }
         }, false);
+
+        function validation() {
+            var cus_username = document.getElementById("cus_username").value;
+            var productID = document.getElementById("productID").value;
+            var quantity = document.getElementById("quantity").value;
+            var flag = false;
+            var msg = "";
+            if (cus_username == "" || productID == "" || quantity == "") {
+                flag = true;
+                msg = msg + "Please make sure all fields are not empty!\r\n";
+            }
+            if (flag == true) {
+                alert(msg);
+                return false;
+            }else{
+                return true;
+            }
+        }
     </script>
 
 </body>
