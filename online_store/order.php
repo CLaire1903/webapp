@@ -24,8 +24,14 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             include 'config/database.php';
             try {
-                if (empty($_POST['cus_username']) || empty($_POST['productID']) || empty($_POST['quantity'])) {
-                    throw new Exception("Make sure all fields are not empty");
+                if (empty($_POST['cus_username'])) {
+                    throw new Exception("Please choose the customer username!");
+                }
+                if (empty($_POST['productID'])) {
+                    throw new Exception("Please select at least one product!");
+                }
+                if (empty($_POST['quantity'])) {
+                    throw new Exception("Please select the quantity of the product you chose!");
                 }
                 $con->beginTransaction();
                 $query = "INSERT INTO orders SET cus_username=:cus_username, total_amount=:total_amount";
@@ -121,7 +127,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>Product</td>";
                 echo "<td>";
                 echo "<div>";
-                echo "<select class='form-select' name='productID[]' id='productID'>";
+                echo "<select class='productID form-select' name='productID[]'>";
                 echo "<option value='' disabled selected>-- Select Product --</option> ";
                 include 'config/database.php';
                 $select_product_query = "SELECT productID, name, price FROM products";
@@ -131,9 +137,9 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<option value = '$productID[productID]'> $productID[name] </option>";
                 }
                 echo "</select>";
-                echo "<select class='form-select' name='quantity[]' id='quantity'>";
+                echo "<select class='quantity form-select' name='quantity[]'>";
                 echo "<option value='' disabled selected>-- Select Quantity --</option>";
-                for ($i = 0; $i <= 20; $i++) {
+                for ($i = 1; $i <= 20; $i++) {
                     echo "<option value='$i'> $i </option>";
                 }
                 echo "</select>";
@@ -173,13 +179,21 @@ if (!isset($_SESSION["cus_username"])) {
 
         function validation() {
             var cus_username = document.getElementById("cus_username").value;
-            var productID = document.getElementById("productID").value;
-            var quantity = document.getElementById("quantity").value;
+            var productID = document.querySelector('.productID').value;
+            var quantity = document.querySelector('.quantity').value;
             var flag = false;
             var msg = "";
-            if (cus_username == "" || productID == "" || quantity == "") {
+            if (cus_username == "") {
                 flag = true;
-                msg = msg + "Please make sure all fields are not empty!\r\n";
+                msg = msg + "Please choose the customer username!\r\n";
+            }
+            if (productID == "") {
+                flag = true;
+                msg = msg + "Please select at least one product!\r\n";
+            }
+            if (quantity == "") {
+                flag = true;
+                msg = msg + "Please select the quantity of the product you chose!\r\n";
             }
             if (flag == true) {
                 alert(msg);

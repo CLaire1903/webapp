@@ -19,6 +19,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h1>Update Order</h1>
+            <h6 class="text-danger">* Set quantity = 0 if you wish to delete the product.</h6>
         </div>
         <?php
         $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Order record not found.');
