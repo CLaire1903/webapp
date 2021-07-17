@@ -173,11 +173,11 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Password should be 8 - 15 character!\r\n";
             }
-            /*if (password.match(passwordValidation)) {
+            if (password.match(passwordValidation)) {
             } else{
                 flag = true;
                 msg = msg + "Password should contain at least a number, a special character, a SMALL letter and a CAPITAL letter!\r\n";
-            }*/
+            }
             var birthDate = new Date(dateOfBirth);
             var difference=Date.now() - birthDate.getTime(); 
 	 	    var  ageDate = new Date(difference); 
