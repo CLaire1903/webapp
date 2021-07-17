@@ -51,8 +51,8 @@ if (!isset($_SESSION["cus_username"])) {
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
                     throw new Exception("Please make sure the price is a number");
                 }
-                if ($_POST['price'] < 0 || $_POST['promotion_price'] < 0) {
-                    throw new Exception("Please make sure the price must be not a negative value");
+                if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
+                    throw new Exception("Please make sure the price must not be a negative value or zero!");
                 }
                 if ($_POST['price'] > 1000 || $_POST['promotion_price'] > 1000) {
                     throw new Exception("Please make sure the price is not bigger than RM 1000.");
@@ -94,7 +94,7 @@ if (!isset($_SESSION["cus_username"])) {
             }
         } ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" onsubmit="return validation()" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Product ID</td>
@@ -102,31 +102,31 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='name' id="name" value="<?php echo htmlspecialchars($name, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Malay Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='name_malay' value="<?php echo htmlspecialchars($name_malay, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='name_malay' id="name_malay" value="<?php echo htmlspecialchars($name_malay, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Description <span class="text-danger">*</span></td>
-                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES); ?></textarea></td>
+                    <td><textarea name='description' id="description" class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES); ?></textarea></td>
                 </tr>
                 <tr>
                     <td>Price <span class="text-danger">*</span></td>
-                    <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='price' id="price" value="<?php echo htmlspecialchars($price, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Promotion Price <span class="text-danger">*</span></td>
-                    <td><input type='text' name='promotion_price' value="<?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='promotion_price' id="promotion_price" value="<?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Manufacture Date <span class="text-danger">*</span></td>
-                    <td><input type='date' name='manufacture_date' value="<?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='date' name='manufacture_date' id="manufacture_date" value="<?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Expired Date <span class="text-danger">*</span></td>
-                    <td><input type='date' name='expired_date' value="<?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='date' name='expired_date' id="expired_date" value="<?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
             </table>
             <div class="d-flex justify-content-center">
@@ -136,6 +136,57 @@ if (!isset($_SESSION["cus_username"])) {
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script>
+        function validation() {
+            var name = document.getElementById("name").value;
+            var name_malay = document.getElementById("name_malay").value;
+            var description = document.getElementById("description").value;
+            var price = document.getElementById("price").value;
+            var promotion_price = document.getElementById("promotion_price").value;
+            var priceValidation = /^[0-9]*[.]?[0-9]*$/;
+            var manufacture_date = document.getElementById("manufacture_date").value;
+            var expired_date = document.getElementById("expired_date").value;
+            var flag = false;
+            var msg = "";
+            if (name == "" || name_malay == "" || description == "" || price == "" || promotion_price == "" || manufacture_date == "" || expired_date == "") {
+                flag = true;
+                msg = msg + "Please make sure all fields are not empty!\r\n";
+            }
+            if (price.match(priceValidation)) {
+            } else{
+                flag = true;
+                msg = msg + "Please make sure the price is a number!\r\n";
+            }
+            if (promotion_price.match(priceValidation)) {
+            } else{
+                flag = true;
+                msg = msg + "Please make sure the promotion price is a number!\r\n";
+            }
+            if (price <= 0 || promotion_price <= 0) {
+                flag = true;
+                msg = msg + "Please make sure the price must not be a negative value or zero!\r\n";
+            }
+            if (price > 1000 || promotion_price > 1000) {
+                flag = true;
+                msg = msg + "Please make sure the price is not bigger than RM 1000!\r\n";
+            }
+            if (price < promotion_price) {
+                flag = true;
+                msg = msg + "Promotion price cannot bigger than normal price!\r\n";
+            }
+            if (manufacture_date > expired_date) {
+                flag = true;
+                msg = msg + "Please make sure expired date is late than the manufacture date!\r\n";
+            }
+            if (flag == true) {
+                alert(msg);
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+
 </body>
 
 </html>

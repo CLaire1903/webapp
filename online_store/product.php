@@ -26,22 +26,22 @@ if (!isset($_SESSION["cus_username"])) {
             include 'config/database.php';
             try {
                 if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
-                    throw new Exception("Make sure all fields are not empty");
+                    throw new Exception("Make sure all fields are not empty!");
                 }
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
-                    throw new Exception("Please make sure the price is a number"); 
+                    throw new Exception("Please make sure the price is a number!"); 
                 }        
-                if ($_POST['price'] < 0 || $_POST['promotion_price'] < 0) {
-                    throw new Exception("Please make sure the price must be not a negative value");
+                if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
+                    throw new Exception("Please make sure the price must not be a negative value or zero!");
                 }
                 if ($_POST['price'] > 1000 || $_POST['promotion_price'] > 1000) {
-                    throw new Exception("Please make sure the price is not bigger than RM 1000.");
+                    throw new Exception("Please make sure the price is not bigger than RM 1000!");
                 }
                 if ($_POST['price'] < $_POST['promotion_price']) {
-                    throw new Exception("Promotion price cannot bigger than normal price.");
+                    throw new Exception("Promotion price cannot bigger than normal price!");
                 }
                 if ($_POST['manufacture_date'] > $_POST['expired_date']) {
-                    throw new Exception("Please make sure expired date is late than the manufacture date.");
+                    throw new Exception("Please make sure expired date is late than the manufacture date!");
                 }
 
                 $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
@@ -120,7 +120,7 @@ if (!isset($_SESSION["cus_username"])) {
             var description = document.getElementById("description").value;
             var price = document.getElementById("price").value;
             var promotion_price = document.getElementById("promotion_price").value;
-            var priceValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
+            var priceValidation = /^[0-9]*[.]?[0-9]*$/;
             var manufacture_date = document.getElementById("manufacture_date").value;
             var expired_date = document.getElementById("expired_date").value;
             var flag = false;
@@ -129,11 +129,32 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure all fields are not empty!\r\n";
             }
-            /*if (!is_numeric(price) || !is_numeric(promotion_price)) {
+            if (price.match(priceValidation)) {
+            } else{
                 flag = true;
                 msg = msg + "Please make sure the price is a number!\r\n";
-            }*/
-            
+            }
+            if (promotion_price.match(priceValidation)) {
+            } else{
+                flag = true;
+                msg = msg + "Please make sure the promotion price is a number!\r\n";
+            }
+            if (price <= 0 || promotion_price <= 0) {
+                flag = true;
+                msg = msg + "Please make sure the price must not be a negative value or zero!\r\n";
+            }
+            if (price > 1000 || promotion_price > 1000) {
+                flag = true;
+                msg = msg + "Please make sure the price is not bigger than RM 1000!\r\n";
+            }
+            if (price < promotion_price) {
+                flag = true;
+                msg = msg + "Promotion price cannot bigger than normal price!\r\n";
+            }
+            if (manufacture_date > expired_date) {
+                flag = true;
+                msg = msg + "Please make sure expired date is late than the manufacture date!\r\n";
+            }
             if (flag == true) {
                 alert(msg);
                 return false;
