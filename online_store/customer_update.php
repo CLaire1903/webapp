@@ -190,19 +190,18 @@ if (!isset($_SESSION["cus_username"])) {
             }
             
             if (password.match(passwordValidation)) {
-                flag = false;
             } else{
                 flag = true;
                 msg = msg + "Password should contain at least a number, a SMALL letter, a CAPITAL letter!\r\n";
             }
-            /*var birthDate = new Date(dateOfBirth);
+            var birthDate = new Date(dateOfBirth);
             var difference=Date.now() - birthDate.getFullYear(); 
 	 	    var  ageDate = new Date(difference); 
             var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
             if (calculatedAge < 18){
                 flag = true;
                 msg = msg + "User must be 18 years old and above!\r\n";
-            }*/
+            }
             if (flag == true) {
                 alert(msg);
                 return false;
