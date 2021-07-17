@@ -9,7 +9,7 @@
 <body>
     <div class="container-flex d-flex justify-content-center" style="height:577px; background-color: #ffb3ff; ">
         <div class="d-flex justify-content-center flex-column m-5 border-3 col-4 rounded-3" style="background-color: #ffffff; ">
-            <form action="action_page.php" onSubmit="return myFunction()">
+            <form action="action_page.php" onsubmit="return myFunction()">
                 <div class=" m-3 input-group-lg">
                     <label>First Name:</label>
                     <input type="text" id="firstName" placeholder="First Name">
@@ -58,7 +58,7 @@
 
                 </div>
                 <div class="button m-3 d-grid">
-                    <button type='submit' onclick="myFunction()" class='btn btn-primary btn-large'>Submit</button>
+                    <button type="submit" class='btn btn-primary btn-large'>Submit</button>
                 </div>
             </form>
         </div>
@@ -73,11 +73,11 @@
             var luckyNum = document.getElementById("luckyNum").value;
             var flag = false;
             var msg = "";
-            if (firstName == '') {
+            if (firstName == "") {
                 flag = true;
                 msg = msg + "Please enter your first name!\r\n";
             }
-            if (lastName == '') {
+            if (lastName == "") {
                 flag = true;
                 msg = msg + "Please enter your last name!\r\n";
             }

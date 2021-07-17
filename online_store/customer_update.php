@@ -51,19 +51,8 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
                 }
-                if (strlen($_POST['password']) < 8) {
-                    throw new Exception("Password should be at least 8 character.");
-                }
-                if (!preg_match("@[0-9]@", $_POST['password'])) {
-                    throw new Exception("Passowrd must contain at least a number.");
-                }
-                if (!preg_match("@[a-z]@", $_POST['password'])) {
-                    throw new Exception("Passowrd must 
-                    contain at least a <strong>SMALL</strong> letter.");
-                }
-                if (!preg_match("@[A-Z]@", $_POST['password'])) {
-                    throw new Exception("Passowrd must 
-                    contain at least a<strong> CAPITAL </strong>letter.");
+                if (strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) ||!preg_match("@[A-Z]@", $_POST['password'])) {
+                    throw new Exception("Password should be at least 8 character, contain at least a number, a <strong>SMALL</strong> letter, a<strong> CAPITAL </strong>letter");
                 }
                 $today = date('Y-M-D');
                 if ($today - $_POST['dateOfBirth'] < 18) {
@@ -99,7 +88,7 @@ if (!isset($_SESSION["cus_username"])) {
             }
         } ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?cus_username={$cus_username}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?cus_username={$cus_username}"); ?>" onsubmit="return validation()" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td class="col-5">Username</td>
@@ -107,33 +96,33 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='text' name='password' value="<?php echo htmlspecialchars($password, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='password' id="password" value="<?php echo htmlspecialchars($password, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Confirm Password</td>
-                    <td><input type='text' name='confirmPassword' value="<?php echo htmlspecialchars($confirmPassword, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='confirmPassword' id="confirmPassword" value="<?php echo htmlspecialchars($confirmPassword, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>First Name</td>
-                    <td><input type='text' name='firstName' value="<?php echo htmlspecialchars($firstName, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='firstName' id="firstName" value="<?php echo htmlspecialchars($firstName, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
-                    <td><input type='text' name='lastName' value="<?php echo htmlspecialchars($lastName, ENT_QUOTES); ?>" class='form-control' /></td>
+                    <td><input type='text' name='lastName' id="lastName" value="<?php echo htmlspecialchars($lastName, ENT_QUOTES); ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
                     <td>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="gender" value="male" <?php echo ($gender == 'male') ? 'checked' : '' ?>>
+                                <input type="radio" name="gender" class="gender" value="male" <?php echo ($gender == 'male') ? 'checked' : '' ?>>
                                 Male
                                 <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="gender" value="female" <?php echo ($gender == 'female') ? 'checked' : '' ?>>
+                                <input type="radio" name="gender" class="gender" value="female" <?php echo ($gender == 'female') ? 'checked' : '' ?>>
                                 Female
                                 <span class="select"></span>
                             </label>
@@ -142,7 +131,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Date Of Birth</td>
-                    <td><input type='date' name='dateOfBirth' value="<?php echo htmlspecialchars($dateOfBirth, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='date' name='dateOfBirth' id="dateOfBirth" value="<?php echo htmlspecialchars($dateOfBirth, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Registration Date and Time</td>
@@ -153,14 +142,14 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="accountStatus" value="active" <?php echo ($accountStatus == 'active') ? 'checked' : '' ?>>
+                                <input type="radio" name="accountStatus" class="accountStatus" value="active" <?php echo ($accountStatus == 'active') ? 'checked' : '' ?>>
                                 Active
                                 <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="accountStatus" value="inactive" <?php echo ($accountStatus == 'inactive') ? 'checked' : '' ?>>
+                                <input type="radio" name="accountStatus" class="accountStatus" value="inactive" <?php echo ($accountStatus == 'inactive') ? 'checked' : '' ?>>
                                 Inactive
                                 <span class="select"></span>
                             </label>
@@ -175,6 +164,53 @@ if (!isset($_SESSION["cus_username"])) {
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script>
+        function validation() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var gender = document.querySelectorAll("input[type=radio][name=gender]:checked");
+            var dateOfBirth = document.getElementById("dateOfBirth").value;
+            var accountStatus = document.querySelectorAll("input[type=radio][name=accountStatus]:checked");
+            var flag = false;
+            var msg = "";
+            if (password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
+                flag = true;
+                msg = msg + "Please make sure all fields are not empty!\r\n";
+            }
+            if (password != confirmPassword) {
+                flag = true;
+                msg = msg + "Password and confirm password are not the same!\r\n";
+            }
+            if (password.length < 8 || password.length > 15) {
+                flag = true;
+                msg = msg + "Password should be 8 - 15 character!\r\n";
+            }
+            
+            if (password.match(passwordValidation)) {
+                flag = false;
+            } else{
+                flag = true;
+                msg = msg + "Password should contain at least a number, a SMALL letter, a CAPITAL letter!\r\n";
+            }
+            /*var birthDate = new Date(dateOfBirth);
+            var difference=Date.now() - birthDate.getFullYear(); 
+	 	    var  ageDate = new Date(difference); 
+            var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+            if (calculatedAge < 18){
+                flag = true;
+                msg = msg + "User must be 18 years old and above!\r\n";
+            }*/
+            if (flag == true) {
+                alert(msg);
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
 </body>
 
 </html>

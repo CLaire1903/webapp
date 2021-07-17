@@ -17,7 +17,6 @@
             }
             if ($_POST) {
                 try {
-
                     $cus_username = $_POST['cus_username'];
                     $query = "SELECT * FROM customers WHERE cus_username= :cus_username";
                     $stmt = $con->prepare($query);
@@ -25,11 +24,11 @@
                     $stmt->bindParam(':cus_username', $cus_username);
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+                    $db_cus_username = $row['cus_username'];
                     if (empty($_POST['cus_username']) || empty($_POST['password'])) {
                         throw new Exception("Make sure all fields are not empty");
                     }
-                    if ($row['cus_username'] != $cus_username) {
+                    if ($db_cus_username != $cus_username) {
                         throw new Exception("Username does not exist!");
                     }
                     if ($row['password'] != $password) {
@@ -50,17 +49,17 @@
             ?>
             <div class=" m-2 p-2 mx-auto">
                 <h1 class="logo text-center mb-4">Claire_Store</h1>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
                     <h4 class="instruction text-center">Please sign in</h4>
                     <?php
                     if (isset($errorMessage)) { ?>
                         <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>
                     <?php } ?>
                     <div class="username mt-3 input-group-lg">
-                        <input type="text" class="form-control" name="cus_username" placeholder="Username">
+                        <input type="text" class="form-control" id="cus_username" name="cus_username" placeholder="Username">
                     </div>
                     <div class="password mb-3 input-group-lg">
-                        <input type="password" class="form-control" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                     </div>
 
                     <div class="button d-grid">
@@ -71,6 +70,28 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script>
+        function validation() {
+            var cus_username = document.getElementById("cus_username").value;
+            var password = document.getElementById("password").value;
+            var flag = false;
+            var msg = "";
+            if (cus_username == '') {
+                flag = true;
+                msg = msg + "Please enter your username!\r\n";
+            }
+            if (password == '') {
+                flag = true;
+                msg = msg + "Please enter your password!\r\n";
+            }
+            if (flag == true) {
+                alert(msg);
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -25,22 +25,20 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             include 'config/database.php';
             try {
-                if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
+                /*if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
                     throw new Exception("Make sure all fields are not empty");
-                }
+                }*/
                 if (15 < strlen($_POST['cus_username']) || strlen($_POST['cus_username']) < 6 || (strpos($_POST['cus_username'], ' ') !== false)) {
                     throw new Exception("Username must be 6 - 15 characters and no space included.");
                 }
-                if ($_POST['password'] != $_POST['confirmPassword']) {
+                /*if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
                 }
-                if (15 < strlen($_POST['password']) || strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) ||!preg_match("@[A-Z]@", $_POST['password'])) {
-                    throw new Exception("Password should be 8 - 15 character, contain at least a number, a <strong>SMALL</strong> letter, a<strong> CAPITAL </strong>letter");
-                }
+                
                 $today = date('Y-M-D');
                 if ($today - $_POST['dateOfBirth'] < 18) {
                     throw new Exception("User must be 18 years old and above.");
-                }
+                }*/
 
                 $query = "INSERT INTO customers SET cus_username=:cus_username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
                 $stmt = $con->prepare($query);
@@ -72,27 +70,27 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
         ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username <span class="text-danger">*</span></td>
-                    <td><input type='text' name='cus_username' id="cus_username" class='form-control' /></td>
+                    <td><input type='text' name='cus_username' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Password <span class="text-danger">*</span></td>
-                    <td><input type='text' name='password' id="password" class='form-control' /></td>
+                    <td><input type='text' name='password' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Confirm Password <span class="text-danger">*</span></td>
-                    <td><input type='text' name='confirmPassword' id="confirmPassword" class='form-control' /></td>
+                    <td><input type='text' name='confirmPassword' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>First Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='firstName' id="firstName" class='form-control'></td>
+                    <td><input type='text' name='firstName' class='form-control'></td>
                 </tr>
                 <tr>
                     <td>Last Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='lastName' id="lastName" class='form-control' /></td>
+                    <td><input type='text' name='lastName' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Gender <span class="text-danger">*</span></td>
@@ -115,7 +113,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Date Of Birth <span class="text-danger">*</span></td>
-                    <td><input type='date' name='dateOfBirth' id="dateOfBirth" class='form-control' /></td>
+                    <td><input type='date' name='dateOfBirth' class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Account Status <span class="text-danger">*</span></td>
@@ -144,57 +142,6 @@ if (!isset($_SESSION["cus_username"])) {
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script>
-        function validation() {
-            var cus_username = document.getElementById("cus_username").value;
-            var password = document.getElementById("password").value;
-            var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
-            var confirmPassword = document.getElementById("confirmPassword").value;
-            var firstName = document.getElementById("firstName").value;
-            var lastName = document.getElementById("lastName").value;
-            var gender = document.querySelectorAll("input[type=radio][name=gender]:checked");
-            var dateOfBirth = document.getElementById("dateOfBirth").value;
-            var accountStatus = document.querySelectorAll("input[type=radio][name=accountStatus]:checked");
-            var flag = false;
-            var msg = "";
-            if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
-                flag = true;
-                msg = msg + "Please make sure all fields are not empty!\r\n";
-            }
-            if (cus_username.length < 6  || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
-                flag = true;
-                msg = msg + "Username must be 6 - 15 characters and no space included!\r\n";
-            }
-            if (password != confirmPassword) {
-                flag = true;
-                msg = msg + "Password and confirm password are not the same!\r\n";
-            }
-            if (password.length < 8 || password.length > 15) {
-                flag = true;
-                msg = msg + "Password should be 8 - 15 character!\r\n";
-            }
-            if (password.match(passwordValidation)) {
-            } else{
-                flag = true;
-                msg = msg + "Password should contain at least a number, a SMALL letter, a CAPITAL letter!\r\n";
-            }
-            var birthDate = new Date(dateOfBirth);
-            var difference=Date.now() - birthDate.getTime(); 
-	 	    var  ageDate = new Date(difference); 
-            var calculatedAge=   Math.abs(ageDate.getUTCFullYear() - 1970);
-            if (calculatedAge < 18){
-                flag = true;
-                msg = msg + "User must be 18 years old.\r\n";
-            }
-            if (flag == true) {
-                alert(msg);
-                return false;
-            }else{
-                return true;
-            }
-        }
-    </script>
-
 </body>
 
 </html>
