@@ -34,8 +34,8 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
                 }
-                if (15 < strlen($_POST['password']) || strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) ||!preg_match("@[A-Z]@", $_POST['password'])) {
-                    throw new Exception("Password should be 8 - 15 character, contain at least a number, a <strong>SMALL</strong> letter, a<strong> CAPITAL </strong>letter");
+                if (15 < strlen($_POST['password']) || strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) || !preg_match("@[A-Z]@", $_POST['password']) || !preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST["password"])) {
+                    throw new Exception("Password should be 8 - 15 character, contain at least a number, a special character, a <strong>SMALL</strong> letter, a<strong> CAPITAL </strong>letter");
                 }
                 $today = date('Y-M-D');
                 if ($today - $_POST['dateOfBirth'] < 18) {
@@ -148,7 +148,7 @@ if (!isset($_SESSION["cus_username"])) {
         function validation() {
             var cus_username = document.getElementById("cus_username").value;
             var password = document.getElementById("password").value;
-            var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
+            var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
             var confirmPassword = document.getElementById("confirmPassword").value;
             var firstName = document.getElementById("firstName").value;
             var lastName = document.getElementById("lastName").value;
@@ -173,11 +173,11 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Password should be 8 - 15 character!\r\n";
             }
-            if (password.match(passwordValidation)) {
+            /*if (password.match(passwordValidation)) {
             } else{
                 flag = true;
-                msg = msg + "Password should contain at least a number, a SMALL letter, a CAPITAL letter!\r\n";
-            }
+                msg = msg + "Password should contain at least a number, a special character, a SMALL letter and a CAPITAL letter!\r\n";
+            }*/
             var birthDate = new Date(dateOfBirth);
             var difference=Date.now() - birthDate.getTime(); 
 	 	    var  ageDate = new Date(difference); 

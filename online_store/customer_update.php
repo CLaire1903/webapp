@@ -51,8 +51,8 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
                 }
-                if (strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) ||!preg_match("@[A-Z]@", $_POST['password'])) {
-                    throw new Exception("Password should be at least 8 character, contain at least a number, a <strong>SMALL</strong> letter, a<strong> CAPITAL </strong>letter");
+                if (strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) || !preg_match("@[A-Z]@", $_POST['password']) || !preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST["password"])) {
+                    throw new Exception("Password should be 8 - 15 character, contain at least a number, a special character, a <strong>SMALL</strong> letter, a <strong>CAPITAL</strong> letter");
                 }
                 $today = date('Y-M-D');
                 if ($today - $_POST['dateOfBirth'] < 18) {
@@ -168,7 +168,7 @@ if (!isset($_SESSION["cus_username"])) {
         function validation() {
             var password = document.getElementById("password").value;
             var confirmPassword = document.getElementById("confirmPassword").value;
-            var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/;
+            var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
             var firstName = document.getElementById("firstName").value;
             var lastName = document.getElementById("lastName").value;
             var gender = document.querySelectorAll("input[type=radio][name=gender]:checked");
