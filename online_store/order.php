@@ -147,7 +147,6 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</td>";
                 ?>
                 </tr>
-
                 <tr>
                     <td></td>
                     <td>
