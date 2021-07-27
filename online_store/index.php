@@ -20,9 +20,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="contain d-flex flex-column">
             <div class="wish d-flex flex-column align-items-center">
-                <?php
-                echo "<h1 class='text-center p-2'> Hi, $_SESSION[cus_username]</h1>";
-                ?>
+                <h1 class='text-center p-2'> Hi, <?php echo $_SESSION['cus_username'] ?></h1>
                 <h1 class="instruction p-1 text-center">
                     Welcome to Claire's Online Store.
                 </h1>
@@ -80,7 +78,6 @@ if (!isset($_SESSION["cus_username"])) {
                     <?php
                     $latestOrderQuery = "SELECT * FROM orders ORDER BY orderID DESC LIMIT 1";
                     $latestOrderStmt = $con->prepare($latestOrderQuery);
-                    $latestOrderStmt->bindParam(':orderID', $lastID);
                     $latestOrderStmt->execute();
                     $latestOrderRow = $latestOrderStmt->fetch(PDO::FETCH_ASSOC);
                     $orderID = $latestOrderRow['orderID'];
@@ -108,7 +105,6 @@ if (!isset($_SESSION["cus_username"])) {
                     <?php
                     $hpaQuery = "SELECT * FROM orders ORDER BY total_amount DESC LIMIT 1";
                     $hpaStmt = $con->prepare($hpaQuery);
-                    $hpaStmt->bindParam(':orderID', $lastID);
                     $hpaStmt->execute();
                     $hpaRow = $hpaStmt->fetch(PDO::FETCH_ASSOC);
                     $orderID = $hpaRow['orderID'];
@@ -144,7 +140,6 @@ if (!isset($_SESSION["cus_username"])) {
                                         ORDER BY totalQuantity DESC
                                         LIMIT 5";
                 $topSellingStmt = $con->prepare($topSellingQuery);
-                $topSellingStmt->bindParam(':orderID', $lastID);
                 $topSellingStmt->execute();
                 $num = $topSellingStmt->rowCount();
                 

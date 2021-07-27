@@ -62,7 +62,6 @@ if (!isset($_SESSION["cus_username"])) {
                 $updateTotalAmountStmt->execute();
 
                 
-
                 $delete_query = "DELETE FROM order_detail WHERE orderID = :orderID";
                 $delete_stmt = $con->prepare($delete_query);
                 $delete_stmt->bindParam(':orderID', $orderID);
