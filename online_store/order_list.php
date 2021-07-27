@@ -10,6 +10,7 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Order list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
 
 <body>
     <div class="container">
@@ -21,12 +22,14 @@ if (!isset($_SESSION["cus_username"])) {
         </div>
 
         <div>
-            <table class='table table-hover table-responsive table-bordered' style="border:none;">
-                <tr class='searchProduct' style="border:none;">
-                    <td class="col-10" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search orders' class='form-control'></td>
-                    <td style="border:none;"><a href='order.php' class='btn btn-primary'>Create New Order</a></td>
-                </tr>
-            </table>
+            <a href='order.php' class='btn btn-primary mx-2'>Create New Order</a>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <table class='table table-hover table-responsive table-bordered' style="border:none;">
+                    <tr class='searchProduct' style="border:none;">
+                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search orders' class='form-control'></td>
+                        <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                    </tr>
+                </table>
         </div>
 
 
@@ -36,10 +39,28 @@ if (!isset($_SESSION["cus_username"])) {
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
-        $query = "SELECT * FROM orders ORDER BY orderId DESC";
+        $query = "SELECT * FROM orders ORDER BY orderID DESC";
         $stmt = $con->prepare($query);
+        if ($_POST) {
+            $search = "%" . $_POST['search'] . "%";
+            $query = "SELECT * FROM orders WHERE cus_username LIKE :search ORDER BY orderID DESC";
+            $stmt -> bindParam(':search', $search);
+        }
+        
         $stmt->execute();
         $num = $stmt->rowCount();
+
+        /*$where = "";
+        if($_POST && !empty($_POST['search'])){
+            $search = "%" . $_POST['search'] . "%";
+            $where = "WHERE name LIKE :search";
+        }
+        $query = "SELECT productID, name, description, price FROM products $where ORDER BY productID DESC";
+        $stmt = $con->prepare($query);
+        if ($_POST) $stmt->bindParam(':search', $search);
+        $stmt->execute();
+        $num = $stmt->rowCount();*/
+
         if ($num > 0) {
             echo "<table class='table table-hover table-responsive table-bordered' id='myTable'>";
 
@@ -68,6 +89,7 @@ if (!isset($_SESSION["cus_username"])) {
         } else {
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
+
         ?>
 
     </div>
@@ -79,7 +101,7 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
 
-        function myFunction() {
+        /*function myFunction() {
             var input, filter, table, tr, td, i, txtValue;
             var input = document.getElementById("search");
             filter = input.value.toUpperCase();
@@ -98,7 +120,7 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
             }
-        }
+        }*/
     </script>
 </body>
 

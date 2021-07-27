@@ -10,6 +10,7 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Product List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
 
 <body>
     <div class="container">
@@ -33,17 +34,30 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
 
         <div>
-            <table class='table table-hover table-responsive table-bordered' style="border:none;">
-                <tr class='searchProduct' style="border:none;">
-                    <td class="col-10" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search products' class='form-control'></td>
-                    <td style="border:none;"><a href='product.php' class='btn btn-primary'>Create New Product</a></td>
-                </tr>
-            </table>
+            <a href='product.php' class='btn btn-primary mx-2'>Create New Product</a>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <table class='table table-hover table-responsive table-bordered' style="border:none;">
+                    <tr class='searchProduct' style="border:none;">
+                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search products' class='form-control'></td>
+                        <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                    </tr>
+                </table>
+            </form>
         </div>
 
         <?php
-        $query = "SELECT productID, name, description, price FROM products ORDER BY productID DESC";
+        $where = "";
+        if($_POST){
+                if (empty($_POST['search'])) {
+                    throw new Exception("Make sure all fields are not empty!");
+                }
+            
+            $search = "%" . $_POST['search'] . "%";
+            $where = "WHERE name LIKE :search";
+        }
+        $query = "SELECT productID, name, description, price FROM products $where ORDER BY productID DESC";
         $stmt = $con->prepare($query);
+        if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();
         $num = $stmt->rowCount();
 
@@ -78,6 +92,7 @@ if (!isset($_SESSION["cus_username"])) {
         }
         ?>
 
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type='text/javascript'>
@@ -87,7 +102,7 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
 
-        function myFunction() {
+        /*function myFunction() {
             var input, filter, table, tr, td, i, txtValue;
             var input = document.getElementById("search");
             filter = input.value.toUpperCase();
@@ -104,7 +119,7 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
             }
-        }
+        }*/
     </script>
 </body>
 
