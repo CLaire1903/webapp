@@ -23,7 +23,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         <div>
             <a href='order.php' class='btn btn-primary mx-2'>Create New Order</a>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
                 <table class='table table-hover table-responsive table-bordered' style="border:none;">
                     <tr class='searchProduct' style="border:none;">
                         <td class="col-11" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search orders' class='form-control'></td>
@@ -32,34 +32,33 @@ if (!isset($_SESSION["cus_username"])) {
                 </table>
         </div>
 
-
         <?php
         include 'config/database.php';
         $action = isset($_GET['action']) ? $_GET['action'] : "";
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
-        $query = "SELECT * FROM orders ORDER BY orderID DESC";
-        $stmt = $con->prepare($query);
-        if ($_POST) {
-            $search = "%" . $_POST['search'] . "%";
-            $query = "SELECT * FROM orders WHERE cus_username LIKE :search ORDER BY orderID DESC";
-            $stmt -> bindParam(':search', $search);
-        }
-        
-        $stmt->execute();
-        $num = $stmt->rowCount();
 
-        /*$where = "";
-        if($_POST && !empty($_POST['search'])){
-            $search = "%" . $_POST['search'] . "%";
-            $where = "WHERE name LIKE :search";
+        $where = "";
+        if ($_POST) {
+            try {
+                if (empty($_POST['search'])) {
+                    throw new Exception("Please input order ID or customer username to search!");
+                }
+                $search = "%" . $_POST['search'] . "%";
+                $where = "WHERE cus_username LIKE :search OR orderID LIKE :search";
+            } catch (PDOException $exception) {
+                //for databae 'PDO'
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            } catch (Exception $exception) {
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            }
         }
-        $query = "SELECT productID, name, description, price FROM products $where ORDER BY productID DESC";
+        $query = "SELECT * FROM orders $where ORDER BY orderID DESC";
         $stmt = $con->prepare($query);
         if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();
-        $num = $stmt->rowCount();*/
+        $num = $stmt->rowCount();
 
         if ($num > 0) {
             echo "<table class='table table-hover table-responsive table-bordered' id='myTable'>";
@@ -101,26 +100,21 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
 
-        /*function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            var input = document.getElementById("search");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                username = tr[i].getElementsByTagName("td")[2];
-                id = tr[i].getElementsByTagName("td")[0];
-                if (username || id) {
-                    usernameCol = username.textContent || username.innerText;
-                    idCol = id.textContent || id.innerText;
-                    if (usernameCol.toUpperCase().indexOf(filter) > -1 || idCol.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
+        function validation() {
+            var search = document.getElementById("search").value;
+            var flag = false;
+            var msg = "";
+            if (search == "") {
+                flag = true;
+                msg = msg + "Please input order ID or customer username to search!\r\n";
             }
-        }*/
+            if (flag == true) {
+                alert(msg);
+                return false;
+            } else {
+                return true;
+            }
+        }
     </script>
 </body>
 

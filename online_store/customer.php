@@ -24,6 +24,10 @@ if (!isset($_SESSION["cus_username"])) {
         <?php
         if ($_POST) {
             include 'config/database.php';
+            $filename = $_FILES["profile_pic"]["name"];
+            $tempname = $_FILES["profile_pic"]["tmp_name"];
+            $folder = "image/customer_pic/" . $filename;
+            $isUploadOK = 1;
             try {
                 if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
                     throw new Exception("Make sure all fields are not empty");
@@ -42,7 +46,11 @@ if (!isset($_SESSION["cus_username"])) {
                     throw new Exception("User must be 18 years old and above.");
                 }
 
-                $query = "INSERT INTO customers SET cus_username=:cus_username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
+                if ($folder != "") {
+                    $profilePic = "cus_pic=:profile_pic";
+                }
+
+                $query = "INSERT INTO customers SET $profilePic, cus_username=:cus_username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
                 $stmt = $con->prepare($query);
                 $cus_username = $_POST['cus_username'];
                 $password = $_POST['password'];
@@ -52,6 +60,7 @@ if (!isset($_SESSION["cus_username"])) {
                 $gender = $_POST['gender'];
                 $dateOfBirth = $_POST['dateOfBirth'];
                 $accountStatus = $_POST['accountStatus'];
+                if ($folder != "") $stmt->bindParam(':cus_pic', $folder);
                 $stmt->bindParam(':cus_username', $cus_username);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':confirmPassword', $confirmPassword);
@@ -72,8 +81,12 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
         ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
+                <tr>
+                    <td>Profile Picture</td>
+                    <td><input type='file' name='profile_pic' id="profile_pic" class='form-control' /></td>
+                </tr>
                 <tr>
                     <td>Username <span class="text-danger">*</span></td>
                     <td><input type='text' name='cus_username' id="cus_username" class='form-control' /></td>
@@ -161,7 +174,7 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure all fields are not empty!\r\n";
             }
-            if (cus_username.length < 6  || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
+            if (cus_username.length < 6 || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
                 flag = true;
                 msg = msg + "Username must be 6 - 15 characters and no space included!\r\n";
             }
@@ -173,23 +186,22 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Password should be 8 - 15 character!\r\n";
             }
-            if (password.match(passwordValidation)) {
-            } else{
+            if (password.match(passwordValidation)) {} else {
                 flag = true;
                 msg = msg + "Password should contain at least a number, a special character, a SMALL letter and a CAPITAL letter!\r\n";
             }
             var birthDate = new Date(dateOfBirth);
-            var difference=Date.now() - birthDate.getTime(); 
-	 	    var  ageDate = new Date(difference); 
-            var calculatedAge=   Math.abs(ageDate.getUTCFullYear() - 1970);
-            if (calculatedAge < 18){
+            var difference = Date.now() - birthDate.getTime();
+            var ageDate = new Date(difference);
+            var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+            if (calculatedAge < 18) {
                 flag = true;
                 msg = msg + "User must be 18 years old.\r\n";
             }
             if (flag == true) {
                 alert(msg);
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }

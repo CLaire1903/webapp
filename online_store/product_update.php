@@ -19,7 +19,6 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h1>Update Product</h1>
-            <h6 class="text-danger"> Please complete the form below with * completely. </h6>
         </div>
         <?php
         $productID = isset($_GET['productID']) ? $_GET['productID'] : die('ERROR: Product record not found.');
@@ -32,6 +31,7 @@ if (!isset($_SESSION["cus_username"])) {
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $productID = $row['productID'];
+            $product_pic = $row['product_pic'];
             $name = $row['name'];
             $name_malay = $row['name_malay'];
             $description = $row['description'];
@@ -44,6 +44,12 @@ if (!isset($_SESSION["cus_username"])) {
         }
 
         if ($_POST) {
+
+            $new_filename = $_FILES["new_product_pic"]["name"];
+            $new_tempname = $_FILES["new_product_pic"]["tmp_name"];
+            $new_folder = "image/product_pic/" . $new_filename;
+            $isUploadOK = 1;
+
             try {
                 if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
                     throw new Exception("Make sure all fields are not empty");
@@ -63,7 +69,12 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($_POST['manufacture_date'] > $_POST['expired_date']) {
                     throw new Exception("Please make sure expired date is late than the manufacture date.");
                 }
-                $query = "UPDATE products SET name=:name, name_malay=:name_malay, description=:description,
+
+                if ($new_folder != "") {
+                    $new_productPic = "product_pic=:new_product_pic";
+                }
+
+                $query = "UPDATE products SET $new_productPic, name=:name, name_malay=:name_malay, description=:description,
                          price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE productID = :productID";
                 $stmt = $con->prepare($query);
                 $name = htmlspecialchars(strip_tags($_POST['name']));
@@ -74,6 +85,11 @@ if (!isset($_SESSION["cus_username"])) {
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 $stmt->bindParam(':productID', $productID);
+                if ($new_filename != "") {
+                    $stmt->bindParam(':new_product_pic', $new_folder);
+                } else {
+                    $stmt->bindParam(':new_product_pic', $new_filename);
+                }
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':name_malay', $name_malay);
                 $stmt->bindParam(':description', $description);
@@ -82,23 +98,52 @@ if (!isset($_SESSION["cus_username"])) {
                 $stmt->bindParam(':manufacture_date', $manufacture_date);
                 $stmt->bindParam(':expired_date', $expired_date);
                 if ($stmt->execute()) {
+                    if ($new_folder != "") {
+                        if ($isUploadOK == 0) {
+                            echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
+                        } else {
+                            if (move_uploaded_file($new_tempname, $new_folder)) {
+                                echo "<div class='alert alert-success'>The file " . basename($_FILES["new_product_pic"]["name"]) . " has been uploaded.</div>";
+                            } else {
+                                echo "<div class='alert alert-success'>No picture is uploaded.</div>";
+                            }
+                        }
+                    }
                     echo "<div class='alert alert-success'>Record was updated.</div>";
                 } else {
                     echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                 }
             } catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
-            
             } catch (Exception $exception) {
-                echo "<div class='alert alert-danger'>".$exception->getMessage()."</div>";
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         } ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" onsubmit="return validation()" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Product ID</td>
                     <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
+                </tr>
+                <tr>
+                    <td>Product Picture</td>
+                    <td>
+                        <div>
+                            <div>
+                                <?php
+                                $img_src = $row['product_pic'];
+                                echo "<div class='img-block'> ";
+                                if ($img_src != "") {
+                                    echo "<img src=$img_src alt='' class='image-responsive' style='width:100px; height:100px' /> ";
+                                } else {
+                                    echo "No picture uploaded.";
+                                }
+                                ?>
+                            </div>
+                            <input type='file' name='new_product_pic' id="new_product_pic" value=" <?php $img_src ?>" class='form-control' />
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>Name <span class="text-danger">*</span></td>
@@ -152,13 +197,11 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure all fields are not empty!\r\n";
             }
-            if (price.match(priceValidation)) {
-            } else{
+            if (price.match(priceValidation)) {} else {
                 flag = true;
                 msg = msg + "Please make sure the price is a number!\r\n";
             }
-            if (promotion_price.match(priceValidation)) {
-            } else{
+            if (promotion_price.match(priceValidation)) {} else {
                 flag = true;
                 msg = msg + "Please make sure the promotion price is a number!\r\n";
             }
@@ -181,7 +224,7 @@ if (!isset($_SESSION["cus_username"])) {
             if (flag == true) {
                 alert(msg);
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }

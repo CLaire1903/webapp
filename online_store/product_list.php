@@ -35,10 +35,10 @@ if (!isset($_SESSION["cus_username"])) {
 
         <div>
             <a href='product.php' class='btn btn-primary mx-2'>Create New Product</a>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
                 <table class='table table-hover table-responsive table-bordered' style="border:none;">
                     <tr class='searchProduct' style="border:none;">
-                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search products' class='form-control'></td>
+                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" placeholder='Search products' class='form-control'></td>
                         <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
                     </tr>
                 </table>
@@ -47,15 +47,22 @@ if (!isset($_SESSION["cus_username"])) {
 
         <?php
         $where = "";
-        if($_POST){
+        if ($_POST) {
+            try {
                 if (empty($_POST['search'])) {
-                    throw new Exception("Make sure all fields are not empty!");
+                    throw new Exception("Please input product name to search!");
                 }
-            
-            $search = "%" . $_POST['search'] . "%";
-            $where = "WHERE name LIKE :search";
+
+                $search = "%" . $_POST['search'] . "%";
+                $where = "WHERE name LIKE :search";
+            } catch (PDOException $exception) {
+                //for databae 'PDO'
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            } catch (Exception $exception) {
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            }
         }
-        $query = "SELECT productID, name, description, price FROM products $where ORDER BY productID DESC";
+        $query = "SELECT productID, product_pic, name, description, price FROM products $where ORDER BY productID DESC";
         $stmt = $con->prepare($query);
         if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();
@@ -65,17 +72,28 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<table id='myTable' class='table table-hover table-responsive table-bordered'>";
 
             echo "<tr>";
-            echo "<th>ID</th>";
-            echo "<th>Name</th>";
-            echo "<th class='col-7'>Description</th>";
-            echo "<th>Price</th>";
-            echo "<th>Action</th>";
+            echo "<th class='text-center'>ID</th>";
+            echo "<th class='col-1 text-center'>Picture</th>";
+            echo "<th class='col-1 text-center'>Name</th>";
+            echo "<th class='col-5 text-center'>Description</th>";
+            echo "<th class='col-1 text-center'>Price</th>";
+            echo "<th class='col-3 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 echo "<tr>";
                 echo "<td>{$productID}</td>";
+                $img_src = $row['product_pic'];
+                echo "<td>";
+                echo "<div class='img-block'> ";
+                if ($img_src != "") {
+                    echo "<img src= $img_src alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                } else {
+                    echo "No picture uploaded.";
+                }
+                echo "</div> ";
+                echo "</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
@@ -102,24 +120,21 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
 
-        /*function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            var input = document.getElementById("search");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
+        function validation() {
+            var search = document.getElementById("search").value;
+            var flag = false;
+            var msg = "";
+            if (search == "") {
+                flag = true;
+                msg = msg + "Please input product name to search!\r\n";
             }
-        }*/
+            if (flag == true) {
+                alert(msg);
+                return false;
+            } else {
+                return true;
+            }
+        }
     </script>
 </body>
 

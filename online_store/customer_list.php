@@ -21,6 +21,18 @@ if (!isset($_SESSION["cus_username"])) {
             <h1>Customer List</h1>
         </div>
 
+        <div>
+            <a href='customer.php' class='btn btn-primary mb-2'>Create New Customer</a>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
+                <table class='table table-hover table-responsive table-bordered' style="border:none;">
+                    <tr class='searchCustomer' style="border:none;">
+                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" placeholder='Search customers' class='form-control'></td>
+                        <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
         <?php
         include 'config/database.php';
 
@@ -32,11 +44,27 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<div class='alert alert-success'>Customer was deleted.</div>";
         }
 
-        $query = "SELECT cus_username, firstName, lastName, dateOfBirth FROM customers";
+        $where = "";
+        if ($_POST) {
+            try {
+                if (empty($_POST['search'])) {
+                    throw new Exception("Please input customer username to search!");
+                }
+                $search = "%" . $_POST['search'] . "%";
+                $where = "WHERE cus_username LIKE :search";
+            } catch (PDOException $exception) {
+                //for databae 'PDO'
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            } catch (Exception $exception) {
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
+            }
+        }
+        $query = "SELECT cus_username, firstName, lastName, dateOfBirth FROM customers $where";
         $stmt = $con->prepare($query);
+        if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();
         $num = $stmt->rowCount();
-        echo "<a href='customer.php' class='btn btn-primary mb-2'>Create New Customer</a>";
+
         if ($num > 0) {
             echo "<table class='table table-hover table-responsive table-bordered'>";
 
@@ -73,6 +101,22 @@ if (!isset($_SESSION["cus_username"])) {
         function delete_customer(cus_username) {
             if (confirm('Are you sure?')) {
                 window.location = 'customer_delete.php?cus_username=' + cus_username;
+            }
+        }
+
+        function validation() {
+            var search = document.getElementById("search").value;
+            var flag = false;
+            var msg = "";
+            if (search == "") {
+                flag = true;
+                msg = msg + "Please input customer username to search!\r\n";
+            }
+            if (flag == true) {
+                alert(msg);
+                return false;
+            } else {
+                return true;
             }
         }
     </script>

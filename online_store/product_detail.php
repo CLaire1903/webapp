@@ -28,13 +28,14 @@ if (!isset($_SESSION["cus_username"])) {
         include 'config/database.php';
 
         try {
-            $query = "SELECT productID, name, name_malay, description, price, promotion_price FROM products WHERE productID = :productID ";
+            $query = "SELECT productID, product_pic, name, name_malay, description, price, promotion_price FROM products WHERE productID = :productID ";
             $stmt = $con->prepare($query);
             $stmt->bindParam(":productID", $productID);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $productID = $row['productID'];
+            $product_pic = $row['product_pic'];
             $name = $row['name'];
             $name_malay = $row['name_malay'];
             $description = $row['description'];
@@ -49,6 +50,20 @@ if (!isset($_SESSION["cus_username"])) {
             <tr>
                 <td>Product ID</td>
                 <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Product Picture</td>
+                <td>
+                    <?php
+                    $img_src = $row['product_pic'];
+                    echo "<div class='img-block'> ";
+                    if ($img_src != "") {
+                        echo "<img src= $img_src alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                    } else {
+                        echo "No picture uploaded.";
+                    }
+                    ?>
+                </td>
             </tr>
             <tr>
                 <td>Name</td>

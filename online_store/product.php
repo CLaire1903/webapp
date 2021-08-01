@@ -24,13 +24,21 @@ if (!isset($_SESSION["cus_username"])) {
         <?php
         if ($_POST) {
             include 'config/database.php';
+            //$productPic = "";
+            /*$target_dir = "image/product_pic/";
+            $target_file = "";*/
+            $filename = $_FILES["product_pic"]["name"];
+            $tempname = $_FILES["product_pic"]["tmp_name"];
+            $folder = "image/product_pic/" . $filename;
+            $isUploadOK = 1;
+
             try {
                 if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
                     throw new Exception("Make sure all fields are not empty!");
                 }
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
-                    throw new Exception("Please make sure the price is a number!"); 
-                }        
+                    throw new Exception("Please make sure the price is a number!");
+                }
                 if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
                     throw new Exception("Please make sure the price must not be a negative value or zero!");
                 }
@@ -44,7 +52,42 @@ if (!isset($_SESSION["cus_username"])) {
                     throw new Exception("Please make sure expired date is late than the manufacture date!");
                 }
 
-                $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
+                if ($filename != "") {
+                    //$target_dir = "image/product_pic/";
+                    //$target_file = $target_dir . basename($_FILES["product_pic"]["name"]);
+
+                    $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
+                    $check = getimagesize($_FILES["product_pic"]["tmp_name"]);
+                    if ($check == 0) {
+                        $isUploadOK = 0;
+                        throw new Exception("File is not an image.");
+                    }
+
+                    /*list($width, $height, $type, $attr) = getimagesize($_FILES["product_pic"]["tmp_name"]);
+                    if ($width != $height) {
+                        $isUploadOK = 0;
+                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                    }*/
+
+                    if ($_FILES["product_pic"]["size"] > 512000) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
+                    }
+
+                    if (
+                        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif"
+                    ) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                    }
+                }
+
+                if ($folder != "") {
+                    $productPic = "product_pic=:product_pic";
+                }
+
+                $query = "INSERT INTO products SET $productPic, name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
                 $stmt = $con->prepare($query);
                 $name = $_POST['name'];
                 $name_malay = $_POST['name_malay'];
@@ -53,6 +96,11 @@ if (!isset($_SESSION["cus_username"])) {
                 $promotion_price = $_POST['promotion_price'];
                 $manufacture_date = $_POST['manufacture_date'];
                 $expired_date = $_POST['expired_date'];
+                if ($filename != ""){
+                    $stmt->bindParam(':product_pic', $folder);
+                }else {
+                    $stmt->bindParam(':product_pic', $filename);
+                }
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':name_malay', $name_malay);
                 $stmt->bindParam(':description', $description);
@@ -63,20 +111,44 @@ if (!isset($_SESSION["cus_username"])) {
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
                 if ($stmt->execute()) {
+                    /*if ($isUploadOK == 0) {
+                        echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>"; // if everything is ok, try to upload file
+                    } else {
+                        if (move_uploaded_file($_FILES["product_pic"]["tmp_name"], $target_file)) {
+                            echo "<div class='alert alert-success'>The file " . basename($_FILES["product_pic"]["name"]) . " has been uploaded.</div>";
+                        } else {
+                            throw new Exception("Sorry, there was an error uploading your file.");
+                        }
+                    }*/
+                    if ($folder != "") {
+                        if ($isUploadOK == 0) {
+                            echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
+                        } else {
+                            if (move_uploaded_file($tempname, $folder)) {
+                                echo "<div class='alert alert-success'>The file " . basename($_FILES["product_pic"]["name"]) . " has been uploaded.</div>";
+                            } else {
+                                echo "<div class='alert alert-success'>No picture is uploaded.</div>";
+                            }
+                        }
+                    }
                     echo "<div class='alert alert-success'>Record was saved.</div>";
                 } else {
                     throw new Exception("Unable to save record.");
                 }
             } catch (PDOException $exception) {
                 //for databae 'PDO'
-                echo "<div class='alert alert-danger'>".$exception->getMessage()."</div>";
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             } catch (Exception $exception) {
-                echo "<div class='alert alert-danger'>".$exception->getMessage()."</div>";
+                echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
         ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
+                <tr>
+                    <td>Product Picture</td>
+                    <td><input type='file' name='product_pic' id="product_pic" class='form-control' /></td>
+                </tr>
                 <tr>
                     <td>Name <span class="text-danger">*</span></td>
                     <td><input type='text' name='name' id="name" class='form-control' /></td>
@@ -129,13 +201,11 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure all fields are not empty!\r\n";
             }
-            if (price.match(priceValidation)) {
-            } else{
+            if (price.match(priceValidation)) {} else {
                 flag = true;
                 msg = msg + "Please make sure the price is a number!\r\n";
             }
-            if (promotion_price.match(priceValidation)) {
-            } else{
+            if (promotion_price.match(priceValidation)) {} else {
                 flag = true;
                 msg = msg + "Please make sure the promotion price is a number!\r\n";
             }
@@ -147,7 +217,7 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure the price is not bigger than RM 1000!\r\n";
             }
-            if (price < promotion_price) {
+            if (promotion_price > price) {
                 flag = true;
                 msg = msg + "Promotion price cannot bigger than normal price!\r\n";
             }
@@ -158,7 +228,7 @@ if (!isset($_SESSION["cus_username"])) {
             if (flag == true) {
                 alert(msg);
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
