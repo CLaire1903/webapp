@@ -70,6 +70,35 @@ if (!isset($_SESSION["cus_username"])) {
                     throw new Exception("Please make sure expired date is late than the manufacture date.");
                 }
 
+                if ($new_filename != "") {
+
+                    $imageFileType = strtolower(pathinfo($new_folder, PATHINFO_EXTENSION));
+                    $check = getimagesize($new_tempname);
+                    if ($check == 0) {
+                        $isUploadOK = 0;
+                        throw new Exception("File is not an image.");
+                    }
+
+                    list($width, $height, $type, $attr) = getimagesize($new_tempname);
+                    if ($width != $height) {
+                        $isUploadOK = 0;
+                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                    }
+
+                    if ($_FILES["new_product_pic"]["size"] > 512000) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
+                    }
+
+                    if (
+                        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif"
+                    ) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                    }
+                }
+
                 if ($new_folder != "") {
                     $new_productPic = "product_pic=:new_product_pic";
                 }

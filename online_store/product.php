@@ -53,21 +53,19 @@ if (!isset($_SESSION["cus_username"])) {
                 }
 
                 if ($filename != "") {
-                    //$target_dir = "image/product_pic/";
-                    //$target_file = $target_dir . basename($_FILES["product_pic"]["name"]);
 
                     $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
-                    $check = getimagesize($_FILES["product_pic"]["tmp_name"]);
+                    $check = getimagesize($tempname);
                     if ($check == 0) {
                         $isUploadOK = 0;
                         throw new Exception("File is not an image.");
                     }
 
-                    /*list($width, $height, $type, $attr) = getimagesize($_FILES["product_pic"]["tmp_name"]);
+                    list($width, $height, $type, $attr) = getimagesize($tempname);
                     if ($width != $height) {
                         $isUploadOK = 0;
                         throw new Exception("Please make sure the ratio of the photo is 1:1.");
-                    }*/
+                    }
 
                     if ($_FILES["product_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
