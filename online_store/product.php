@@ -24,12 +24,10 @@ if (!isset($_SESSION["cus_username"])) {
         <?php
         if ($_POST) {
             include 'config/database.php';
-            //$productPic = "";
-            /*$target_dir = "image/product_pic/";
-            $target_file = "";*/
             $filename = $_FILES["product_pic"]["name"];
             $tempname = $_FILES["product_pic"]["tmp_name"];
             $folder = "image/product_pic/" . $filename;
+            $default = "image/product_pic/default.png";
             $isUploadOK = 1;
 
             try {
@@ -97,7 +95,7 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($filename != ""){
                     $stmt->bindParam(':product_pic', $folder);
                 }else {
-                    $stmt->bindParam(':product_pic', $filename);
+                    $stmt->bindParam(':product_pic', $default);
                 }
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':name_malay', $name_malay);

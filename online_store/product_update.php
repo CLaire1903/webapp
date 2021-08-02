@@ -31,7 +31,7 @@ if (!isset($_SESSION["cus_username"])) {
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $productID = $row['productID'];
-            $product_pic = $row['product_pic'];
+            $product_picture = $row['product_pic'];
             $name = $row['name'];
             $name_malay = $row['name_malay'];
             $description = $row['description'];
@@ -48,6 +48,7 @@ if (!isset($_SESSION["cus_username"])) {
             $new_filename = $_FILES["new_product_pic"]["name"];
             $new_tempname = $_FILES["new_product_pic"]["tmp_name"];
             $new_folder = "image/product_pic/" . $new_filename;
+            $default = "image/product_pic/default.png";
             $isUploadOK = 1;
 
             try {
@@ -99,6 +100,17 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
 
+                if (isset($_POST['delete_pic'])) {
+                    //unlink($product_picture);
+                    if (!unlink($product_picture)) { 
+                        echo ("$product_picture cannot be deleted due to an error"); 
+                    } 
+                    else { 
+                        echo ("$product_picture has been deleted"); 
+                        $product_picture = $default;
+                    } 
+                }
+
                 if ($new_folder != "") {
                     $new_productPic = "product_pic=:new_product_pic";
                 }
@@ -117,7 +129,7 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($new_filename != "") {
                     $stmt->bindParam(':new_product_pic', $new_folder);
                 } else {
-                    $stmt->bindParam(':new_product_pic', $new_filename);
+                    $stmt->bindParam(':new_product_pic', $product_picture);
                 }
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':name_malay', $name_malay);
@@ -161,16 +173,16 @@ if (!isset($_SESSION["cus_username"])) {
                         <div>
                             <div>
                                 <?php
-                                $img_src = $row['product_pic'];
-                                echo "<div class='img-block'> ";
-                                if ($img_src != "") {
-                                    echo "<img src=$img_src alt='' class='image-responsive' style='width:100px; height:100px' /> ";
+                                echo "<div class='img-block m-2'> ";
+                                if ($product_picture != "") {
+                                    echo "<img src=$product_picture alt='' class='image-responsive' style='width:100px; height:100px' /> ";
                                 } else {
                                     echo "No picture uploaded.";
                                 }
                                 ?>
+                                <button type="submit" name="delete_pic">Delete Picture</button>
                             </div>
-                            <input type='file' name='new_product_pic' id="new_product_pic" value=" <?php $img_src ?>" class='form-control' />
+                            <input type='file' name='new_product_pic' id="new_product_pic" value=" <?php echo htmlentities($product_picture, ENT_QUOTES);  ?>" class='form-control' />
                         </div>
                     </td>
                 </tr>
@@ -255,6 +267,12 @@ if (!isset($_SESSION["cus_username"])) {
                 return false;
             } else {
                 return true;
+            }
+        }
+
+        function delete_photo($product_picture) {
+            if (confirm('Are you sure?')) {
+                unlink($product_picture);
             }
         }
     </script>
