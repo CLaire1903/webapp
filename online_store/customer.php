@@ -27,6 +27,7 @@ if (!isset($_SESSION["cus_username"])) {
             $filename = $_FILES["profile_pic"]["name"];
             $tempname = $_FILES["profile_pic"]["tmp_name"];
             $folder = "image/customer_pic/" . $filename;
+            $default = "image/product_pic/default.png";
             $isUploadOK = 1;
             try {
                 if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
@@ -46,8 +47,37 @@ if (!isset($_SESSION["cus_username"])) {
                     throw new Exception("User must be 18 years old and above.");
                 }
 
+                if ($filename != "") {
+
+                    $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
+                    $check = getimagesize($tempname);
+                    if ($check == 0) {
+                        $isUploadOK = 0;
+                        throw new Exception("File is not an image.");
+                    }
+
+                    list($width, $height, $type, $attr) = getimagesize($tempname);
+                    if ($width != $height) {
+                        $isUploadOK = 0;
+                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                    }
+
+                    if ($_FILES["product_pic"]["size"] > 512000) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
+                    }
+
+                    if (
+                        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif"
+                    ) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                    }
+                }
+
                 if ($folder != "") {
-                    $profilePic = "cus_pic=:profile_pic";
+                    $profilePic = "profile_pic=:profile_pic";
                 }
 
                 $query = "INSERT INTO customers SET $profilePic, cus_username=:cus_username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
@@ -60,7 +90,11 @@ if (!isset($_SESSION["cus_username"])) {
                 $gender = $_POST['gender'];
                 $dateOfBirth = $_POST['dateOfBirth'];
                 $accountStatus = $_POST['accountStatus'];
-                if ($folder != "") $stmt->bindParam(':cus_pic', $folder);
+                if ($filename != ""){
+                    $stmt->bindParam(':profile_pic', $folder);
+                }else {
+                    $stmt->bindParam(':profile_pic', $default);
+                }
                 $stmt->bindParam(':cus_username', $cus_username);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':confirmPassword', $confirmPassword);
@@ -70,6 +104,17 @@ if (!isset($_SESSION["cus_username"])) {
                 $stmt->bindParam(':dateOfBirth', $dateOfBirth);
                 $stmt->bindParam(':accountStatus', $accountStatus);
                 if ($stmt->execute()) {
+                    if ($folder != "") {
+                        if ($isUploadOK == 0) {
+                            echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
+                        } else {
+                            if (move_uploaded_file($tempname, $folder)) {
+                                echo "<div class='alert alert-success'>The file " . basename($_FILES["profile_pic"]["name"]) . " has been uploaded.</div>";
+                            } else {
+                                echo "<div class='alert alert-success'>No picture is uploaded.</div>";
+                            }
+                        }
+                    }
                     echo "<div class='alert alert-success'>Record was saved.</div>";
                 } else {
                     throw new Exception("Unable to save record.");

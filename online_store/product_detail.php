@@ -34,6 +34,7 @@ if (!isset($_SESSION["cus_username"])) {
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            $product_pic = $row['product_pic'];
             $productID = $row['productID'];
             $product_pic = $row['product_pic'];
             $name = $row['name'];
@@ -55,10 +56,10 @@ if (!isset($_SESSION["cus_username"])) {
                 <td>Product Picture</td>
                 <td>
                     <?php
-                    $img_src = $row['product_pic'];
+
                     echo "<div class='img-block'> ";
-                    if ($img_src != "") {
-                        echo "<img src= $img_src alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                    if ($product_pic != "") {
+                        echo "<img src= $product_pic alt='' class='image-responsive' style='width:100px; height:100px'/> ";
                     } else {
                         echo "No picture uploaded.";
                     }

@@ -10,13 +10,13 @@ try {
     $checkStmt->execute();
     $num = $checkStmt->rowCount();
     if($num == 1){
-        header('Location: order_update.php?orderID={$orderID}action=onlyOneProduct');
+        header('Location: order_update.php?orderID=' + $orderID + 'action=onlyOneProduct');
     }else {
     $query = "DELETE FROM order_detail WHERE productID = ?";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $productID);
     if($stmt->execute()){
-        header('Location: order_update.php?orderID={$orderID}action=deleted');
+        header('Location: order_update.php?orderID=' + $orderID + 'action=deleted');
     }else{
         die('Unable to delete record.');
     }

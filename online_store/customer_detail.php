@@ -24,7 +24,7 @@ if (!isset($_SESSION["cus_username"])) {
         <?php
         $cus_username = isset($_GET['cus_username']) ? $_GET['cus_username'] : die('ERROR: Customer record not found.');
 
-        include 'config/database.php'; // JW: inside the database.php, there is a variable called $username as well. It will just replace what you have in the line 16. So what you can do is give different variable name for the line 16, then the line 23 replace with the new variable name will do.
+        include 'config/database.php';
 
         try {
             $query = "SELECT * FROM customers WHERE cus_username = :cus_username";
@@ -33,6 +33,7 @@ if (!isset($_SESSION["cus_username"])) {
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            $profile_pic = $row['profile_pic'];
             $cus_username = $row['cus_username'];
             $password = $row['password'];
             $confirmPassword = $row['confirmPassword'];
@@ -49,7 +50,20 @@ if (!isset($_SESSION["cus_username"])) {
 
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
-                <td class="col-4">Username</td>
+                <td class="col-4">Profile Picture</td>
+                <td>
+                    <?php
+                    echo "<div class='img-block'> ";
+                    if ($profile_pic != "") {
+                        echo "<img src= $profile_pic alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                    } else {
+                        echo "No picture uploaded.";
+                    }
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Username</td>
                 <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>

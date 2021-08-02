@@ -84,11 +84,11 @@ if (!isset($_SESSION["cus_username"])) {
                 extract($row);
                 echo "<tr>";
                 echo "<td>{$productID}</td>";
-                $img_src = $row['product_pic'];
+                $product_pic = $row['product_pic'];
                 echo "<td>";
                 echo "<div class='img-block'> ";
-                if ($img_src != "") {
-                    echo "<img src= $img_src alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                if ($product_pic!= "") {
+                    echo "<img src= $product_pic alt='' class='image-responsive' style='width:100px; height:100px'/> ";
                 } else {
                     echo "No picture uploaded.";
                 }

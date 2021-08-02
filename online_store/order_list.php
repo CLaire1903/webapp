@@ -54,7 +54,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
-        $query = "SELECT * FROM orders $where ORDER BY orderID DESC";
+        $query = "SELECT orderID, orderDateNTime, cus_username, total_amount FROM orders $where ORDER BY orderID DESC";
         $stmt = $con->prepare($query);
         if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();

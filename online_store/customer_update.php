@@ -30,6 +30,7 @@ if (!isset($_SESSION["cus_username"])) {
             $stmt->bindParam(":cus_username", $cus_username);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $profile_pic = $row['profile_pic'];
             $cus_username = $row['cus_username'];
             $password = $row['password'];
             $confirmPassword = $row['confirmPassword'];
@@ -44,6 +45,13 @@ if (!isset($_SESSION["cus_username"])) {
         }
 
         if ($_POST) {
+
+            $new_filename = $_FILES["new_profile_pic"]["name"];
+            $new_tempname = $_FILES["new_profile_pic"]["tmp_name"];
+            $new_folder = "image/customer_pic/" . $new_filename;
+            $default = "image/product_pic/default.png"; 
+            $isUploadOK = 1;
+
             try {
                 if (empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
                     throw new Exception("Make sure all fields are not empty");
@@ -58,7 +66,51 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($today - $_POST['dateOfBirth'] < 18) {
                     throw new Exception("User must be 18 years old and above.");
                 }
-                $query = "UPDATE customers SET password=:password, confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName,
+                if ($new_filename != "") {
+
+                    $imageFileType = strtolower(pathinfo($new_folder, PATHINFO_EXTENSION));
+                    $check = getimagesize($new_tempname);
+                    if ($check == 0) {
+                        $isUploadOK = 0;
+                        throw new Exception("File is not an image.");
+                    }
+
+                    list($width, $height, $type, $attr) = getimagesize($new_tempname);
+                    if ($width != $height) {
+                        $isUploadOK = 0;
+                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                    }
+
+                    if ($_FILES["product_pic"]["size"] > 512000) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
+                    }
+
+                    if (
+                        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif"
+                    ) {
+                        $isUploadOK = 0;
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                    }
+                }
+
+                if (isset($_POST['delete_pic'])) {
+                    //unlink($product_picture);
+                    if (!unlink($profile_pic)) { 
+                        echo ("$profile_pic cannot be deleted due to an error"); 
+                    } 
+                    else { 
+                        echo ("$profile_pic has been deleted"); 
+                        $profile_pic = $default;
+                    } 
+                }
+
+                if ($new_folder != "") {
+                    $new_profilePic = "profile_pic=:new_profile_pic";
+                }
+
+                $query = "UPDATE customers SET $new_profilePic, password=:password, confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName,
                          gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus WHERE cus_username = :cus_username";
                 $stmt = $con->prepare($query);
                 $password = htmlspecialchars(strip_tags($_POST['password']));
@@ -68,6 +120,12 @@ if (!isset($_SESSION["cus_username"])) {
                 $gender = htmlspecialchars(strip_tags($_POST['gender']));
                 $dateOfBirth = htmlspecialchars(strip_tags($_POST['dateOfBirth']));
                 $accountStatus = htmlspecialchars(strip_tags($_POST['accountStatus']));
+
+                if ($new_filename != "") {
+                    $stmt->bindParam(':new_profile_pic', $new_folder);
+                } else {
+                    $stmt->bindParam(':new_profile_pic', $profile_pic);
+                }
                 $stmt->bindParam(':cus_username', $cus_username);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':confirmPassword', $confirmPassword);
@@ -77,6 +135,17 @@ if (!isset($_SESSION["cus_username"])) {
                 $stmt->bindParam(':dateOfBirth', $dateOfBirth);
                 $stmt->bindParam(':accountStatus', $accountStatus);
                 if ($stmt->execute()) {
+                    if ($new_folder != "") {
+                        if ($isUploadOK == 0) {
+                            echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
+                        } else {
+                            if (move_uploaded_file($new_tempname, $new_folder)) {
+                                echo "<div class='alert alert-success'>The file " . basename($_FILES["new_profile_pic"]["name"]) . " has been uploaded.</div>";
+                            } else {
+                                echo "<div class='alert alert-success'>No picture is uploaded.</div>";
+                            }
+                        }
+                    }
                     echo "<div class='alert alert-success'>Record was updated.</div>";
                 } else {
                     echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
@@ -88,8 +157,27 @@ if (!isset($_SESSION["cus_username"])) {
             }
         } ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?cus_username={$cus_username}"); ?>" onsubmit="return validation()" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?cus_username={$cus_username}"); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
+                <tr>
+                    <td>Profile Picture</td>
+                    <td>
+                        <div>
+                            <div>
+                                <?php
+                                echo "<div class='img-block m-2'> ";
+                                if ($profile_pic != "") {
+                                    echo "<img src=$profile_pic alt='' class='image-responsive' style='width:100px; height:100px' /> ";
+                                } else {
+                                    echo "No picture uploaded.";
+                                }
+                                ?>
+                                <button type="submit" name="delete_pic">Delete Picture</button>
+                            </div>
+                            <input type='file' name='new_profile_pic' id="new_profile_pic" value=" <?php $profile_pic ?>" class='form-control' />
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <td class="col-5">Username</td>
                     <td><?php echo htmlspecialchars($cus_username, ENT_QUOTES);  ?></td>
@@ -188,24 +276,23 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Password should be 8 - 15 character!\r\n";
             }
-            
-            if (password.match(passwordValidation)) {
-            } else{
+
+            if (password.match(passwordValidation)) {} else {
                 flag = true;
-                msg = msg + "Password should contain at least a number, a SMALL letter, a CAPITAL letter!\r\n";
+                msg = msg + "Password should contain at least a number, a special character, a SMALL letter, a CAPITAL letter!\r\n";
             }
             var birthDate = new Date(dateOfBirth);
-            var difference=Date.now() - birthDate.getFullYear(); 
-	 	    var  ageDate = new Date(difference); 
+            var difference = Date.now() - birthDate.getFullYear();
+            var ageDate = new Date(difference);
             var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
-            if (calculatedAge < 18){
+            if (calculatedAge < 18) {
                 flag = true;
                 msg = msg + "User must be 18 years old and above!\r\n";
             }
             if (flag == true) {
                 alert(msg);
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }

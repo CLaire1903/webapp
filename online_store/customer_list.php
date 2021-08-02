@@ -59,7 +59,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
-        $query = "SELECT cus_username, firstName, lastName, dateOfBirth FROM customers $where";
+        $query = "SELECT profile_pic, cus_username, firstName, lastName, dateOfBirth FROM customers $where";
         $stmt = $con->prepare($query);
         if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();
@@ -69,16 +69,27 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<table class='table table-hover table-responsive table-bordered'>";
 
             echo "<tr>";
-            echo "<th>Username</th>";
-            echo "<th>First Name</th>";
-            echo "<th>Last Name</th>";
-            echo "<th>Date Of Birth</th>";
-            echo "<th>Action</th>";
+            echo "<th class='col-1 text-center'>Profile Picture</th>";
+            echo "<th class='text-center'>Username</th>";
+            echo "<th class='text-center'>First Name</th>";
+            echo "<th class='text-center'>Last Name</th>";
+            echo "<th class='text-center'>Date Of Birth</th>";
+            echo "<th class='col-3 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 echo "<tr>";
+                $img_src = $row['profile_pic'];
+                echo "<td>";
+                echo "<div class='img-block'> ";
+                if ($img_src != "") {
+                    echo "<img src= $img_src alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                } else {
+                    echo "No picture uploaded.";
+                }
+                echo "</div> ";
+                echo "</td>";
                 echo "<td>{$cus_username}</td>";
                 echo "<td>{$firstName}</td>";
                 echo "<td>{$lastName}</td>";
