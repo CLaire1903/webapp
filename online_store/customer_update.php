@@ -19,6 +19,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h1>Update Customer</h1>
+            <h6 class="text-danger"> NOTE! Please refresh if you do not see any changes. </h6>
         </div>
         <?php
         $cus_username = isset($_GET['cus_username']) ? $_GET['cus_username'] : die('ERROR: Customer record not found.');
@@ -46,10 +47,13 @@ if (!isset($_SESSION["cus_username"])) {
 
         if ($_POST) {
 
-            $new_filename = $_FILES["new_profile_pic"]["name"];
-            $new_tempname = $_FILES["new_profile_pic"]["tmp_name"];
-            $new_folder = "image/customer_pic/" . $new_filename;
-            $default = "image/product_pic/default.png"; 
+            $filename = $_FILES["profile_pic"]["name"];
+            $tempname = $_FILES["profile_pic"]["tmp_name"];
+            $folder = "image/customer_pic/" . $filename;
+            $default = "image/customer_pic/default.png"; 
+            $changePhotoName = explode(".", $_FILES["profile_pic"]["name"]);
+            $newfilename = $cus_username . '.' . end($changePhotoName);
+            $latest_file = "image/customer_pic/" . $newfilename;
             $isUploadOK = 1;
 
             try {
@@ -66,22 +70,22 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($today - $_POST['dateOfBirth'] < 18) {
                     throw new Exception("User must be 18 years old and above.");
                 }
-                if ($new_filename != "") {
+                if ($filename != "") {
 
-                    $imageFileType = strtolower(pathinfo($new_folder, PATHINFO_EXTENSION));
-                    $check = getimagesize($new_tempname);
+                    $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
+                    $check = getimagesize($tempname);
                     if ($check == 0) {
                         $isUploadOK = 0;
                         throw new Exception("File is not an image.");
                     }
 
-                    list($width, $height, $type, $attr) = getimagesize($new_tempname);
+                    list($width, $height, $type, $attr) = getimagesize($tempname);
                     if ($width != $height) {
                         $isUploadOK = 0;
                         throw new Exception("Please make sure the ratio of the photo is 1:1.");
                     }
 
-                    if ($_FILES["product_pic"]["size"] > 512000) {
+                    if ($_FILES["profile_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
                         throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
                     }
@@ -96,21 +100,16 @@ if (!isset($_SESSION["cus_username"])) {
                 }
 
                 if (isset($_POST['delete_pic'])) {
-                    //unlink($product_picture);
-                    if (!unlink($profile_pic)) { 
-                        echo ("$profile_pic cannot be deleted due to an error"); 
-                    } 
-                    else { 
-                        echo ("$profile_pic has been deleted"); 
+                    if (unlink($profile_pic)) {
                         $profile_pic = $default;
-                    } 
+                    }
                 }
 
-                if ($new_folder != "") {
-                    $new_profilePic = "profile_pic=:new_profile_pic";
+                if ($folder != "") {
+                    $profilePic = "profile_pic=:profile_pic";
                 }
 
-                $query = "UPDATE customers SET $new_profilePic, password=:password, confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName,
+                $query = "UPDATE customers SET $profilePic, password=:password, confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName,
                          gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus WHERE cus_username = :cus_username";
                 $stmt = $con->prepare($query);
                 $password = htmlspecialchars(strip_tags($_POST['password']));
@@ -121,10 +120,10 @@ if (!isset($_SESSION["cus_username"])) {
                 $dateOfBirth = htmlspecialchars(strip_tags($_POST['dateOfBirth']));
                 $accountStatus = htmlspecialchars(strip_tags($_POST['accountStatus']));
 
-                if ($new_filename != "") {
-                    $stmt->bindParam(':new_profile_pic', $new_folder);
+                if ($filename != "") {
+                    $stmt->bindParam(':profile_pic', $latest_file);
                 } else {
-                    $stmt->bindParam(':new_profile_pic', $profile_pic);
+                    $stmt->bindParam(':profile_pic', $profile_pic);
                 }
                 $stmt->bindParam(':cus_username', $cus_username);
                 $stmt->bindParam(':password', $password);
@@ -135,12 +134,12 @@ if (!isset($_SESSION["cus_username"])) {
                 $stmt->bindParam(':dateOfBirth', $dateOfBirth);
                 $stmt->bindParam(':accountStatus', $accountStatus);
                 if ($stmt->execute()) {
-                    if ($new_folder != "") {
+                    if ($folder != "") {
                         if ($isUploadOK == 0) {
                             echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
                         } else {
-                            if (move_uploaded_file($new_tempname, $new_folder)) {
-                                echo "<div class='alert alert-success'>The file " . basename($_FILES["new_profile_pic"]["name"]) . " has been uploaded.</div>";
+                            if (move_uploaded_file($tempname, "image/customer_pic/" . $newfilename)) {
+                                echo "<div class='alert alert-success'>The file " . basename($_FILES["profile_pic"]["name"]) . " has been uploaded.</div>";
                             } else {
                                 echo "<div class='alert alert-success'>No picture is uploaded.</div>";
                             }
@@ -174,7 +173,7 @@ if (!isset($_SESSION["cus_username"])) {
                                 ?>
                                 <button type="submit" name="delete_pic">Delete Picture</button>
                             </div>
-                            <input type='file' name='new_profile_pic' id="new_profile_pic" value=" <?php $profile_pic ?>" class='form-control' />
+                            <input type='file' name='profile_pic' id="profile_pic" class='form-control' />
                         </div>
                     </td>
                 </tr>

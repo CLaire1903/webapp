@@ -74,10 +74,10 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<tr>";
             echo "<th class='text-center'>ID</th>";
             echo "<th class='col-1 text-center'>Picture</th>";
-            echo "<th class='col-1 text-center'>Name</th>";
+            echo "<th class='col-2 col-lg-1 text-center'>Name</th>";
             echo "<th class='col-5 text-center'>Description</th>";
-            echo "<th class='col-1 text-center'>Price</th>";
-            echo "<th class='col-3 text-center'>Action</th>";
+            echo "<th class='col-2 col-lg-1 text-center'>Price</th>";
+            echo "<th class='col-lg-3 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -98,9 +98,11 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
                 echo "<td>";
-                echo "<a href='product_detail.php?productID={$productID}' class='btn btn-info me-2'>Detail</a>";
-                echo "<a href='product_update.php?productID={$productID}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_product({$productID});'  class='btn btn-danger'>Delete</a>";
+                echo "<div class='d-lg-flex justify-content-sm-center'>";
+                echo "<a href='product_detail.php?productID={$productID}' class='btn btn-info m-1 m-lg-2' style='width:100px'>Detail</a>";
+                echo "<a href='product_update.php?productID={$productID}' class='btn btn-primary m-1 m-lg-2' style='width:100px'>Edit</a>";
+                echo "<a href='#' onclick='delete_product({$productID});'  class='btn btn-danger m-1 m-lg-2' style='width:100px'>Delete</a>";
+                echo "</div>";
                 echo "</td>";
                 echo "</tr>";
             }

@@ -19,6 +19,7 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
         <div class="page-header">
             <h1>Update Product</h1>
+            <h6 class="text-danger"> NOTE! Please refresh if you do not see any changes. </h6>
         </div>
         <?php
         $productID = isset($_GET['productID']) ? $_GET['productID'] : die('ERROR: Product record not found.');
@@ -45,10 +46,13 @@ if (!isset($_SESSION["cus_username"])) {
 
         if ($_POST) {
 
-            $new_filename = $_FILES["new_product_pic"]["name"];
-            $new_tempname = $_FILES["new_product_pic"]["tmp_name"];
-            $new_folder = "image/product_pic/" . $new_filename;
-            $default = "image/product_pic/default.png";
+            $file = $_FILES["product_pic"]["name"];
+            $temp = $_FILES["product_pic"]["tmp_name"];
+            $folder = "image/product_pic/" . $file;
+            $default = "image/product_pic/default.jpg";
+            $changePhotoName = explode(".", $_FILES["product_pic"]["name"]);
+            $newfilename = $productID . '.' . end($changePhotoName);
+            $latest_file = "image/product_pic/" . $newfilename;
             $isUploadOK = 1;
 
             try {
@@ -71,22 +75,22 @@ if (!isset($_SESSION["cus_username"])) {
                     throw new Exception("Please make sure expired date is late than the manufacture date.");
                 }
 
-                if ($new_filename != "") {
+                if ($file != "") {
 
-                    $imageFileType = strtolower(pathinfo($new_folder, PATHINFO_EXTENSION));
-                    $check = getimagesize($new_tempname);
+                    $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
+                    $check = getimagesize($temp);
                     if ($check == 0) {
                         $isUploadOK = 0;
-                        throw new Exception("File is not an image.");
+                        throw new Exception("Please upload image only! (JPG, JPEG, PNG & GIF)");
                     }
 
-                    list($width, $height, $type, $attr) = getimagesize($new_tempname);
+                    list($width, $height, $type, $attr) = getimagesize($temp);
                     if ($width != $height) {
                         $isUploadOK = 0;
                         throw new Exception("Please make sure the ratio of the photo is 1:1.");
                     }
 
-                    if ($_FILES["new_product_pic"]["size"] > 512000) {
+                    if ($_FILES["product_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
                         throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
                     }
@@ -101,21 +105,16 @@ if (!isset($_SESSION["cus_username"])) {
                 }
 
                 if (isset($_POST['delete_pic'])) {
-                    //unlink($product_picture);
-                    if (!unlink($product_picture)) { 
-                        echo ("$product_picture cannot be deleted due to an error"); 
-                    } 
-                    else { 
-                        echo ("$product_picture has been deleted"); 
+                    if (unlink($product_picture)) {
                         $product_picture = $default;
-                    } 
+                    }
                 }
 
-                if ($new_folder != "") {
-                    $new_productPic = "product_pic=:new_product_pic";
+                if ($folder != "") {
+                    $productPic = "product_pic=:product_pic";
                 }
 
-                $query = "UPDATE products SET $new_productPic, name=:name, name_malay=:name_malay, description=:description,
+                $query = "UPDATE products SET $productPic, name=:name, name_malay=:name_malay, description=:description,
                          price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE productID = :productID";
                 $stmt = $con->prepare($query);
                 $name = htmlspecialchars(strip_tags($_POST['name']));
@@ -126,10 +125,10 @@ if (!isset($_SESSION["cus_username"])) {
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
                 $stmt->bindParam(':productID', $productID);
-                if ($new_filename != "") {
-                    $stmt->bindParam(':new_product_pic', $new_folder);
+                if ($file != "") {
+                    $stmt->bindParam(':product_pic', $latest_file);
                 } else {
-                    $stmt->bindParam(':new_product_pic', $product_picture);
+                    $stmt->bindParam(':product_pic', $product_picture);
                 }
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':name_malay', $name_malay);
@@ -139,12 +138,12 @@ if (!isset($_SESSION["cus_username"])) {
                 $stmt->bindParam(':manufacture_date', $manufacture_date);
                 $stmt->bindParam(':expired_date', $expired_date);
                 if ($stmt->execute()) {
-                    if ($new_folder != "") {
+                    if ($folder != "") {
                         if ($isUploadOK == 0) {
                             echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
                         } else {
-                            if (move_uploaded_file($new_tempname, $new_folder)) {
-                                echo "<div class='alert alert-success'>The file " . basename($_FILES["new_product_pic"]["name"]) . " has been uploaded.</div>";
+                            if (move_uploaded_file($temp, "image/product_pic/" . $newfilename)) {
+                                echo "<div class='alert alert-success'>The file " . basename($_FILES["product_pic"]["name"]) . " has been uploaded.</div>";
                             } else {
                                 echo "<div class='alert alert-success'>No picture is uploaded.</div>";
                             }
@@ -171,18 +170,27 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>Product Picture</td>
                     <td>
                         <div>
-                            <div>
-                                <?php
-                                echo "<div class='img-block m-2'> ";
-                                if ($product_picture != "") {
-                                    echo "<img src=$product_picture alt='' class='image-responsive' style='width:100px; height:100px' /> ";
-                                } else {
-                                    echo "No picture uploaded.";
-                                }
-                                ?>
-                                <button type="submit" name="delete_pic">Delete Picture</button>
+                            <div class='img-block m-2 d-flex'> 
+                                <div>
+                                    <?php
+                                        if ($product_picture != "") {
+                                            echo "<img src=$product_picture alt='' class='image-responsive' style='width:100px; height:100px' /> ";
+                                        } else {
+                                            echo "No picture uploaded.";
+                                        }
+                                    ?>
+                                </div>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <button type="submit" class="m-2" name="delete_pic">Delete</button>
+                                    <button type="button" class="changePic m-2" onclick="openForm()">Change Picture</button>
+                                </div>
                             </div>
-                            <input type='file' name='new_product_pic' id="new_product_pic" value=" <?php echo htmlentities($product_picture, ENT_QUOTES);  ?>" class='form-control' />
+                            <div id='form-popup' style="display: none;" >
+                                <div class="d-flex">
+                                    <input type='file' name='product_pic' id="product_pic" class='form-control' />
+                                    <button type="button" class="cancel mx-2" onclick="closeForm()">Cancel</button>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -270,10 +278,12 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }
 
-        function delete_photo($product_picture) {
-            if (confirm('Are you sure?')) {
-                unlink($product_picture);
-            }
+        function openForm() {
+            document.getElementById("form-popup").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("form-popup").style.display = "none";
         }
     </script>
 

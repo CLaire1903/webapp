@@ -1,22 +1,25 @@
 <?php
 include 'config/database.php';
 try {     
-    $orderID = isset($_GET['orderID']) ? $_GET['orderID'] :  die('ERROR: Record ID not found.');
     $productID = isset($_GET['productID']) ? $_GET['productID'] :  die('ERROR: Product ID not found.');
+    $orderID = isset($_GET['orderID']) ? $_GET['orderID'] :  die('ERROR: Order ID not found.');
+    
 
-    $checkQuery = "SELECT * FROM order_detail WHERE orderID = ?";
+
+    $checkQuery = "SELECT * FROM order_detail WHERE orderID = :orderID";
     $checkStmt = $con->prepare($checkQuery);
-    $checkStmt->bindParam(1, $orderID);
+    $checkStmt->bindParam(':orderID', $orderID);
     $checkStmt->execute();
     $num = $checkStmt->rowCount();
+    var_dump($checkQuery);
     if($num == 1){
-        header('Location: order_update.php?orderID=' + $orderID + 'action=onlyOneProduct');
+        echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=onlyOneProduct';</script>";
     }else {
-    $query = "DELETE FROM order_detail WHERE productID = ?";
+    $query = "DELETE FROM order_detail WHERE productID = :productID";
     $stmt = $con->prepare($query);
-    $stmt->bindParam(1, $productID);
+    $stmt->bindParam(":productID", $productID);
     if($stmt->execute()){
-        header('Location: order_update.php?orderID=' + $orderID + 'action=deleted');
+        echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=deleted';</script>";
     }else{
         die('Unable to delete record.');
     }

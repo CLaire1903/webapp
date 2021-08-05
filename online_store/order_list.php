@@ -64,10 +64,11 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<table class='table table-hover table-responsive table-bordered' id='myTable'>";
 
             echo "<tr>";
-            echo "<th>Order ID</th>";
-            echo "<th>Order Date and Time</th>";
-            echo "<th>Customer Username</th>";
-            echo "<th>Total Amount</th>";
+            echo "<th class='col-3 text-center'>Order ID</th>";
+            echo "<th class='col-3 text-center'>Order Date and Time</th>";
+            echo "<th class='col-3 text-center'>Customer Username</th>";
+            echo "<th class='col-3 text-center'>Total Amount</th>";
+            echo "<th class='col-3 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -78,9 +79,11 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$cus_username}</td>";
                 echo "<td>{$total_amount}</td>";
                 echo "<td>";
-                echo "<a href='order_detail.php?orderID={$orderID}' class='btn btn-info me-2'>Detail</a>";
-                echo "<a href='order_update.php?orderID={$orderID}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_order({$orderID});'  class='btn btn-danger'>Delete</a>";
+                echo "<div class='d-lg-flex justify-content-sm-center'>";
+                echo "<a href='order_detail.php?orderID={$orderID}' class='btn btn-info m-1 m-lg-2' style='width:100px'>Detail</a>";
+                echo "<a href='order_update.php?orderID={$orderID}' class='btn btn-primary m-1 m-lg-2' style='width:100px'>Edit</a>";
+                echo "<a href='#' onclick='delete_order({$orderID});' class='btn btn-danger m-1 m-lg-2' style='width:100px'>Delete</a>";
+                echo "</div>";
                 echo "</td>";
                 echo "</tr>";
             }

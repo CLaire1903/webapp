@@ -26,10 +26,11 @@ if (!isset($_SESSION["cus_username"])) {
                 </h1>
             </div>
             <div class="aboutUs p-3 text-center">
-                <h3 class="p-2" style="background-color:rgba(108,117,125,0.6);">About Us</h3>
+                <h3 class="p-2 fw-bold" style="background-color:rgba(108,117,125,0.6);">SUMMARY</Summary>
+                </h3>
             </div>
-            <div class="d-flex justify-content-center">
-                <div class="card text-center col-2 mx-4">
+            <div class="d-md-flex justify-content-center">
+                <div class="card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
                         <img src="image/customer.png" style="width: 50%;">
                     </div>
@@ -41,7 +42,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<a href=customer_list.php> <h6 class='p-2 text-dark'>$customerNum customers</h6> </a>";
                     ?>
                 </div>
-                <div class="card text-center col-2 mx-4">
+                <div class="card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
                         <img src="image/product.png" style="width: 50%;">
                     </div>
@@ -53,7 +54,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<a href=product_list.php> <h6 class='p-2 text-dark'>$productNum products</h6> </a>";
                     ?>
                 </div>
-                <div class="card text-center col-2 mx-4">
+                <div class="card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
                         <img src="image/order.png" style="width: 50%;">
                     </div>
@@ -142,7 +143,7 @@ if (!isset($_SESSION["cus_username"])) {
                 $topSellingStmt = $con->prepare($topSellingQuery);
                 $topSellingStmt->execute();
                 $num = $topSellingStmt->rowCount();
-                
+
                 if ($num > 0) {
                     while ($topSellingRow = $topSellingStmt->fetch(PDO::FETCH_ASSOC)) {
                         extract($topSellingRow);
@@ -160,12 +161,11 @@ if (!isset($_SESSION["cus_username"])) {
                 ?>
             </table>
         </div>
-    </div>
-    <div class="footer bg-dark">
-        <?php
-        include 'footer.php';
-        ?>
-    </div>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

@@ -1,7 +1,7 @@
 <?php
 include 'config/database.php';
 try {
-    $orderID = isset($_GET['orderID']) ? $_GET['orderID'] :  die('ERROR: Record ID not found.');
+    $orderID = isset($_GET['orderID']) ? $_GET['orderID'] :  die('ERROR: Order ID not found.');
     
     $od_query = "DELETE FROM order_detail WHERE orderID = ?";
     $od_stmt = $con->prepare($od_query);

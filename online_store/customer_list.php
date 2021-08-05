@@ -22,7 +22,7 @@ if (!isset($_SESSION["cus_username"])) {
         </div>
 
         <div>
-            <a href='customer.php' class='btn btn-primary mb-2'>Create New Customer</a>
+            <a href='customer.php' class='btn btn-primary mx-2'>Create New Customer</a>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
                 <table class='table table-hover table-responsive table-bordered' style="border:none;">
                     <tr class='searchCustomer' style="border:none;">
@@ -70,11 +70,11 @@ if (!isset($_SESSION["cus_username"])) {
 
             echo "<tr>";
             echo "<th class='col-1 text-center'>Profile Picture</th>";
-            echo "<th class='text-center'>Username</th>";
-            echo "<th class='text-center'>First Name</th>";
-            echo "<th class='text-center'>Last Name</th>";
-            echo "<th class='text-center'>Date Of Birth</th>";
-            echo "<th class='col-3 text-center'>Action</th>";
+            echo "<th class='col-2 text-center'>Username</th>";
+            echo "<th class='col-2 text-center'>First Name</th>";
+            echo "<th class='col-2 text-center'>Last Name</th>";
+            echo "<th class='col-2 text-center'>Date Of Birth</th>";
+            echo "<th class='col-lg-3 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -95,9 +95,11 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$lastName}</td>";
                 echo "<td>{$dateOfBirth}</td>";
                 echo "<td>";
-                echo "<a href='customer_detail.php?cus_username={$cus_username}' class='btn btn-info me-2'>Detail</a>";
-                echo "<a href='customer_update.php?cus_username={$cus_username}' class='btn btn-primary me-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_customer(&#39;$cus_username&#39;)' class='btn btn-danger'>Delete</a>";
+                echo "<div class='d-lg-flex justify-content-sm-center'>";
+                echo "<a href='customer_detail.php?cus_username={$cus_username}' class='btn btn-info m-1 m-lg-2' style='width:100px'>Detail</a>";
+                echo "<a href='customer_update.php?cus_username={$cus_username}' class='btn btn-primary m-1 m-lg-2' style='width:100px'>Edit</a>";
+                echo "<a href='#' onclick='delete_customer(&#39;$cus_username&#39;)' class='btn btn-danger m-1 m-lg-2' style='width:100px'>Delete</a>";
+                echo "</div>";
                 echo "</td>";
                 echo "</tr>";
             }

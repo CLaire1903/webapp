@@ -28,6 +28,9 @@ if (!isset($_SESSION["cus_username"])) {
             $tempname = $_FILES["profile_pic"]["tmp_name"];
             $folder = "image/customer_pic/" . $filename;
             $default = "image/product_pic/default.png";
+            $changePhotoName = explode(".", $_FILES["profile_pic"]["name"]);
+            $newfilename = $_POST['cus_username'] . '.' . end($changePhotoName);
+            $latest_file = "image/customer_pic/" . $newfilename;
             $isUploadOK = 1;
             try {
                 if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
@@ -62,7 +65,7 @@ if (!isset($_SESSION["cus_username"])) {
                         throw new Exception("Please make sure the ratio of the photo is 1:1.");
                     }
 
-                    if ($_FILES["product_pic"]["size"] > 512000) {
+                    if ($_FILES["profile_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
                         throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
                     }
@@ -91,7 +94,7 @@ if (!isset($_SESSION["cus_username"])) {
                 $dateOfBirth = $_POST['dateOfBirth'];
                 $accountStatus = $_POST['accountStatus'];
                 if ($filename != ""){
-                    $stmt->bindParam(':profile_pic', $folder);
+                    $stmt->bindParam(':profile_pic', $latest_file);
                 }else {
                     $stmt->bindParam(':profile_pic', $default);
                 }
@@ -108,7 +111,7 @@ if (!isset($_SESSION["cus_username"])) {
                         if ($isUploadOK == 0) {
                             echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
                         } else {
-                            if (move_uploaded_file($tempname, $folder)) {
+                            if (move_uploaded_file($tempname, "image/customer_pic/" . $newfilename)) {
                                 echo "<div class='alert alert-success'>The file " . basename($_FILES["profile_pic"]["name"]) . " has been uploaded.</div>";
                             } else {
                                 echo "<div class='alert alert-success'>No picture is uploaded.</div>";
@@ -217,7 +220,7 @@ if (!isset($_SESSION["cus_username"])) {
             var msg = "";
             if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
-                msg = msg + "Please make sure all fields are not empty!\r\n";
+                msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
             }
             if (cus_username.length < 6 || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
                 flag = true;

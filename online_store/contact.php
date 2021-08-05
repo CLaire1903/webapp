@@ -22,22 +22,22 @@ if (!isset($_SESSION["cus_username"])) {
                 <h1 class="text-light p-5 text-center">
                     Feel free to contact us.
                 </h1>
-                <div id="myContact" class="text-light d-flex">
-                    <div id="phone" class="col-3 m-2 p-2 bg-dark rounded">
+                <div id="myContact" class="text-light d-lg-flex">
+                    <div id="phone" class="col-lg-3 m-2 p-2 bg-dark rounded">
                         <b>Phone Number :</b>
                         <br>
                         016 - 537 6154
                         <br>
                         011 - 5762 3721
                     </div>
-                    <div id="email" class="col-4 m-2 p-2 bg-dark rounded">
+                    <div id="email" class="col-lg-4 m-2 p-2 bg-dark rounded">
                         <b>Email :</b>
                         <br>
                         <a href="mailto:tanghuey@hotmail.com" class="text-light">tanghuey@hotmail.com</a>
                         <br>
                         <a href="mailto:clairetang1903@gmail.com" class="text-light">clairetang1903@gmail.com</a>
                     </div>
-                    <div id="address" class="col-4 m-2 p-2 bg-dark rounded">
+                    <div id="address" class="col-lg-4 m-2 p-2 bg-dark rounded">
                         <b>Address :</b>
                         <br>
                         63, Jalan Unta Kawasan Rumah Hijau 34000 Taiping, Perak.

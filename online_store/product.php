@@ -27,7 +27,7 @@ if (!isset($_SESSION["cus_username"])) {
             $filename = $_FILES["product_pic"]["name"];
             $tempname = $_FILES["product_pic"]["tmp_name"];
             $folder = "image/product_pic/" . $filename;
-            $default = "image/product_pic/default.png";
+            $default = "image/product_pic/default.jpg";
             $isUploadOK = 1;
 
             try {
@@ -56,7 +56,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $check = getimagesize($tempname);
                     if ($check == 0) {
                         $isUploadOK = 0;
-                        throw new Exception("File is not an image.");
+                        throw new Exception("Please upload image ONLY! (JPG, JPEG, PNG & GIF)");
                     }
 
                     list($width, $height, $type, $attr) = getimagesize($tempname);
@@ -67,7 +67,7 @@ if (!isset($_SESSION["cus_username"])) {
 
                     if ($_FILES["product_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
-                        throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
+                        throw new Exception("Sorry, your photo is too large. Only 512KB is allowed!");
                     }
 
                     if (
@@ -75,7 +75,7 @@ if (!isset($_SESSION["cus_username"])) {
                         && $imageFileType != "gif"
                     ) {
                         $isUploadOK = 0;
-                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF photo are allowed.");
                     }
                 }
 
@@ -107,15 +107,6 @@ if (!isset($_SESSION["cus_username"])) {
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
                 if ($stmt->execute()) {
-                    /*if ($isUploadOK == 0) {
-                        echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>"; // if everything is ok, try to upload file
-                    } else {
-                        if (move_uploaded_file($_FILES["product_pic"]["tmp_name"], $target_file)) {
-                            echo "<div class='alert alert-success'>The file " . basename($_FILES["product_pic"]["name"]) . " has been uploaded.</div>";
-                        } else {
-                            throw new Exception("Sorry, there was an error uploading your file.");
-                        }
-                    }*/
                     if ($folder != "") {
                         if ($isUploadOK == 0) {
                             echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
@@ -127,9 +118,9 @@ if (!isset($_SESSION["cus_username"])) {
                             }
                         }
                     }
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
+                    echo "<div class='alert alert-success'>Product was created.</div>";
                 } else {
-                    throw new Exception("Unable to save record.");
+                    throw new Exception("Product is not created.");
                 }
             } catch (PDOException $exception) {
                 //for databae 'PDO'
@@ -195,7 +186,7 @@ if (!isset($_SESSION["cus_username"])) {
             var msg = "";
             if (name == "" || name_malay == "" || description == "" || price == "" || promotion_price == "" || manufacture_date == "" || expired_date == "") {
                 flag = true;
-                msg = msg + "Please make sure all fields are not empty!\r\n";
+                msg = msg + "Please make sure all fields except product picture are not empty!\r\n";
             }
             if (price.match(priceValidation)) {} else {
                 flag = true;
