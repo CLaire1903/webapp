@@ -11,7 +11,14 @@ if (!isset($_SESSION["cus_username"])) {
     <title>Order list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
+
 <style>
+    .search {
+        border:none;
+    }
+    .actionBtn {
+        width: 100px;
+    }
 </style>
 
 <body>
@@ -26,10 +33,10 @@ if (!isset($_SESSION["cus_username"])) {
         <div>
             <a href='order.php' class='btn btn-primary mx-2'>Create New Order</a>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
-                <table class='table table-hover table-responsive table-bordered' style="border:none;">
-                    <tr class='searchProduct' style="border:none;">
-                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search orders' class='form-control'></td>
-                        <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                <table class='search table table-hover table-responsive'>
+                    <tr class='search'>
+                        <td class="search col-11"><input type='text' name='search' id="search" onkeyup="myFunction()" placeholder='Search orders' class='form-control'></td>
+                        <td class="search"><input type='submit' value='Search' class='btn btn-primary' /></td>
                     </tr>
                 </table>
         </div>
@@ -82,9 +89,9 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$total_amount}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
-                echo "<a href='order_detail.php?orderID={$orderID}' class='btn btn-info m-1 m-lg-2' style='width:100px'>Detail</a>";
-                echo "<a href='order_update.php?orderID={$orderID}' class='btn btn-primary m-1 m-lg-2' style='width:100px'>Edit</a>";
-                echo "<a href='#' onclick='delete_order({$orderID});' class='btn btn-danger m-1 m-lg-2' style='width:100px'>Delete</a>";
+                echo "<a href='order_detail.php?orderID={$orderID}' class='actionBtn btn btn-info m-1 m-lg-2'>Detail</a>";
+                echo "<a href='order_update.php?orderID={$orderID}' class='actionBtn btn btn-primary m-1 m-lg-2'>Edit</a>";
+                echo "<a href='#' onclick='delete_order({$orderID});' class='actionBtn btn btn-danger m-1 m-lg-2'>Delete</a>";
                 echo "</div>";
                 echo "</td>";
                 echo "</tr>";

@@ -13,17 +13,8 @@ if (!isset($_SESSION["cus_username"])) {
 </head>
 
 <style>
-    .searchTable {
+    .search {
         border:none;
-    }
-    .searchProduct {
-       border: none; 
-    }
-    .searchInput {
-       border: none; 
-    }
-    .searchButton {
-       border: none; 
     }
     .product_image {
         width: 100px;
@@ -58,10 +49,10 @@ if (!isset($_SESSION["cus_username"])) {
         <div>
             <a href='product.php' class='btn btn-primary mx-2'>Create New Product</a>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
-                <table class='searchTable table table-hover table-responsive' ">
-                    <tr class='searchProduct'>
-                        <td class="searchInput col-11"><input type='text' name='search' id="search" placeholder='Search products' class='form-control'></td>
-                        <td class="searchButton"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                <table class='search table table-hover table-responsive' ">
+                    <tr class='search'>
+                        <td class="search col-11"><input type='text' name='search' id="search" placeholder='Search products' class='form-control'></td>
+                        <td class="search"><input type='submit' value='Search' class='btn btn-primary' /></td>
                     </tr>
                 </table>
             </form>
