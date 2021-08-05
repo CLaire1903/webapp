@@ -5,6 +5,8 @@
     <title>Homework - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
+<style>
+</style>
 
 <body>
     <div class="container-flex bg-secondary d-flex justify-content-center" style="height:577px">
