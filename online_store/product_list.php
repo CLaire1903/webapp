@@ -11,7 +11,27 @@ if (!isset($_SESSION["cus_username"])) {
     <title>Product List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
+
 <style>
+    .searchTable {
+        border:none;
+    }
+    .searchProduct {
+       border: none; 
+    }
+    .searchInput {
+       border: none; 
+    }
+    .searchButton {
+       border: none; 
+    }
+    .product_image {
+        width: 100px;
+        height: 100px;
+    }
+    .actionBtn {
+        width: 100px;
+    }
 </style>
 
 <body>
@@ -38,10 +58,10 @@ if (!isset($_SESSION["cus_username"])) {
         <div>
             <a href='product.php' class='btn btn-primary mx-2'>Create New Product</a>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
-                <table class='table table-hover table-responsive table-bordered' style="border:none;">
-                    <tr class='searchProduct' style="border:none;">
-                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" placeholder='Search products' class='form-control'></td>
-                        <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                <table class='searchTable table table-hover table-responsive' ">
+                    <tr class='searchProduct'>
+                        <td class="searchInput col-11"><input type='text' name='search' id="search" placeholder='Search products' class='form-control'></td>
+                        <td class="searchButton"><input type='submit' value='Search' class='btn btn-primary' /></td>
                     </tr>
                 </table>
             </form>
@@ -79,7 +99,7 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<th class='col-2 col-lg-1 text-center'>Name</th>";
             echo "<th class='col-5 text-center'>Description</th>";
             echo "<th class='col-2 col-lg-1 text-center'>Price</th>";
-            echo "<th class='col-lg-3 text-center'>Action</th>";
+            echo "<th class='col-lg-2 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -90,7 +110,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>";
                 echo "<div class='img-block'> ";
                 if ($product_pic!= "") {
-                    echo "<img src= $product_pic alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                    echo "<img src= $product_pic alt='' class='product_image'/> ";
                 } else {
                     echo "No picture uploaded.";
                 }
@@ -101,9 +121,9 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$price}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
-                echo "<a href='product_detail.php?productID={$productID}' class='btn btn-info m-1 m-lg-2' style='width:100px'>Detail</a>";
-                echo "<a href='product_update.php?productID={$productID}' class='btn btn-primary m-1 m-lg-2' style='width:100px'>Edit</a>";
-                echo "<a href='#' onclick='delete_product({$productID});'  class='btn btn-danger m-1 m-lg-2' style='width:100px'>Delete</a>";
+                echo "<a href='product_detail.php?productID={$productID}' class='actionBtn btn btn-info m-1 m-lg-2'>Detail</a>";
+                echo "<a href='product_update.php?productID={$productID}' class='actionBtn btn btn-primary m-1 m-lg-2'>Edit</a>";
+                echo "<a href='#' onclick='delete_product({$productID});'  class='actionBtn btn btn-danger m-1 m-lg-2'>Delete</a>";
                 echo "</div>";
                 echo "</td>";
                 echo "</tr>";

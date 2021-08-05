@@ -11,7 +11,15 @@ if (!isset($_SESSION["cus_username"])) {
     <title>Homework - Update Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
+
 <style>
+    .product_image {
+        width:100px; 
+        height:100px;
+    }
+    #form-popup{
+        display: none;
+    }
 </style>
 
 <body>
@@ -176,7 +184,7 @@ if (!isset($_SESSION["cus_username"])) {
                                 <div>
                                     <?php
                                         if ($product_picture != "") {
-                                            echo "<img src=$product_picture alt='' class='image-responsive' style='width:100px; height:100px' /> ";
+                                            echo "<img src=$product_picture alt='' class='product_image'/> ";
                                         } else {
                                             echo "No picture uploaded.";
                                         }
@@ -187,7 +195,7 @@ if (!isset($_SESSION["cus_username"])) {
                                     <button type="button" class="changePic m-2" onclick="openForm()">Change Picture</button>
                                 </div>
                             </div>
-                            <div id='form-popup' style="display: none;" >
+                            <div id='form-popup'>
                                 <div class="d-flex">
                                     <input type='file' name='product_pic' id="product_pic" class='form-control' />
                                     <button type="button" class="cancel mx-2" onclick="closeForm()">Cancel</button>

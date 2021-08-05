@@ -11,7 +11,12 @@ if (!isset($_SESSION["cus_username"])) {
     <title>Product Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
+
 <style>
+    .product_image {
+        width:100px;
+        height: 100px;
+    }
 </style>
 
 <body>
@@ -57,10 +62,9 @@ if (!isset($_SESSION["cus_username"])) {
                 <td>Product Picture</td>
                 <td>
                     <?php
-
                     echo "<div class='img-block'> ";
                     if ($product_pic != "") {
-                        echo "<img src= $product_pic alt='' class='image-responsive' style='width:100px; height:100px'/> ";
+                        echo "<img src= $product_pic alt='' class='product_image'/> ";
                     } else {
                         echo "No picture uploaded.";
                     }
