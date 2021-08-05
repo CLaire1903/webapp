@@ -151,9 +151,8 @@ if (!isset($_SESSION["cus_username"])) {
                 <th class='col-3 text-center'>Quantity</th>
                 <th class='col-2 text-center'>Price per Piece</th>
                 <th class='col-2 text-center'>Total</th>
+                
                 <?php
-                //<th class='col-2'></th>
-
                 $od_query = "SELECT orderID, p.productID, name, quantity, price, product_TA
                         FROM order_detail od
                         INNER JOIN products p ON od.productID = p.productID
