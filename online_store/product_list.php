@@ -13,6 +13,9 @@ if (!isset($_SESSION["cus_username"])) {
 </head>
 
 <style>
+    #productList {
+        font-weight: bold;
+    }
     .search {
         border:none;
     }
