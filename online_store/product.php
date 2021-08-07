@@ -193,8 +193,8 @@ if (!isset($_SESSION["cus_username"])) {
             var name = document.getElementById("name").value;
             var name_malay = document.getElementById("name_malay").value;
             var description = document.getElementById("description").value;
-            var price = document.getElementById("price").value;
-            var promotion_price = document.getElementById("promotion_price").value;
+            var price = parseFloat(document.getElementById("price").value());
+            var promotion_price = parseFloat(document.getElementById("promotion_price").value());
             var priceValidation = /^[0-9]*[.]?[0-9]*$/;
             var manufacture_date = document.getElementById("manufacture_date").value;
             var expired_date = document.getElementById("expired_date").value;
