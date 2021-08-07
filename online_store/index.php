@@ -10,9 +10,36 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="general.css" rel="stylesheet">
+
+    <style>
+        #home {
+            font-weight: bold;
+            font-size: large;
+        }
+        .summary{
+            background-color:rgba(238, 149, 158);
+            color: black;
+        }
+        .image{
+            width: 75%;
+            border: none;
+        }
+        .quickInfo {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .quickInfo:hover {
+            box-shadow: 0 4px 8px 0 rgb(255, 255, 255), 0 6px 20px 0 rgb(255, 255, 255);
+        }
+        .count{
+            text-decoration: none;
+        }
+        .count:hover{
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<style>
-</style>
 
 <body>
     <div class="container">
@@ -28,51 +55,51 @@ if (!isset($_SESSION["cus_username"])) {
                 </h1>
             </div>
             <div class="aboutUs p-3 text-center">
-                <h3 class="p-2 fw-bold" style="background-color:rgba(108,117,125,0.6);">SUMMARY</Summary>
+                <h3 class="summary p-2 fw-bold rounded-pill">SUMMARY</Summary>
                 </h3>
             </div>
             <div class="d-md-flex justify-content-center">
-                <div class="card text-center col-md-3 col-lg-2 mx-4">
+                <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
-                        <img src="image/customer.png" style="width: 50%;">
+                    <a href=customer_list.php><img class="image" src="image/customer.png"></a>
                     </div>
                     <?php
                     $customerQuery = "SELECT * FROM customers";
                     $customerStmt = $con->prepare($customerQuery);
                     $customerStmt->execute();
                     $customerNum = $customerStmt->rowCount();
-                    echo "<a href=customer_list.php> <h6 class='p-2 text-dark'>$customerNum customers</h6> </a>";
+                    echo "<a class='count' href=customer_list.php> <h6 class='p-2 text-dark'>$customerNum customers</h6> </a>";
                     ?>
                 </div>
-                <div class="card text-center col-md-3 col-lg-2 mx-4">
+                <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
-                        <img src="image/product.png" style="width: 50%;">
+                    <a href=product_list.php><img class="image" src="image/product.png"></a>
                     </div>
                     <?php
                     $productQuery = "SELECT * FROM products";
                     $productStmt = $con->prepare($productQuery);
                     $productStmt->execute();
                     $productNum = $productStmt->rowCount();
-                    echo "<a href=product_list.php> <h6 class='p-2 text-dark'>$productNum products</h6> </a>";
+                    echo "<a class='count' href=product_list.php> <h6 class='p-2 text-dark'>$productNum products</h6> </a>";
                     ?>
                 </div>
-                <div class="card text-center col-md-3 col-lg-2 mx-4">
+                <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
-                        <img src="image/order.png" style="width: 50%;">
+                    <a href=order_list.php><img class="image" src="image/order.png"></a>
                     </div>
                     <?php
                     $orderQuery = "SELECT * FROM orders";
                     $orderStmt = $con->prepare($orderQuery);
                     $orderStmt->execute();
                     $orderNum = $orderStmt->rowCount();
-                    echo "<a href=order_list.php> <h6 class='p-2 text-dark'>$orderNum orders</h6> </a>";
+                    echo "<a class='count' href=order_list.php> <h6 class='p-2 text-dark'>$orderNum orders</h6> </a>";
                     ?>
                 </div>
             </div>
             <div class="m-3">
                 <h5>Latest Order Summary:</h5>
                 <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr style="background-color: #f8f9fa;">
+                    <tr class="tableHeader">
                         <th>Order ID</th>
                         <th>Order Date and Time</th>
                         <th>Customer Username </th>
@@ -99,7 +126,7 @@ if (!isset($_SESSION["cus_username"])) {
             <div class="m-3">
                 <h5>Highest Purchase Amount Order Summary:</h5>
                 <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr style="background-color: #f8f9fa;">
+                    <tr class="tableHeader">
                         <th>Order ID</th>
                         <th>Order Date and Time</th>
                         <th>Customer Username </th>
@@ -127,7 +154,7 @@ if (!isset($_SESSION["cus_username"])) {
         <div class="m-3">
             <h5> 5 Top selling products:</h5>
             <table class='table table-hover table-responsive table-bordered text-center'>
-                <tr style="background-color: #f8f9fa;">
+                <tr class="tableHeader">
                     <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Product Description</th>

@@ -10,9 +10,22 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Order</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="general.css" rel="stylesheet">
+
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        #order {
+            font-weight: bold;
+            font-size: large;
+        }
+        #createOrder {
+            font-weight: bold;
+            font-size: large;
+        }
+    </style>
 </head>
-<style>
-</style>
 
 <body>
     <div class="container">
@@ -148,18 +161,19 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</div>";
                 echo "</td>";
                 ?>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <button type="button" class="add_one btn btn-info text-light">Add More Product</button>
-                        <button type="button" class="delete_one btn btn-warning text-light">Delete Last Product</button>
-                        <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='order_list.php' class='btn btn-danger'>View Order</a>
-                    </td>
-                </tr>
             </table>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
+                <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
+                <input type='submit' value='Save' class='saveBtn btn mb-3 mx-2'/>
+                <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>View Order</a>
+            </div>
         </form>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>

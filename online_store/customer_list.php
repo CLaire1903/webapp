@@ -10,10 +10,28 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Customer list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
-<style>
-</style>
+    <link href="general.css" rel="stylesheet">
 
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        #customer{
+            font-weight: bold;
+            font-size: large;
+        }
+        #cusList {
+            font-weight: bold;
+            font-size: large;
+        }
+        .search {
+            border:none;
+        }
+        .actionBtn {
+            width: 100px;
+        }
+    </style>
+</head>
 <body>
     <div class="container">
         <?php
@@ -24,12 +42,12 @@ if (!isset($_SESSION["cus_username"])) {
         </div>
 
         <div>
-            <a href='customer.php' class='btn btn-primary mx-2'>Create New Customer</a>
+            <a href='customer.php' id="create" class='btn btn-primary mx-2'>Create New Customer</a>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
-                <table class='table table-hover table-responsive table-bordered' style="border:none;">
-                    <tr class='searchCustomer' style="border:none;">
-                        <td class="col-11" style="border:none;"><input type='text' name='search' id="search" placeholder='Search customers' class='form-control'></td>
-                        <td style="border:none;"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                <table class='search table table-hover table-responsive table-bordered'>
+                    <tr class='search'>
+                        <td class="search col-11"><input type='text' name='search' id="search" placeholder='Search customers' class='form-control'></td>
+                        <td class="search"><input type='submit' value='Search' id="searchBtn" class='btn btn-primary' /></td>
                     </tr>
                 </table>
             </form>
@@ -70,7 +88,7 @@ if (!isset($_SESSION["cus_username"])) {
         if ($num > 0) {
             echo "<table class='table table-hover table-responsive table-bordered'>";
 
-            echo "<tr>";
+            echo "<tr class='tableHeader'>";
             echo "<th class='col-1 text-center'>Profile Picture</th>";
             echo "<th class='col-2 text-center'>Username</th>";
             echo "<th class='col-2 text-center'>First Name</th>";
@@ -98,9 +116,9 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$dateOfBirth}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
-                echo "<a href='customer_detail.php?cus_username={$cus_username}' class='btn btn-info m-1 m-lg-2' style='width:100px'>Detail</a>";
-                echo "<a href='customer_update.php?cus_username={$cus_username}' class='btn btn-primary m-1 m-lg-2' style='width:100px'>Edit</a>";
-                echo "<a href='#' onclick='delete_customer(&#39;$cus_username&#39;)' class='btn btn-danger m-1 m-lg-2' style='width:100px'>Delete</a>";
+                echo "<a href='customer_detail.php?cus_username={$cus_username}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";
+                echo "<a href='customer_update.php?cus_username={$cus_username}' id='update' class='actionBtn btn m-1 m-lg-2'>Update</a>";
+                echo "<a href='#' onclick='delete_customer(&#39;$cus_username&#39;)' id='delete' class='actionBtn btn m-1 m-lg-2'>Delete</a>";
                 echo "</div>";
                 echo "</td>";
                 echo "</tr>";
@@ -110,6 +128,11 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
         ?>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type='text/javascript'>

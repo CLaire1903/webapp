@@ -10,23 +10,27 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Product List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
+    <link href="general.css" rel="stylesheet">
 
-<style>
-    #productList {
-        font-weight: bold;
-    }
-    .search {
-        border:none;
-    }
-    .product_image {
-        width: 100px;
-        height: 100px;
-    }
-    .actionBtn {
-        width: 100px;
-    }
-</style>
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        #product {
+            font-weight: bold;
+            font-size: large;
+        }
+        #productList {
+            font-weight: bold;
+            font-size: large;
+        }
+        .product_image {
+            width: 100px;
+            height: 100px;
+        }
+        
+    </style>
+</head>
 
 <body>
     <div class="container">
@@ -50,12 +54,12 @@ if (!isset($_SESSION["cus_username"])) {
         ?>
 
         <div>
-            <a href='product.php' class='btn btn-primary mx-2'>Create New Product</a>
+            <a href='product.php' id="create" class='btn mx-2'>Create New Product</a>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
-                <table class='search table table-hover table-responsive' ">
+                <table class='search table table-hover table-responsive'>
                     <tr class='search'>
                         <td class="search col-11"><input type='text' name='search' id="search" placeholder='Search products' class='form-control'></td>
-                        <td class="search"><input type='submit' value='Search' class='btn btn-primary' /></td>
+                        <td class='search'><input type='submit' value='Search' id="searchBtn" class='btn' /></td>
                     </tr>
                 </table>
             </form>
@@ -87,8 +91,8 @@ if (!isset($_SESSION["cus_username"])) {
         if ($num > 0) {
             echo "<table id='myTable' class='table table-hover table-responsive table-bordered'>";
 
-            echo "<tr>";
-            echo "<th class='text-center'>ID</th>";
+            echo "<tr class='tableHeader'>";
+            echo "<th class='col-1 text-center'>ID</th>";
             echo "<th class='col-1 text-center'>Picture</th>";
             echo "<th class='col-2 col-lg-1 text-center'>Name</th>";
             echo "<th class='col-5 text-center'>Description</th>";
@@ -115,9 +119,9 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$price}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
-                echo "<a href='product_detail.php?productID={$productID}' class='actionBtn btn btn-info m-1 m-lg-2'>Detail</a>";
-                echo "<a href='product_update.php?productID={$productID}' class='actionBtn btn btn-primary m-1 m-lg-2'>Edit</a>";
-                echo "<a href='#' onclick='delete_product({$productID});'  class='actionBtn btn btn-danger m-1 m-lg-2'>Delete</a>";
+                echo "<a href='product_detail.php?productID={$productID}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";
+                echo "<a href='product_update.php?productID={$productID}' id='update' class='actionBtn btn m-1 m-lg-2'>Update</a>";
+                echo "<a href='#' onclick='delete_product({$productID});' id='delete' class='actionBtn btn m-1 m-lg-2'>Delete</a>";
                 echo "</div>";
                 echo "</td>";
                 echo "</tr>";
@@ -127,8 +131,11 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
         ?>
-
-
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type='text/javascript'>

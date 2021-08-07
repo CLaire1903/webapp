@@ -10,61 +10,34 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - contact</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
-
-    <style>
-        html, body {
-        font-family: 'Poppins', sans-serif;
-        }
-        #contact {
-            font-weight: bold;
-        }
-        .contactContainer {
-            background-image: url('image/background.png'); 
-            background-size:cover; 
-            height:468px;
-        }
-        .text, .emailAddress{
-            color: black;
-            text-decoration: none;
-        }
-        .emailAddress:hover{
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-        .contain {
-            background-color: rgb(238, 149, 158);
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
         <?php
-        include 'navigation.php';
+        include 'testing.php';
         ?>
-        <div class="contactContainer d-flex justify-content-center" >
+        <div class="contain d-flex justify-content-center" style="background-image: url('image/background.jpg'); background-size:cover; height:468px;">
             <div>
-                <h1 class="text p-5 text-center fw-bold">
+                <h1 class="text-light p-5 text-center">
                     Feel free to contact us.
                 </h1>
-                <div id="myContact" class="d-lg-flex justify-content-center">
-                    <div id="phone" class="contain col-lg-3 m-2 p-2 rounded">
+                <div id="myContact" class="text-light d-flex">
+                    <div id="phone" class="col-3 m-2 p-2 bg-dark rounded">
                         <b>Phone Number :</b>
                         <br>
                         016 - 537 6154
                         <br>
                         011 - 5762 3721
                     </div>
-                    <div id="email" class="contain col-lg-4 m-2 p-2 rounded">
+                    <div id="email" class="col-4 m-2 p-2 bg-dark rounded">
                         <b>Email :</b>
                         <br>
-                        <a href="mailto:tanghuey@hotmail.com" class="emailAddress">tanghuey@hotmail.com</a>
+                        <a href="mailto:tanghuey@hotmail.com" class="text-light">tanghuey@hotmail.com</a>
                         <br>
-                        <a href="mailto:clairetang1903@gmail.com" class="emailAddress">clairetang1903@gmail.com</a>
+                        <a href="mailto:clairetang1903@gmail.com" class="text-light">clairetang1903@gmail.com</a>
                     </div>
-                    <div id="address" class="contain col-lg-4 m-2 p-2 rounded">
+                    <div id="address" class="col-4 m-2 p-2 bg-dark rounded">
                         <b>Address :</b>
                         <br>
                         63, Jalan Unta Kawasan Rumah Hijau 34000 Taiping, Perak.

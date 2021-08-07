@@ -10,14 +10,18 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Product Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
+    <link href="general.css" rel="stylesheet">
 
-<style>
-    .product_image {
-        width:100px;
-        height: 100px;
-    }
-</style>
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        .product_image {
+            width:100px;
+            height: 100px;
+        }
+    </style>
+</head>
 
 <body>
     <div class="container">
@@ -93,9 +97,18 @@ if (!isset($_SESSION["cus_username"])) {
             </tr>
         </table>
         <div class="d-flex justify-content-center">
-            <a href='product_list.php' class='btn btn-danger'>Back to product list</a>
+            <?php
+            echo "<a href='product_update.php?productID=$productID' class='actionBtn updateBtn btn mb-3 mx-2'>Update Product</a>";
+            ?>
+            <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>Back to product list</a>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 
 </html>

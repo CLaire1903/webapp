@@ -10,9 +10,21 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Update Order</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="general.css" rel="stylesheet">
+
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        #deleteBtn {
+            background-color: rgba(238, 149, 158);
+        }
+        #deleteBtn:hover {
+            font-weight: bold;
+            color: white;
+        }
+    </style>
 </head>
-<style>
-</style>
 
 <body>
     <div class="container">
@@ -111,9 +123,9 @@ if (!isset($_SESSION["cus_username"])) {
                                 throw new Exception("Please make sure the product and quantity is selected.");
                             }
                         }
-                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                        echo "<div class='alert alert-success'>Order $orderID was updated.</div>";
                     } else {
-                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                        echo "<div class='alert alert-danger'>Unable to update order $orderID. Please try again.</div>";
                     }
                 }
                 $con->commit();
@@ -197,7 +209,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<td class = 'text-center'>RM $productTotal</td>";
                     echo "<td>";
                     echo "<div class='d-flex justify-content-center'>";
-                    echo "<a href='#' onclick='delete_product({$productID},{$orderID});'  class='btn btn-danger'>Delete</a>";
+                    echo "<a href='#' onclick='delete_product({$productID},{$orderID});'  id='deleteBtn' class='btn'>Delete</a>";
                     echo "</div>";
                     echo "</td>";
                     echo "</tr>";
@@ -248,12 +260,17 @@ if (!isset($_SESSION["cus_username"])) {
             </table>
 
             <div class="d-flex justify-content-center">
-                <button type="button" class="add_one btn btn-info text-light m-2">Add More Product</button>
-                <button type="button" class="delete_one btn btn-warning text-light m-2">Delete Last Product</button>
-                <input type='submit' value='Save Changes' class='btn btn-primary m-2' />
-                <a href='order_list.php' class='btn btn-danger m-2'>Back to order list</a>
+                <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
+                <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
+                <input type='submit' value='Save Changes' class='saveBtn btn mb-3 mx-2' />
+                <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
             </div>
         </form>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>

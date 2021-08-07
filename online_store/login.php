@@ -6,14 +6,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <style>
+    html, body {
+    font-family: 'Poppins', sans-serif;
+    }
     .login {
+        background-image: url('image/background.png'); 
+        background-size:cover; 
         height: 577px;
+    }
+    .loginForm {
+        background-color: white;
+    }
+    .loginBtn {
+        background-color: rgb(225, 127, 147);
     }
 </style>
 
 <body>
-    <div class="login container-flex bg-secondary d-flex justify-content-center">
-        <div class="d-flex justify-content-center flex-column m-5 border-3 bg-light col-4 rounded-3">
+    <div class="login container-flex d-flex justify-content-center">
+        <div class="loginForm d-flex justify-content-center flex-column m-5 border-3 col-4 rounded-3">
             <?php
             session_start();
             include 'config/database.php';
@@ -68,7 +79,7 @@
                     </div>
 
                     <div class="button d-grid">
-                        <button type='submit' class='btn btn-primary btn-large'>Login</button>
+                        <button type='submit' class='loginBtn btn btn-large'>Login</button>
                     </div>
                 </form>
             </div>

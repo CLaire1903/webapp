@@ -10,9 +10,14 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Order Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="general.css" rel="stylesheet">
+
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
-<style>
-</style>
 
 <body>
     <div class="container">
@@ -89,9 +94,19 @@ if (!isset($_SESSION["cus_username"])) {
             ?>   
         </table>
         <div class="d-flex justify-content-center">
-            <a href='order_list.php' class='btn btn-danger'>Back to order list</a>
+            <?php
+            echo "<a href='order_update.php?orderID={$orderID}' class='actionBtn updateBtn btn mb-3 mx-2'>Update Order</a>";
+            ?>
+            <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 
 </html>

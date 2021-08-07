@@ -10,17 +10,21 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Update Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
+    <link href="general.css" rel="stylesheet">
 
-<style>
-    .product_image {
-        width:100px; 
-        height:100px;
-    }
-    #form-popup{
-        display: none;
-    }
-</style>
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        .product_image {
+            width:100px; 
+            height:100px;
+        }
+        #form-popup{
+            display: none;
+        }
+    </style>
+</head>
 
 <body>
     <div class="container">
@@ -134,10 +138,13 @@ if (!isset($_SESSION["cus_username"])) {
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
+
                 $stmt->bindParam(':productID', $productID);
                 if ($file != "") {
+                    $product_picture = htmlspecialchars(strip_tags($latest_file));
                     $stmt->bindParam(':product_pic', $latest_file);
                 } else {
+                    $product_picture = htmlspecialchars(strip_tags($product_picture));
                     $stmt->bindParam(':product_pic', $product_picture);
                 }
                 $stmt->bindParam(':name', $name);
@@ -152,16 +159,12 @@ if (!isset($_SESSION["cus_username"])) {
                         if ($isUploadOK == 0) {
                             echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
                         } else {
-                            if (move_uploaded_file($temp, "image/product_pic/" . $newfilename)) {
-                                echo "<div class='alert alert-success'>The file " . basename($_FILES["product_pic"]["name"]) . " has been uploaded.</div>";
-                            } else {
-                                echo "<div class='alert alert-success'>No picture is uploaded.</div>";
-                            }
+                            move_uploaded_file($temp, "image/product_pic/" . $newfilename);
                         }
                     }
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
+                    echo "<div class='alert alert-success'>Product $productID was updated.</div>";
                 } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    echo "<div class='alert alert-danger'>Unable to update product $productID. Please try again.</div>";
                 }
             } catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
@@ -173,7 +176,7 @@ if (!isset($_SESSION["cus_username"])) {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Product ID</td>
+                    <td class="col-5">Product ID</td>
                     <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
@@ -182,23 +185,17 @@ if (!isset($_SESSION["cus_username"])) {
                         <div>
                             <div class='img-block m-2 d-flex'> 
                                 <div>
-                                    <?php
-                                        if ($product_picture != "") {
-                                            echo "<img src=$product_picture alt='' class='product_image'/> ";
-                                        } else {
-                                            echo "No picture uploaded.";
-                                        }
-                                    ?>
+                                    <img src=<?php echo htmlspecialchars($product_picture, ENT_QUOTES); ?> alt='' class='product_image'/>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between">
-                                    <button type="submit" class="m-2" name="delete_pic">Delete</button>
-                                    <button type="button" class="changePic m-2" onclick="openForm()">Change Picture</button>
+                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic">x</button>
                                 </div>
                             </div>
+                            <button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Change Picture</button>
                             <div id='form-popup'>
                                 <div class="d-flex">
                                     <input type='file' name='product_pic' id="product_pic" class='form-control' />
-                                    <button type="button" class="cancel mx-2" onclick="closeForm()">Cancel</button>
+                                    <button type="button" class="cancelBtn btn mx-2 p-1" onclick="closeForm()">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -234,10 +231,15 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
             </table>
             <div class="d-flex justify-content-center">
-                <input type='submit' value='Save Changes' class='btn btn-primary m-2' />
-                <a href='product_list.php' class='btn btn-danger m-2'>Back to product list</a>
+                <input type='submit' value='Save Changes'class='saveBtn btn mb-3 mx-2' />
+                <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>Back to product list</a>
             </div>
         </form>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>

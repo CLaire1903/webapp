@@ -10,13 +10,22 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
+    <link href="general.css" rel="stylesheet">
 
-<style>
-    #createProduct {
-        font-weight: bold;
-    }
-</style>
+    <style>
+        html, body {
+        font-family: 'Poppins', sans-serif;
+        }
+        #product {
+            font-weight: bold;
+            font-size: large;
+        }
+        #createProduct {
+            font-weight: bold;
+            font-size: large;
+        }
+    </style>
+</head>
 
 <body>
     <div class="container">
@@ -117,11 +126,7 @@ if (!isset($_SESSION["cus_username"])) {
                         if ($isUploadOK == 0) {
                             echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
                         } else {
-                            if (move_uploaded_file($tempname, $folder)) {
-                                echo "<div class='alert alert-success'>The file " . basename($_FILES["product_pic"]["name"]) . " has been uploaded.</div>";
-                            } else {
-                                echo "<div class='alert alert-success'>No picture is uploaded.</div>";
-                            }
+                            move_uploaded_file($tempname, $folder);
                         }
                     }
                     echo "<div class='alert alert-success'>Product was created.</div>";
@@ -172,10 +177,15 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
             </table>
             <div class="d-flex justify-content-center">
-                <input type='submit' value='Save' class='btn btn-primary mx-1' />
-                <a href='product_list.php' class='btn btn-danger mx-1'>View Products</a>
+                <input type='submit' value='Save' class='saveBtn btn mb-3 mx-2'/>
+                <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>View Products</a>
             </div>
         </form>
+        <div class="footer bg-dark">
+            <?php
+            include 'footer.php';
+            ?>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>

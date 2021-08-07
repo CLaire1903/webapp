@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap");
+
+html, body {
+    font-family: 'Poppins', sans-serif;
+}
+nav, #footer,.dropdown-menu {
+    background-color: rgb(225, 127, 147);
+}
+.dropdown-item:hover{
+    background-color: rgba(244, 194, 194);
+}
+#storeName, .word {
+    color: white;
+}
+.word:hover{
+    color: black;
+    transition: 0.3s;
+}
+.tableHeader {
+    background-color: rgba(247, 198, 210);
+}
+.search {
+    border:none;
+}
+.actionBtn {
+    width: 100px;
+}
+#create, #searchBtn {
+    background-color: rgba(238, 149, 158);
+    color: black;
+    border: none;
+}
+#detail {
+    background-color: rgb(127, 212, 250);
+    border: none;
+}
+#update {
+    background-color: rgb(187, 143, 251);
+    border: none;
+}
+#delete {
+    background-color: rgb(252, 184, 192);
+    border: none;
+}
+.saveBtn {
+    background-color: rgb(127, 212, 250);
+    width: 200px;
+    color: black;
+    border: none;
+}
+.viewBtn {
+    background-color: rgb(252, 184, 192);
+    width: 200px;
+    color: black;
+    border: none;
+}
+.updateBtn{
+    background-color: rgb(187, 143, 251);
+    width: 200px;
+    border: none;
+}
+.add_one{
+    background-color: rgb(253, 220, 203);
+    width: 200px;
+    color: black;
+    border: none;
+}
+.delete_one{
+    background-color: rgb(187, 143, 251);
+    width: 200px;
+    color: black;
+    border: none;
+}
+.deleteBtn, .changePic, .cancelBtn  {
+    background-color: rgba(238, 149, 158);
+    border: none;
+}
+.changePic{
+    width: 150px;
+}
+.cancelBtn{
+    width: 100px;
+}
+#create:hover, #searchBtn:hover, #detail:hover, #update:hover, .updateBtn:hover, #delete:hover, .saveBtn:hover, .viewBtn:hover, .add_one:hover, .delete_one:hover, .deleteBtn:hover, .changePic:hover, .cancelBtn:hover {
+    font-weight: bold;
+    color: white;
+}
+.deleteBtn{
+    width: 30px;
+    height: 30px;
+}

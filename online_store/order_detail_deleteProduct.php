@@ -9,12 +9,12 @@ try {
     $checkStmt->bindParam(':orderID', $orderID);
     $checkStmt->execute();
     $num = $checkStmt->rowCount();
-    var_dump($checkQuery);
     if($num == 1){
         echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=onlyOneProduct';</script>";    }else {
-    $query = "DELETE FROM order_detail WHERE productID = :productID";
+    $query = "DELETE FROM order_detail WHERE productID = :productID AND orderID = :orderID";
     $stmt = $con->prepare($query);
     $stmt->bindParam(":productID", $productID);
+    $stmt->bindParam(':orderID', $orderID);
     if($stmt->execute()){
         echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=deleted';</script>";
     }else{
