@@ -10,12 +10,14 @@ try {
     $checkStmt->execute();
     $num = $checkStmt->rowCount();
     if($num == 1){
+        //selected product cannot be deleted because an order must has at least one product
         echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=onlyOneProduct';</script>";    }else {
     $query = "DELETE FROM order_detail WHERE productID = :productID AND orderID = :orderID";
     $stmt = $con->prepare($query);
     $stmt->bindParam(":productID", $productID);
     $stmt->bindParam(':orderID', $orderID);
     if($stmt->execute()){
+        //delete the selected product
         echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=deleted';</script>";
     }else{
         die('Unable to delete record.');

@@ -12,6 +12,7 @@ try {
         $o_stmt = $con->prepare($o_query);
         $o_stmt->bindParam(1, $orderID);
         if ($o_stmt->execute()) {
+        //delete selected order
         header('Location: order_list.php?action=deleted');
         }
     } else {

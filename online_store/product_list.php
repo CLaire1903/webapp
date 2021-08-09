@@ -49,7 +49,7 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<div class='alert alert-danger'>Product could not be deleted as it involved in order.</div>";
         }
         if ($action == 'deleted') {
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Product was deleted.</div>";
         }
         ?>
 

@@ -68,6 +68,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $customerStmt = $con->prepare($customerQuery);
                     $customerStmt->execute();
                     $customerNum = $customerStmt->rowCount();
+                    //display total customer who create an account
                     echo "<a class='count' href=customer_list.php> <h6 class='p-2 text-dark'>$customerNum customers</h6> </a>";
                     ?>
                 </div>
@@ -80,6 +81,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $productStmt = $con->prepare($productQuery);
                     $productStmt->execute();
                     $productNum = $productStmt->rowCount();
+                    //display total product sells in the system
                     echo "<a class='count' href=product_list.php> <h6 class='p-2 text-dark'>$productNum products</h6> </a>";
                     ?>
                 </div>
@@ -92,6 +94,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $orderStmt = $con->prepare($orderQuery);
                     $orderStmt->execute();
                     $orderNum = $orderStmt->rowCount();
+                    //display total order made
                     echo "<a class='count' href=order_list.php> <h6 class='p-2 text-dark'>$orderNum orders</h6> </a>";
                     ?>
                 </div>
@@ -106,6 +109,7 @@ if (!isset($_SESSION["cus_username"])) {
                         <th>Total Amount</th>
                     </tr>
                     <?php
+                    //display the latest order made
                     $latestOrderQuery = "SELECT * FROM orders ORDER BY orderID DESC LIMIT 1";
                     $latestOrderStmt = $con->prepare($latestOrderQuery);
                     $latestOrderStmt->execute();
@@ -133,6 +137,7 @@ if (!isset($_SESSION["cus_username"])) {
                         <th>Total Amount</th>
                     </tr>
                     <?php
+                    //display the order with highest total amount
                     $hpaQuery = "SELECT * FROM orders ORDER BY total_amount DESC LIMIT 1";
                     $hpaStmt = $con->prepare($hpaQuery);
                     $hpaStmt->execute();
@@ -162,6 +167,7 @@ if (!isset($_SESSION["cus_username"])) {
                     <th>Total Sold Quantity</th>
                 </tr>
                 <?php
+                //display 5 top selling product
                 $topSellingQuery = "SELECT p.productID, p.name, p.description, p.price, SUM( od.quantity ) AS totalQuantity
                                         FROM order_detail od
                                         INNER JOIN products p

@@ -40,6 +40,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         include 'config/database.php';
         try {
+            //display the customer record from the database
             $query = "SELECT * FROM customers WHERE cus_username = :cus_username ";
             $stmt = $con->prepare($query);
             $stmt->bindParam(":cus_username", $cus_username);
@@ -123,6 +124,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $profilePic = "profile_pic=:profile_pic";
                 }
 
+                //update the customer detail into the database
                 $query = "UPDATE customers SET $profilePic, password=:password, confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName,
                          gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus WHERE cus_username = :cus_username";
                 $stmt = $con->prepare($query);
