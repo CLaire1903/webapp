@@ -40,6 +40,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         include 'config/database.php';
         try {
+            //get the detail of the product from products table in database
             $query = "SELECT * FROM products WHERE productID = :productID ";
             $stmt = $con->prepare($query);
             $stmt->bindParam(":productID", $productID);
@@ -128,6 +129,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $productPic = "product_pic=:product_pic";
                 }
 
+                //update the selected productID's detail
                 $query = "UPDATE products SET $productPic, name=:name, name_malay=:name_malay, description=:description,
                          price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE productID = :productID";
                 $stmt = $con->prepare($query);
