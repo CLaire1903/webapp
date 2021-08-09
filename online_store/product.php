@@ -94,11 +94,7 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
 
-                if ($folder != "") {
-                    $productPic = "product_pic=:product_pic";
-                }
-
-                $query = "INSERT INTO products SET $productPic, name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
+                $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
                 $stmt = $con->prepare($query);
                 $name = $_POST['name'];
                 $name_malay = $_POST['name_malay'];
@@ -107,11 +103,6 @@ if (!isset($_SESSION["cus_username"])) {
                 $promotion_price = $_POST['promotion_price'];
                 $manufacture_date = $_POST['manufacture_date'];
                 $expired_date = $_POST['expired_date'];
-                if ($filename != ""){
-                    $stmt->bindParam(':product_pic', $folder);
-                }else {
-                    $stmt->bindParam(':product_pic', $default);
-                }
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':name_malay', $name_malay);
                 $stmt->bindParam(':description', $description);
@@ -122,11 +113,25 @@ if (!isset($_SESSION["cus_username"])) {
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
                 if ($stmt->execute()) {
+                    $A_incrementID = $con->lastInsertId();
+                    $changePhotoName = explode(".", $_FILES["product_pic"]["name"]);
+                    $newfilename = $A_incrementID . '.' . end($changePhotoName);
+                    $latest_file = "image/product_pic/" . $newfilename;
                     if ($folder != "") {
-                        if ($isUploadOK == 0) {
-                            echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
-                        } else {
-                            move_uploaded_file($tempname, $folder);
+                        $insertPicQuery = "UPDATE products SET product_pic=:product_pic WHERE productID = :productID";
+                        $insertPicStmt = $con->prepare($insertPicQuery);
+                        $insertPicStmt->bindParam(':productID', $A_incrementID);
+                        if ($filename != ""){
+                            $insertPicStmt->bindParam(':product_pic', $latest_file);
+                        }else {
+                            $insertPicStmt->bindParam(':product_pic', $default);
+                        }
+                        if($insertPicStmt->execute()){
+                            if ($isUploadOK == 0) {
+                                echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
+                            } else {
+                                move_uploaded_file($tempname, "image/product_pic/" . $newfilename);
+                            }
                         }
                     }
                     echo "<div class='alert alert-success'>Product was created.</div>";

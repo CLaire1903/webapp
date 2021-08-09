@@ -16,6 +16,7 @@ try {
     $query = "DELETE FROM products WHERE productID = ?";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $productID);
+    unlink($product_picture);
     if($stmt->execute()){
         //selected product is deleted
         header('Location: product_list.php?action=deleted');

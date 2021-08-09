@@ -61,7 +61,7 @@ if (!isset($_SESSION["cus_username"])) {
             <div class="d-md-flex justify-content-center">
                 <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
-                    <a href=customer_list.php><img class="image" src="image/customer.png"></a>
+                    <a href=customer_list.php><img class="image" src="image/logo/customer.png"></a>
                     </div>
                     <?php
                     $customerQuery = "SELECT * FROM customers";
@@ -74,7 +74,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </div>
                 <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
-                    <a href=product_list.php><img class="image" src="image/product.png"></a>
+                    <a href=product_list.php><img class="image" src="image/logo/product.png"></a>
                     </div>
                     <?php
                     $productQuery = "SELECT * FROM products";
@@ -87,7 +87,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </div>
                 <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
                     <div class="pic p-1">
-                    <a href=order_list.php><img class="image" src="image/order.png"></a>
+                    <a href=order_list.php><img class="image" src="image/logo/order.png"></a>
                     </div>
                     <?php
                     $orderQuery = "SELECT * FROM orders";

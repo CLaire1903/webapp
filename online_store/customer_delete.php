@@ -15,6 +15,7 @@ try {
     $query = "DELETE FROM customers WHERE cus_username = ?";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $cus_username);
+    unlink($profile_pic);
     if($stmt->execute()){
         //delete the customer record when the customer does not make any order
         header('Location: customer_list.php?action=deleted');
