@@ -65,6 +65,9 @@ if (!isset($_SESSION["cus_username"])) {
             try {
                 $con->beginTransaction();
                 for ($i = 0; $i < count($_POST['productID']); $i++) {
+                    if (!isset($_POST['quantity'][$i])){
+                        throw new Exception("Please make sure the product and quantity is selected.");
+                    }
                     $checkQuantity = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
                     if (count($_POST['productID']) == 1 && $checkQuantity == 0){
                         throw new Exception("Sorry! The product cannot be deleted!");
@@ -319,14 +322,6 @@ if (!isset($_SESSION["cus_username"])) {
                     msg = msg + "Please re-enter the quantity other then zero!\r\n";
                 }
             }
-            /*if(product_input != "" && quantity_input == ""){
-                flag = true;
-                msg = msg + "Please choose a quantity!\r\n";
-            }
-            if(product_input == "" && quantity_input != ""){
-                flag = true;
-                msg = msg + "Please choose a product!\r\n";
-            }*/
             if (flag == true) {
                 alert(msg);
                 return false;
