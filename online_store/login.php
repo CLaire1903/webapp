@@ -10,7 +10,7 @@
     font-family: 'Poppins', sans-serif;
     }
     .login {
-        background-image: url('image/background.png'); 
+        background-image: url('image/logo/background.png'); 
         background-size:cover; 
         height: 577px;
     }
