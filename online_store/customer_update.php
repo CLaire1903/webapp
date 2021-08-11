@@ -124,8 +124,9 @@ if (!isset($_SESSION["cus_username"])) {
                     if($profile_pic == $default){
                         $profilePic = "profile_pic=:profile_pic";
                     } else {
-                        if(unlink($profile_pic))
-                        $profilePic = "profile_pic=:profile_pic";
+                        if(unlink($profile_pic)){
+                            $profilePic = "profile_pic=:profile_pic";
+                        }
                     }
                 }
 
