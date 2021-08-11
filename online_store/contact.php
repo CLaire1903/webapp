@@ -20,7 +20,7 @@ if (!isset($_SESSION["cus_username"])) {
             font-weight: bold;
         }
         .contactContainer {
-            background-image: url('image/background.png'); 
+            background-image: url('image/logo/background.png'); 
             background-size:cover; 
             height:468px;
         }

@@ -129,8 +129,9 @@ if (!isset($_SESSION["cus_username"])) {
                     if($product_picture == $default){
                         $productPic = "product_pic=:product_pic";
                     } else {
-                        if(unlink($product_picture))
-                        $productPic = "product_pic=:product_pic";
+                        if(unlink($product_picture)){
+                            $productPic = "product_pic=:product_pic";
+                        }
                     }
                 }
 
