@@ -124,7 +124,7 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($stmt->execute()) {
                     if ($folder != "") {
                         if ($isUploadOK == 0) {
-                            echo "<div class='alert alert-success'>Sorry, your file was not uploaded.</div>";
+                            echo "<div class='alert alert-danger'>Sorry, your file was not uploaded.</div>";
                         } else {
                             move_uploaded_file($tempname, "image/customer_pic/" . $newfilename);
                         }
