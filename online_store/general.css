@@ -5,7 +5,7 @@ html, body {
 }
 nav, #footer,.dropdown-menu {
     background-color: rgb(225, 127, 147);
-} 
+}
 .dropdown-item:hover {
     background-color: rgba(244, 194, 194);
 }
@@ -88,4 +88,11 @@ nav, #footer,.dropdown-menu {
 .deleteBtn{
     width: 30px;
     height: 30px;
+}
+#storeLogo img {
+    width: 100px;
+    height: 100px;
+} 
+.navContent {
+    background-color:rgba(205, 94, 119);
 }

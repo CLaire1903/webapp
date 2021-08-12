@@ -9,6 +9,10 @@
     html, body {
     font-family: 'Poppins', sans-serif;
     }
+    #logo img {
+        width: 150px;
+        height: 150px;
+    }
     .login {
         background-image: url('image/logo/background.png'); 
         background-size:cover; 
@@ -24,7 +28,7 @@
 
 <body>
     <div class="login container-flex d-flex justify-content-center">
-        <div class="loginForm d-flex justify-content-center flex-column m-5 border-3 col-4 rounded-3">
+        <div class="loginForm d-flex justify-content-center flex-column m-5 border-3 col-8 col-md-5 col-lg-4 rounded-3">
             <?php
             session_start();
             include 'config/database.php';
@@ -59,14 +63,16 @@
                     //for database 'PDO'
                     echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . "</div>";
                 } catch (Exception $exception) {
-                    echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . "</div>";
+                    echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . " </div>";
                 }
             }
             ?>
-            <div class=" m-2 p-2 mx-auto">
-                <h1 class="logo text-center mb-4">Claire_Store</h1>
+            <div class="p-2 mx-auto">
+                <div id="logo" class="d-flex justify-content-center ">
+                    <img src="image/logo/logoB.png">
+                </div>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
-                    <h4 class="instruction text-center">Please sign in</h4>
+                    <h4 class="instruction mt-3 text-center">Please sign in</h4>
                     <?php
                     if (isset($errorMessage)) { ?>
                         <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>

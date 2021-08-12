@@ -12,6 +12,6 @@
         <a class="nav-link" href="#"><img src="image/logo/email.png" alt="Email"></a>
     </div>
     <div class="iconLink">
-        <a class="nav-link" href="#"><img src="image/logo/wechat.png" alt="Wechat"></a>
+        <a class="nav-link" href="#"><img src="image/logo/twitter1.png" alt="Wechat"></a>
     </div>
 </div>
