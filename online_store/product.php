@@ -115,7 +115,7 @@ if (!isset($_SESSION["cus_username"])) {
                 if ($stmt->execute()) {
                     $A_incrementID = $con->lastInsertId();
                     $changePhotoName = explode(".", $_FILES["product_pic"]["name"]);
-                    $newfilename = $A_incrementID . '.' . end($changePhotoName);
+                    $newfilename = 'ID' . $A_incrementID . '_' . round(microtime(true)) . '.' . end($changePhotoName);
                     $latest_file = "image/product_pic/" . $newfilename;
                     if ($folder != "") {
                         $insertPicQuery = "UPDATE products SET product_pic=:product_pic WHERE productID = :productID";

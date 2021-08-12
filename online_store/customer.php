@@ -44,7 +44,7 @@ if (!isset($_SESSION["cus_username"])) {
             $folder = "image/customer_pic/" . $filename;
             $default = "image/customer_pic/default.png";
             $changePhotoName = explode(".", $_FILES["profile_pic"]["name"]);
-            $newfilename = $_POST['cus_username'] . '.' . end($changePhotoName);
+            $newfilename = $_POST['cus_username'] . '_' . round(microtime(true)) . '.' . end($changePhotoName);
             $latest_file = "image/customer_pic/" . $newfilename;
             $isUploadOK = 1;
             try {

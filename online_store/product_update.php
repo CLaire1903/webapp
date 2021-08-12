@@ -23,6 +23,9 @@ if (!isset($_SESSION["cus_username"])) {
         #form-popup{
             display: none;
         }
+        #del_btn {
+            display: none;
+        }
     </style>
 </head>
 
@@ -66,7 +69,7 @@ if (!isset($_SESSION["cus_username"])) {
             $folder = "image/product_pic/" . $file;
             $default = "image/product_pic/default.jpg";
             $changePhotoName = explode(".", $_FILES["product_pic"]["name"]);
-            $newfilename = $productID . '.' . end($changePhotoName);
+            $newfilename = 'ID' . $productID . '_' . round(microtime(true)) . '.' . end($changePhotoName);
             $latest_file = "image/product_pic/" . $newfilename;
             $isUploadOK = 1;
 
@@ -192,14 +195,20 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>
                         <div>
                             <div class='img-block m-2 d-flex'> 
-                                <div>
+                                <div id="productPicture">
                                     <img src=<?php echo htmlspecialchars($product_picture, ENT_QUOTES); ?> alt='' class='product_image'/>
                                 </div>
-                                <div class="d-flex flex-column justify-content-between">
-                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic">x</button>
+                                <div  id="deletePic" class="d-flex flex-column justify-content-between">
+                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($product_picture == "image/product_pic/default.jpg"){ echo("id = del_btn");} ?>>x</button>
                                 </div>
                             </div>
-                            <button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Change Picture</button>
+                            
+                            <?php if ($product_picture == "image/product_pic/default.jpg"){ 
+                                echo '<button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Add Picture</button>';
+                            } else {
+                                echo '<button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Change Picture</button>';
+                            }?>
+                            
                             <div id='form-popup'>
                                 <div class="d-flex">
                                     <input type='file' name='product_pic' id="product_pic" class='form-control' />

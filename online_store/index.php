@@ -58,8 +58,8 @@ if (!isset($_SESSION["cus_username"])) {
                 <h3 class="summary p-2 fw-bold rounded-pill">SUMMARY</Summary>
                 </h3>
             </div>
-            <div class="d-md-flex justify-content-center">
-                <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
+            <div class="d-flex justify-content-center">
+                <div class="quickInfo card text-center col-3 col-lg-2 mx-4">
                     <div class="pic p-1">
                     <a href=customer_list.php><img class="image" src="image/logo/customer.png"></a>
                     </div>
@@ -72,7 +72,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<a class='count' href=customer_list.php> <h6 class='p-2 text-dark'>$customerNum customers</h6> </a>";
                     ?>
                 </div>
-                <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
+                <div class="quickInfo card text-center col-3 col-lg-2 mx-4">
                     <div class="pic p-1">
                     <a href=product_list.php><img class="image" src="image/logo/product.png"></a>
                     </div>
@@ -85,7 +85,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<a class='count' href=product_list.php> <h6 class='p-2 text-dark'>$productNum products</h6> </a>";
                     ?>
                 </div>
-                <div class="quickInfo card text-center col-md-3 col-lg-2 mx-4">
+                <div class="quickInfo card text-center col-3 col-lg-2 mx-4">
                     <div class="pic p-1">
                     <a href=order_list.php><img class="image" src="image/logo/order.png"></a>
                     </div>

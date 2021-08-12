@@ -23,6 +23,9 @@ if (!isset($_SESSION["cus_username"])) {
     #form-popup{
         display: none;
     }
+    #del_btn {
+        display: none;
+    }
 </style>
 </head>
 
@@ -67,7 +70,7 @@ if (!isset($_SESSION["cus_username"])) {
             $folder = "image/customer_pic/" . $filename;
             $default = "image/customer_pic/default.png"; 
             $changePhotoName = explode(".", $_FILES["profile_pic"]["name"]);
-            $newfilename = $cus_username . '.' . end($changePhotoName);
+            $newfilename = $cus_username . '_' . round(microtime(true)) . '.' . end($changePhotoName);
             $latest_file = "image/customer_pic/" . $newfilename;
             $isUploadOK = 1;
 
@@ -187,10 +190,16 @@ if (!isset($_SESSION["cus_username"])) {
                                     <img src=<?php echo htmlspecialchars($profile_pic, ENT_QUOTES); ?> alt='' class='profile_image'/>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between">
-                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic">x</button>
+                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($profile_pic == "image/customer_pic/default.png"){ echo("id = del_btn");} ?>>x</button>
                                 </div>
                             </div>
-                            <button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Change Picture</button>
+                            
+                            <?php if ($profile_pic == "image/customer_pic/default.png"){ 
+                                echo '<button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Add Picture</button>';
+                            } else {
+                                echo '<button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Change Picture</button>';
+                            }?>
+
                             <div id='form-popup'>
                                 <div class="d-flex">
                                     <input type='file' name='profile_pic' id="profile_pic" class='form-control' />
