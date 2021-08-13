@@ -19,29 +19,6 @@ nav, #footer,.dropdown-menu {
 .tableHeader {
     background-color: rgba(247, 198, 210);
 }
-.search {
-    border:none;
-}
-.actionBtn {
-    width: 100px;
-}
-#create, #searchBtn {
-    background-color: rgba(238, 149, 158);
-    color: black;
-    border: none;
-}
-#detail {
-    background-color: rgb(127, 212, 250);
-    border: none;
-}
-#update {
-    background-color: rgb(187, 143, 251);
-    border: none;
-}
-#delete {
-    background-color: rgb(252, 184, 192);
-    border: none;
-}
 .saveBtn {
     background-color: rgb(127, 212, 250);
     width: 200px;

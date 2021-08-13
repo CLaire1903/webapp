@@ -1,0 +1,9 @@
+/*set input photo field dissapear by default */
+#form-popup{
+    display: none;
+}
+
+/*delete img button will be hidden if no picture is uploaded */
+#delImg_btn {
+    display: none;
+}

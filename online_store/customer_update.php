@@ -23,7 +23,7 @@ if (!isset($_SESSION["cus_username"])) {
     #form-popup{
         display: none;
     }
-    #del_btn {
+    #delImg_btn {
         display: none;
     }
 </style>
@@ -190,7 +190,7 @@ if (!isset($_SESSION["cus_username"])) {
                                     <img src=<?php echo htmlspecialchars($profile_pic, ENT_QUOTES); ?> alt='' class='profile_image'/>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between">
-                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($profile_pic == "image/customer_pic/default.png"){ echo("id = del_btn");} ?>>x</button>
+                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($profile_pic == "image/customer_pic/default.png"){ echo("id = delImg_btn");} ?>>x</button>
                                 </div>
                             </div>
                             

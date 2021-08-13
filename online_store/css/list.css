@@ -1,0 +1,36 @@
+/*css in this page is use for only at product, customer and order list page*/
+
+/*search input field*/
+.search {
+    border:none;
+}
+
+/*for all button under action button column*/
+.actionBtn {
+    width: 100px;
+}
+
+/*use at the create and search button*/
+#create, #searchBtn {
+    background-color: rgba(238, 149, 158);
+    color: black;
+    border: none;
+}
+
+/*for view detail button*/
+#detail {
+    background-color: rgb(127, 212, 250);
+    border: none;
+}
+
+/*for update button*/
+#update {
+    background-color: rgb(187, 143, 251);
+    border: none;
+}
+
+/*for delete button*/
+#delete {
+    background-color: rgb(252, 184, 192);
+    border: none;
+}

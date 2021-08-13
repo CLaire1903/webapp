@@ -10,23 +10,13 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Update Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
+    <link href="css/update.css" rel="stylesheet">
+    <link href="css/product.css" rel="stylesheet">
 
     <style>
-        /*set product image size */
-        .product_image {
-            width:100px; 
-            height:100px;
-        }
-        /*set input photo field dissapear by default */
-        #form-popup{
-            display: none;
-        }
-        /*delete img button will be hidden if no picture is uploaded */
-        #delImg_btn {
-            display: none;
-        }
     </style>
+    
 </head>
 
 <body>
