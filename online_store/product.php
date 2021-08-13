@@ -54,7 +54,7 @@ if (!isset($_SESSION["cus_username"])) {
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
                     throw new Exception("Please make sure the price is a number!");
                 }
-                //make sure price and promo price is not zero
+                //make sure price and promo price is not zero or negative
                 if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
                     throw new Exception("Please make sure the price must not be a negative value or zero!");
                 }
@@ -75,22 +75,26 @@ if (!isset($_SESSION["cus_username"])) {
 
                     $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
                     $check = getimagesize($tempname);
+                    //make sure user uploaded image only
                     if ($check == 0) {
                         $isUploadOK = 0;
                         throw new Exception("Please upload image ONLY! (JPG, JPEG, PNG & GIF)");
                     }
 
+                    //make sure the image is 1:1
                     list($width, $height, $type, $attr) = getimagesize($tempname);
                     if ($width != $height) {
                         $isUploadOK = 0;
                         throw new Exception("Please make sure the ratio of the photo is 1:1.");
                     }
 
+                    //make sure the size is lower than 512KB
                     if ($_FILES["product_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
                         throw new Exception("Sorry, your photo is too large. Only 512KB is allowed!");
                     }
 
+                    //check image file type
                     if (
                         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                         && $imageFileType != "gif"

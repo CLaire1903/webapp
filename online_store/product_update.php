@@ -13,17 +13,17 @@ if (!isset($_SESSION["cus_username"])) {
     <link href="general.css" rel="stylesheet">
 
     <style>
-        html, body {
-        font-family: 'Poppins', sans-serif;
-        }
+        /*set product image size */
         .product_image {
             width:100px; 
             height:100px;
         }
+        /*set input photo field dissapear by default */
         #form-popup{
             display: none;
         }
-        #del_btn {
+        /*delete img button will be hidden if no picture is uploaded */
+        #delImg_btn {
             display: none;
         }
     </style>
@@ -74,21 +74,27 @@ if (!isset($_SESSION["cus_username"])) {
             $isUploadOK = 1;
 
             try {
+                //check all input field is not empty except image field
                 if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
+                //make sure the price and promo price is number
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
                     throw new Exception("Please make sure the price is a number");
                 }
+                //make sure price and promo price is not zero or negative
                 if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
                     throw new Exception("Please make sure the price must not be a negative value or zero!");
                 }
+                //make sure price and promo price is not bigger than 1000
                 if ($_POST['price'] > 1000 || $_POST['promotion_price'] > 1000) {
                     throw new Exception("Please make sure the price is not bigger than RM 1000.");
                 }
+                //make sure promo price is always smaller than price
                 if ($_POST['price'] < $_POST['promotion_price']) {
                     throw new Exception("Promotion price cannot bigger than normal price.");
                 }
+                //make sure expired date is not early than manufacture date
                 if ($_POST['manufacture_date'] > $_POST['expired_date']) {
                     throw new Exception("Please make sure expired date is late than the manufacture date.");
                 }
@@ -97,22 +103,26 @@ if (!isset($_SESSION["cus_username"])) {
 
                     $imageFileType = strtolower(pathinfo($folder, PATHINFO_EXTENSION));
                     $check = getimagesize($temp);
+                    //make sure user uploaded image only
                     if ($check == 0) {
                         $isUploadOK = 0;
                         throw new Exception("Please upload image only! (JPG, JPEG, PNG & GIF)");
                     }
 
+                    //make sure the image is 1:1
                     list($width, $height, $type, $attr) = getimagesize($temp);
                     if ($width != $height) {
                         $isUploadOK = 0;
                         throw new Exception("Please make sure the ratio of the photo is 1:1.");
                     }
 
+                    //make sure the size is lower than 512KB
                     if ($_FILES["product_pic"]["size"] > 512000) {
                         $isUploadOK = 0;
                         throw new Exception("Sorry, your file is too large. Only 512KB is allowed!");
                     }
 
+                    //check image file type
                     if (
                         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                         && $imageFileType != "gif"
@@ -122,6 +132,7 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
 
+                //delete the previous uploaded img
                 if (isset($_POST['delete_pic'])) {
                     if (unlink($product_picture)) {
                         $product_picture = $default;
@@ -199,7 +210,7 @@ if (!isset($_SESSION["cus_username"])) {
                                     <img src=<?php echo htmlspecialchars($product_picture, ENT_QUOTES); ?> alt='' class='product_image'/>
                                 </div>
                                 <div  id="deletePic" class="d-flex flex-column justify-content-between">
-                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($product_picture == "image/product_pic/default.jpg"){ echo("id = del_btn");} ?>>x</button>
+                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($product_picture == "image/product_pic/default.jpg"){ echo("id = delImg_btn");} ?>>x</button>
                                 </div>
                             </div>
                             
