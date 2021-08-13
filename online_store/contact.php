@@ -15,14 +15,18 @@ if (!isset($_SESSION["cus_username"])) {
     <style>
         html, body {
         font-family: 'Poppins', sans-serif;
+        height: 100%;
         }
         #contact {
             font-weight: bold;
         }
+        .contactPage {
+            height: 100%;
+        }
         .contactContainer {
             background-image: url('image/logo/background.png'); 
             background-size:cover; 
-            height:468px;
+            height: 100%;
         }
         .text, .emailAddress{
             color: black;
@@ -40,7 +44,7 @@ if (!isset($_SESSION["cus_username"])) {
 </head>
 
 <body>
-    <div class="container">
+    <div class="contactPage container">
         <?php
         include 'navigation.php';
         ?>

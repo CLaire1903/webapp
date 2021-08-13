@@ -13,16 +13,13 @@ if (!isset($_SESSION["cus_username"])) {
     <link href="general.css" rel="stylesheet">
 
     <style>
-        html,
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
+        /*can be found in the navigation*/
         #product {
             font-weight: bold;
             font-size: large;
         }
 
+        /*can be found in the navigation*/
         #createProduct {
             font-weight: bold;
             font-size: large;
@@ -49,21 +46,27 @@ if (!isset($_SESSION["cus_username"])) {
             $isUploadOK = 1;
 
             try {
+                //check all field is not empty
                 if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
                     throw new Exception("Make sure all fields are not empty!");
                 }
+                //make sure price and promo price is number
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
                     throw new Exception("Please make sure the price is a number!");
                 }
+                //make sure price and promo price is not zero
                 if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
                     throw new Exception("Please make sure the price must not be a negative value or zero!");
                 }
+                //make sure price and promo price is not bigger than 1000
                 if ($_POST['price'] > 1000 || $_POST['promotion_price'] > 1000) {
                     throw new Exception("Please make sure the price is not bigger than RM 1000!");
                 }
+                //make sure promo price is not bigger than price
                 if ($_POST['price'] < $_POST['promotion_price']) {
                     throw new Exception("Promotion price cannot bigger than normal price!");
                 }
+                //ake sure expired date is not early than manufacture date
                 if ($_POST['manufacture_date'] > $_POST['expired_date']) {
                     throw new Exception("Please make sure expired date is late than the manufacture date!");
                 }
@@ -97,6 +100,7 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
 
+                //prepare to insert new product into database
                 $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
                 $stmt = $con->prepare($query);
                 $name = $_POST['name'];
@@ -116,11 +120,13 @@ if (!isset($_SESSION["cus_username"])) {
                 $created = date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
                 if ($stmt->execute()) {
+                    //get last inserted productID
                     $A_incrementID = $con->lastInsertId();
                     $changePhotoName = explode(".", $_FILES["product_pic"]["name"]);
                     $newfilename = 'ID' . $A_incrementID . '_' . round(microtime(true)) . '.' . end($changePhotoName);
                     $latest_file = "image/product_pic/" . $newfilename;
                     if ($folder != "") {
+                        //insert photo with latest name into database
                         $insertPicQuery = "UPDATE products SET product_pic=:product_pic WHERE productID = :productID";
                         $insertPicStmt = $con->prepare($insertPicQuery);
                         $insertPicStmt->bindParam(':productID', $A_incrementID);
@@ -165,7 +171,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Description <span class="text-danger">*</span></td>
-                    <td><textarea type='text' name='description' id="description" class='form-control' rows="3"> <?php echo (isset($_POST['description'])) ? $_POST['description'] : ''; ?> </textarea></td>
+                    <td><textarea type='text' name='description' id="description" class='form-control' rows="3"><?php echo (isset($_POST['description'])) ? $_POST['description'] : ''; ?></textarea></td>
                 </tr>
                 <tr>
                     <td>Price <span class="text-danger">*</span></td>
@@ -201,8 +207,8 @@ if (!isset($_SESSION["cus_username"])) {
             var name = document.getElementById("name").value;
             var name_malay = document.getElementById("name_malay").value;
             var description = document.getElementById("description").value;
-            var price = parseFloat(document.getElementById("price").value);
-            var promotion_price = parseFloat(document.getElementById("promotion_price").value);
+            var price = document.getElementById("price").value;
+            var promotion_price = document.getElementById("promotion_price").value;
             var priceValidation = /^[0-9]*[.]?[0-9]*$/;
             var manufacture_date = document.getElementById("manufacture_date").value;
             var expired_date = document.getElementById("expired_date").value;
@@ -228,7 +234,7 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure the price is not bigger than RM 1000!\r\n";
             }
-            if (promotion_price > price) {
+            if (parseFloat(promotion_price) > parseFloat(price)) {
                 flag = true;
                 msg = msg + "Promotion price cannot bigger than normal price!\r\n";
             }
