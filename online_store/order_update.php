@@ -10,14 +10,9 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Update Order</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
 
     <style>
-        html,
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
         #deleteBtn {
             background-color: rgba(238, 149, 158);
         }

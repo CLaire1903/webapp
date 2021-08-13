@@ -10,30 +10,37 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
 
     <style>
+        /*can be found in navigation bar*/
         #home {
             font-weight: bold;
             font-size: large;
         }
+        /*use for the 'SUMMARY' word*/
         .summary{
             background-color:rgba(238, 149, 158);
             color: black;
         }
+        /*set the image size*/
         .image{
             width: 75%;
             border: none;
         }
+        /*for the div that contain image and the total number of product, customer and order */
         .quickInfo {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
+        /*when the div is hovered */
         .quickInfo:hover {
             box-shadow: 0 4px 8px 0 rgb(255, 255, 255), 0 6px 20px 0 rgb(255, 255, 255);
         }
+        /*link that can forward to the product/customer/order list*/
         .count{
             text-decoration: none;
         }
+        /*link that can forward to the product/customer/order list is hovered*/
         .count:hover{
             font-weight: bold;
             text-decoration: underline;

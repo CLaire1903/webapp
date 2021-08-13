@@ -10,33 +10,44 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Homework - contact</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
 
     <style>
         html, body {
-        font-family: 'Poppins', sans-serif;
-        height: 100%;
+            height: 100%;
         }
+
+        /*can found in navigation bar*/
         #contact {
             font-weight: bold;
         }
+
+        /*set height for the whole container*/
         .contactPage {
             height: 100%;
         }
+
+        /*for the container that display msg*/
         .contactContainer {
             background-image: url('image/logo/background.png'); 
             background-size:cover; 
             height: 100%;
         }
+
+        /*set color for text and the email address*/
         .text, .emailAddress{
             color: black;
             text-decoration: none;
         }
+
+        /*when email address is hovered*/
         .emailAddress:hover{
             color: black;
             font-weight: bold;
             text-decoration: underline;
         }
+
+        /*set background color foe the div contain phone number, email address and address*/
         .contain {
             background-color: rgb(238, 149, 158);
         }
@@ -71,7 +82,7 @@ if (!isset($_SESSION["cus_username"])) {
                     <div id="address" class="contain col-lg-4 m-2 p-2 rounded">
                         <b>Address :</b>
                         <br>
-                        63, Jalan Unta Kawasan Rumah Hijau 34000 Taiping, Perak.
+                        63, Jalan ABC Taman Gembira 34934 Ipoh, Perak.
                     </div>
                 </div>
             </div>

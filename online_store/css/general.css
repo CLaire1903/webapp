@@ -1,44 +1,49 @@
+/*use for the whole system*/
+
 @import url("https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap");
 
+/*set font of the whole system*/
 html, body {
     font-family: 'Poppins', sans-serif;
 }
+
+/*set color for vavigation bar, footer and dropdown menu*/
 nav, #footer,.dropdown-menu {
     background-color: rgb(225, 127, 147);
 }
+
+/*set color when the dropdown menu is hovered*/
 .dropdown-item:hover {
     background-color: rgba(244, 194, 194);
 }
-#storeName, .word {
+
+/*set the word color for navigation bar*/
+.word {
     color: white;
 }
+
+/*when the word in navigation bar is hovered*/
 .word:hover{
     color: black;
     transition: 0.3s;
 }
+
+/*for all table in the system*/
 .tableHeader {
     background-color: rgba(247, 198, 210);
 }
+
+/*for all save button in the system*/
 .saveBtn {
     background-color: rgb(127, 212, 250);
     width: 200px;
     color: black;
     border: none;
 }
+
+/*for all view detail button in the system*/
 .viewBtn {
     background-color: rgb(252, 184, 192);
-    width: 200px;
-    color: black;
-    border: none;
-}
-.add_one{
-    background-color: rgb(253, 220, 203);
-    width: 200px;
-    color: black;
-    border: none;
-}
-.delete_one{
-    background-color: rgb(187, 143, 251);
     width: 200px;
     color: black;
     border: none;

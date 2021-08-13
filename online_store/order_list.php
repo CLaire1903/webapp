@@ -10,25 +10,15 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Order list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
+    <link href="css/order.css" rel="stylesheet">
+    <link href="css/list.css" rel="stylesheet">
 
     <style>
-        html, body {
-        font-family: 'Poppins', sans-serif;
-        }
-        #order {
-            font-weight: bold;
-            font-size: large;
-        }
+        /*can be found at navigation page*/
         #orderList {
             font-weight: bold;
             font-size: large;
-        }
-        .search {
-            border:none;
-        }
-        .actionBtn {
-            width: 100px;
         }
     </style>
 </head>

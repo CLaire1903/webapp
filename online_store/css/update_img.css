@@ -1,0 +1,16 @@
+/*use for update image in product and customer update page*/
+
+/*for delete, change img and cancel update button*/
+.deleteBtn, .changePic, .cancelBtn  {
+    background-color: rgba(238, 149, 158);
+    border: none;
+}
+
+/*for change pic button*/
+.changePic{
+    width: 150px;
+}
+/*for cancel change pic button*/
+.cancelBtn{
+    width: 100px;
+}

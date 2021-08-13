@@ -13,6 +13,7 @@ if (!isset($_SESSION["cus_username"])) {
     <link href="css/general.css" rel="stylesheet">
     <link href="css/customer.css" rel="stylesheet">
     <link href="css/update.css" rel="stylesheet">
+    <link href="css/update_img.css" rel="stylesheet">
 </head>
 
 <body>
