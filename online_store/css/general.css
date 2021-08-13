@@ -47,29 +47,21 @@ nav, #footer,.dropdown-menu {
     width: 200px;
     color: black;
     border: none;
-}
-.deleteBtn, .changePic, .cancelBtn  {
-    background-color: rgba(238, 149, 158);
-    border: none;
-}
-.changePic{
-    width: 150px;
-}
-.cancelBtn{
-    width: 100px;
-}
-#create:hover, #searchBtn:hover, #detail:hover, #update:hover, .updateBtn:hover, #delete:hover, .saveBtn:hover, .viewBtn:hover, .add_one:hover, .delete_one:hover, .deleteBtn:hover, .changePic:hover, .cancelBtn:hover {
+} 
+
+/*when all button is hovered*/
+#create:hover, #searchBtn:hover, #detail:hover, #update:hover, .updateBtn:hover, #delete:hover, .saveBtn:hover, .viewBtn:hover, .add_one:hover, .delete_one:hover, .changePic:hover, .cancelBtn:hover {
     font-weight: bold;
     color: white;
 }
-.deleteBtn{
-    width: 30px;
-    height: 30px;
-}
+
+/*set size for logo*/
 #storeLogo img {
     width: 100px;
     height: 100px;
 } 
+
+/*set color for navigation bar content*/
 .navContent {
     background-color:rgba(205, 94, 119);
 }

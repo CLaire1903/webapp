@@ -6,10 +6,17 @@
     border: none;
 }
 
+/*for delete previous uploaded img button*/
+.deleteBtn{
+    width: 30px;
+    height: 30px;
+}
+
 /*for change pic button*/
 .changePic{
     width: 150px;
 }
+
 /*for cancel change pic button*/
 .cancelBtn{
     width: 100px;
