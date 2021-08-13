@@ -144,41 +144,51 @@ if (!isset($_SESSION["cus_username"])) {
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Profile Picture</td>
-                    <td><input type='file' name='profile_pic' id="profile_pic" class='form-control' /></td>
+                    <td><input type='file' name='profile_pic' id="profile_pic" value="<?php echo (isset($_FILES["profile_pic"]["name"])) ? $_FILES["profile_pic"]["name"] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Username <span class="text-danger">*</span></td>
-                    <td><input type='text' name='cus_username' id="cus_username" class='form-control' /></td>
+                    <td><input type='text' name='cus_username' id="cus_username" value="<?php echo (isset($_POST['cus_username'])) ? $_POST['cus_username'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Password <span class="text-danger">*</span></td>
-                    <td><input type='text' name='password' id="password" class='form-control' /></td>
+                    <td><input type='text' name='password' id="password" value="<?php echo (isset($_POST['password'])) ? $_POST['password'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Confirm Password <span class="text-danger">*</span></td>
-                    <td><input type='text' name='confirmPassword' id="confirmPassword" class='form-control' /></td>
+                    <td><input type='text' name='confirmPassword' id="confirmPassword" value="<?php echo (isset($_POST['confirmPassword'])) ? $_POST['confirmPassword'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>First Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='firstName' id="firstName" class='form-control'></td>
+                    <td><input type='text' name='firstName' id="firstName" value="<?php echo (isset($_POST['firstName'])) ? $_POST['firstName'] : ''; ?>" class='form-control'></td>
                 </tr>
                 <tr>
                     <td>Last Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='lastName' id="lastName" class='form-control' /></td>
+                    <td><input type='text' name='lastName' id="lastName" value="<?php echo (isset($_POST['lastName'])) ? $_POST['lastName'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Gender <span class="text-danger">*</span></td>
                     <td>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="gender" value="male">
+                                <input type="radio" name="gender" value="male" 
+                                <?php
+                                if(isset($_POST['gender'])){
+                                    echo $_POST['gender'] == "male" ? 'checked' : '';
+                                }
+                                ?>>
                                 Male
                                 <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="gender" value="female">
+                                <input type="radio" name="gender" value="female" 
+                                <?php
+                                if(isset($_POST['gender'])){
+                                    echo $_POST['gender'] == "female" ? 'checked' : '';
+                                }
+                                ?>>
                                 Female
                                 <span class="select"></span>
                             </label>
@@ -187,7 +197,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Date Of Birth <span class="text-danger">*</span></td>
-                    <td><input type='date' name='dateOfBirth' id="dateOfBirth" class='form-control' /></td>
+                    <td><input type='date' name='dateOfBirth' id="dateOfBirth"  value="<?php echo (isset($_POST['dateOfBirth'])) ? $_POST['dateOfBirth'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Account Status <span class="text-danger">*</span></td>
@@ -234,7 +244,7 @@ if (!isset($_SESSION["cus_username"])) {
             var accountStatus = document.querySelectorAll("input[type=radio][name=accountStatus]:checked");
             var flag = false;
             var msg = "";
-            if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
+            /*if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
                 msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
             }
@@ -261,7 +271,7 @@ if (!isset($_SESSION["cus_username"])) {
             if (calculatedAge < 18) {
                 flag = true;
                 msg = msg + "User must be 18 years old.\r\n";
-            }
+            }*/
             if (flag == true) {
                 alert(msg);
                 return false;

@@ -165,7 +165,7 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
                 <tr>
                     <td>Description <span class="text-danger">*</span></td>
-                    <td><textarea type='text' name='description' id="description" value="<?php echo (isset($_POST['description'])) ? $_POST['description'] : ''; ?>>" class='form-control' rows="3"></textarea></td>
+                    <td><textarea type='text' name='description' id="description" class='form-control' rows="3"> <?php echo (isset($_POST['description'])) ? $_POST['description'] : ''; ?> </textarea></td>
                 </tr>
                 <tr>
                     <td>Price <span class="text-danger">*</span></td>
@@ -201,8 +201,8 @@ if (!isset($_SESSION["cus_username"])) {
             var name = document.getElementById("name").value;
             var name_malay = document.getElementById("name_malay").value;
             var description = document.getElementById("description").value;
-            var price = parseFloat(document.getElementById("price").value());
-            var promotion_price = parseFloat(document.getElementById("promotion_price").value());
+            var price = parseFloat(document.getElementById("price").value);
+            var promotion_price = parseFloat(document.getElementById("promotion_price").value);
             var priceValidation = /^[0-9]*[.]?[0-9]*$/;
             var manufacture_date = document.getElementById("manufacture_date").value;
             var expired_date = document.getElementById("expired_date").value;
