@@ -150,35 +150,35 @@ if (!isset($_SESSION["cus_username"])) {
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Product Picture</td>
-                    <td><input type='file' name='product_pic' id="product_pic" class='form-control' /></td>
+                    <td><input type='file' name='product_pic' id="product_pic" value="<?php echo (isset($product_pic))?$product_pic:'';?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='name' id="name" class='form-control' /></td>
+                    <td><input type='text' name='name' id="name" value="<?php echo (isset($name))?$name:'';?>" class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Name_Malay <span class="text-danger">*</span></td>
-                    <td><input type='text' name='name_malay' id="name_malay" class='form-control' /></td>
+                    <td>Malay Name <span class="text-danger">*</span></td>
+                    <td><input type='text' name='name_malay' id="name_malay" value="<?php echo (isset($name_malay))?$name_malay:'';?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Description <span class="text-danger">*</span></td>
-                    <td><textarea type='text' name='description' id="description" class='form-control' rows="3"></textarea></td>
+                    <td><textarea type='text' name='description' id="description" value="<?php echo (isset($description))?$description:'';?>>" class='form-control' rows="3"></textarea></td>
                 </tr>
                 <tr>
                     <td>Price <span class="text-danger">*</span></td>
-                    <td><input type='text' name='price' id="price" class='form-control' /></td>
+                    <td><input type='text' name='price' id="price" value="<?php echo (isset($price))?$price:'';?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Promotion Price <span class="text-danger">*</span></td>
-                    <td><input type='text' name='promotion_price' id="promotion_price" class='form-control' /></td>
+                    <td><input type='text' name='promotion_price' id="promotion_price" value="<?php echo (isset($promotion_price))?$promotion_price:'';?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Manufacture Date <span class="text-danger">*</span></td>
-                    <td><input type='date' name='manufacture_date' id="manufacture_date" class='form-control' /></td>
+                    <td><input type='date' name='manufacture_date' id="manufacture_date" value="<?php echo (isset($manufacture_date))?$manufacture_date:'';?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Expired Date <span class="text-danger">*</span></td>
-                    <td><input type='date' name='expired_date' id="expired_date" class='form-control' /></td>
+                    <td><input type='date' name='expired_date' id="expired_date" value="<?php echo (isset($expired_date))?$expired_date:'';?>" class='form-control' /></td>
                 </tr>
             </table>
             <div class="d-flex justify-content-center">

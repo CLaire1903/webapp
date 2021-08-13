@@ -98,7 +98,8 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<td>{$orderID}</td>";
                 echo "<td>{$orderDateNTime}</td>";
                 echo "<td>{$cus_username}</td>";
-                echo "<td>{$total_amount}</td>";
+                $totalAmount = sprintf('%.2f', $row['total_amount']);
+                echo "<td>RM $totalAmount</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
                 echo "<a href='order_detail.php?orderID={$orderID}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";

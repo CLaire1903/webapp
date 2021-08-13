@@ -71,25 +71,35 @@ if (!isset($_SESSION["cus_username"])) {
             $od_stmt = $con->prepare($od_query);
             $od_stmt->bindParam(":orderID", $orderID);
             $od_stmt->execute();
-            echo "<th class='col-3'>Product</th>";
-            echo "<th class='col-3'>Quantity</th>";
-            echo "<th class='col-3'>Price per piece</th>";
-            echo "<th class='col-3'>Total Price</th>";
+            echo "<th class='col-3 text-center'>Product</th>";
+            echo "<th class='col-3 text-center'>Quantity</th>";
+            echo "<th class='col-3 text-center'>Price per piece</th>";
+            echo "<th class='col-3 text-center'>Total Price</th>";
             while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td>$od_row[name]</td>";
-                echo "<td>$od_row[quantity]</td>";
+                echo "<td class='text-center'>$od_row[name]</td>";
+                echo "<td class='text-center'>$od_row[quantity]</td>";
                 $productPrice = sprintf('%.2f', $od_row['price']);
-                echo "<td>RM $productPrice</td>";
+                //echo "<td>RM $productPrice</td>";
+                echo "<td class='productPriceCol d-flex justify-content-center'>";
+                echo "<div class='col-4 text-end'>";
+                echo "RM $productPrice";
+                echo "</div>";
+                echo "</td>";
                 $productTotal = sprintf('%.2f', $od_row['product_TA']);
-                echo "<td>RM $productTotal</td>";
+                //echo "<td class='text-end'>RM $productTotal</td>";
+                echo "<td class='product_TAmtCol'>";
+                echo "<div class='col-4 text-end'>";
+                echo "RM $productTotal";
+                echo "</div>";
+                echo "</td>";
                 echo "</tr>";
             }
             echo "<tr>";
             echo "<td></td>";
             echo "<td></td>";
             echo "<td>You need to pay:</td>";
-            echo "<td>RM $total_amount</td>";
+            echo "<td class='text-end'>RM $total_amount</td>";
             echo "</tr>";
             ?>   
         </table>

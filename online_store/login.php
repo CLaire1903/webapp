@@ -15,8 +15,7 @@
     }
     .login {
         background-image: url('image/logo/background.png'); 
-        background-size:cover; 
-        height: 577px;
+        background-size: contain; 
     }
     .loginForm {
         background-color: white;
