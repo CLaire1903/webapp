@@ -10,17 +10,9 @@ if (!isset($_SESSION["cus_username"])) {
 <head>
     <title>Customer Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
-
-    <style>
-        html, body {
-        font-family: 'Poppins', sans-serif;
-        }
-        .cus_image {
-            width:100px; 
-            height:100px'
-        }
-    </style>
+    <link href="css/general.css" rel="stylesheet">
+    <link href="css/customer.css" rel="stylesheet">
+    <link href="css/detail.css" rel="stylesheet">
 </head>
 
 <body>
@@ -66,7 +58,7 @@ if (!isset($_SESSION["cus_username"])) {
                     <?php
                     echo "<div class='img-block'> ";
                     if ($profile_pic != "") {
-                        echo "<img src= $profile_pic alt='' class='cus_image'/> ";
+                        echo "<img src= $profile_pic alt='' class='profile_image'/> ";
                     } else {
                         echo "No picture uploaded.";
                     }

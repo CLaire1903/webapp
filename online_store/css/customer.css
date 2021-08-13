@@ -1,0 +1,13 @@
+/*css in this page only use for pages related to customer*/
+
+/*can be found in navigation page*/
+#customer{
+    font-weight: bold;
+    font-size: large;
+}
+
+/*set image size*/
+.profile_image {
+    width:100px; 
+    height:100px'
+}

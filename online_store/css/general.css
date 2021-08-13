@@ -31,11 +31,6 @@ nav, #footer,.dropdown-menu {
     color: black;
     border: none;
 }
-.updateBtn{
-    background-color: rgb(187, 143, 251);
-    width: 200px;
-    border: none;
-}
 .add_one{
     background-color: rgb(253, 220, 203);
     width: 200px;

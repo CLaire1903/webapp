@@ -1,0 +1,8 @@
+/*css in this page is used for detail page of product, customer and order*/
+
+/*for update button*/
+.updateBtn{
+    background-color: rgb(187, 143, 251);
+    width: 200px;
+    border: none;
+}
