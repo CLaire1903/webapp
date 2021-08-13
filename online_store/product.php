@@ -145,6 +145,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
+        echo $name;
         ?>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
