@@ -13,13 +13,16 @@ if (!isset($_SESSION["cus_username"])) {
     <link href="general.css" rel="stylesheet">
 
     <style>
-        html, body {
-        font-family: 'Poppins', sans-serif;
+        html,
+        body {
+            font-family: 'Poppins', sans-serif;
         }
+
         #product {
             font-weight: bold;
             font-size: large;
         }
+
         #createProduct {
             font-weight: bold;
             font-size: large;
@@ -121,12 +124,12 @@ if (!isset($_SESSION["cus_username"])) {
                         $insertPicQuery = "UPDATE products SET product_pic=:product_pic WHERE productID = :productID";
                         $insertPicStmt = $con->prepare($insertPicQuery);
                         $insertPicStmt->bindParam(':productID', $A_incrementID);
-                        if ($filename != ""){
+                        if ($filename != "") {
                             $insertPicStmt->bindParam(':product_pic', $latest_file);
-                        }else {
+                        } else {
                             $insertPicStmt->bindParam(':product_pic', $default);
                         }
-                        if($insertPicStmt->execute()){
+                        if ($insertPicStmt->execute()) {
                             if ($isUploadOK == 0) {
                                 echo "<div class='alert alert-danger'>Sorry, your file was not uploaded.</div>";
                             } else {
@@ -145,45 +148,44 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
-        echo $name;
         ?>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Product Picture</td>
-                    <td><input type='file' name='product_pic' id="product_pic" value="<?php echo (isset($product_pic))?$product_pic:'';?>" class='form-control' /></td>
+                    <td><input type='file' name='product_pic' id="product_pic" value="<?php echo (isset($_FILES["product_pic"]["name"])) ? $_FILES["product_pic"]["name"] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='name' id="name" value="<?php echo (isset($name))?$name:'';?>" class='form-control' /></td>
+                    <td><input type='text' name='name' id="name" value="<?php echo (isset($_POST['name'])) ? $_POST['name'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Malay Name <span class="text-danger">*</span></td>
-                    <td><input type='text' name='name_malay' id="name_malay" value="<?php echo (isset($name_malay))?$name_malay:'';?>" class='form-control' /></td>
+                    <td><input type='text' name='name_malay' id="name_malay" value="<?php echo (isset($_POST['name_malay'])) ? $_POST['name_malay'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Description <span class="text-danger">*</span></td>
-                    <td><textarea type='text' name='description' id="description" value="<?php echo (isset($description))?$description:'';?>>" class='form-control' rows="3"></textarea></td>
+                    <td><textarea type='text' name='description' id="description" value="<?php echo (isset($_POST['description'])) ? $_POST['description'] : ''; ?>>" class='form-control' rows="3"></textarea></td>
                 </tr>
                 <tr>
                     <td>Price <span class="text-danger">*</span></td>
-                    <td><input type='text' name='price' id="price" value="<?php echo (isset($price))?$price:'';?>" class='form-control' /></td>
+                    <td><input type='text' name='price' id="price" value="<?php echo (isset($_POST['price'])) ? $_POST['price'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Promotion Price <span class="text-danger">*</span></td>
-                    <td><input type='text' name='promotion_price' id="promotion_price" value="<?php echo (isset($promotion_price))?$promotion_price:'';?>" class='form-control' /></td>
+                    <td><input type='text' name='promotion_price' id="promotion_price" value="<?php echo (isset($_POST['promotion_price'])) ? $_POST['promotion_price'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Manufacture Date <span class="text-danger">*</span></td>
-                    <td><input type='date' name='manufacture_date' id="manufacture_date" value="<?php echo (isset($manufacture_date))?$manufacture_date:'';?>" class='form-control' /></td>
+                    <td><input type='date' name='manufacture_date' id="manufacture_date" value="<?php echo (isset($_POST['manufacture_date'])) ? $_POST['manufacture_date'] : ''; ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Expired Date <span class="text-danger">*</span></td>
-                    <td><input type='date' name='expired_date' id="expired_date" value="<?php echo (isset($expired_date))?$expired_date:'';?>" class='form-control' /></td>
+                    <td><input type='date' name='expired_date' id="expired_date" value="<?php echo (isset($_POST['expired_date'])) ? $_POST['expired_date'] : ''; ?>" class='form-control' /></td>
                 </tr>
             </table>
             <div class="d-flex justify-content-center">
-                <input type='submit' value='Save' class='saveBtn btn mb-3 mx-2'/>
+                <input type='submit' value='Save' class='saveBtn btn mb-3 mx-2' />
                 <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>View Products</a>
             </div>
         </form>
