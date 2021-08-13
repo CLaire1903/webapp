@@ -73,11 +73,11 @@ if (!isset($_SESSION["cus_username"])) {
             $od_stmt->execute();
             echo "<th class='text-center'>Product</th>";
             echo "<th class='col-1 text-center'>Quantity</th>";
-            echo "<th class='col-2 text-center'>Price per piece</th>";
-            echo "<th class='col-2 text-center'>Total Price</th>";
+            echo "<th class='col-3 col-md-2 text-center'>Price per piece</th>";
+            echo "<th class='col-3 col-md-2 text-center'>Total Price</th>";
             while ($od_row = $od_stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td class='text-center'>$od_row[name]</td>";
+                echo "<td>$od_row[name]</td>";
                 echo "<td class='text-center'>$od_row[quantity]</td>";
                 $productPrice = sprintf('%.2f', $od_row['price']);
                 echo "<td class='text-end'>RM $productPrice</td>";
@@ -86,9 +86,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</tr>";
             }
             echo "<tr>";
-            echo "<td></td>";
-            echo "<td></td>";
-            echo "<td>You need to pay:</td>";
+            echo "<td colspan='3' class='text-end'>You need to pay:</td>";
             echo "<td class='text-end'>RM $total_amount</td>";
             echo "</tr>";
             ?>   

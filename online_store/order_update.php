@@ -13,12 +13,15 @@ if (!isset($_SESSION["cus_username"])) {
     <link href="general.css" rel="stylesheet">
 
     <style>
-        html, body {
-        font-family: 'Poppins', sans-serif;
+        html,
+        body {
+            font-family: 'Poppins', sans-serif;
         }
+
         #deleteBtn {
             background-color: rgba(238, 149, 158);
         }
+
         #deleteBtn:hover {
             font-weight: bold;
             color: white;
@@ -65,11 +68,11 @@ if (!isset($_SESSION["cus_username"])) {
             try {
                 $con->beginTransaction();
                 for ($i = 0; $i < count($_POST['productID']); $i++) {
-                    if (!isset($_POST['quantity'][$i])){
+                    if (!isset($_POST['quantity'][$i])) {
                         throw new Exception("Please make sure the product and quantity is selected.");
                     }
                     $checkQuantity = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
-                    if (count($_POST['productID']) == 1 && $checkQuantity == 0){
+                    if (count($_POST['productID']) == 1 && $checkQuantity == 0) {
                         throw new Exception("Sorry! The product cannot be deleted!");
                     }
                 }
@@ -172,10 +175,11 @@ if (!isset($_SESSION["cus_username"])) {
 
             <table class='table table-hover table-responsive table-bordered'>
                 <th class='col-3 text-center'>Product</th>
-                <th class='col-3 text-center'>Quantity</th>
+                <th class='col-1 text-center'>Quantity</th>
                 <th class='col-2 text-center'>Price per Piece</th>
                 <th class='col-2 text-center'>Total</th>
-                
+                <th class='col-1'></th>
+
                 <?php
                 $od_query = "SELECT orderID, p.productID, name, quantity, price, product_TA
                         FROM order_detail od
@@ -216,9 +220,9 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "</select>";
                     echo "</td>";
                     $productPrice = sprintf('%.2f', $od_row['price']);
-                    echo "<td class = 'text-center'>RM $productPrice</td>";
+                    echo "<td class = 'text-end'>RM $productPrice</td>";
                     $productTotal = sprintf('%.2f', $od_row['product_TA']);
-                    echo "<td class = 'text-center'>RM $productTotal</td>";
+                    echo "<td class = 'text-end'>RM $productTotal</td>";
                     echo "<td>";
                     echo "<div class='d-flex justify-content-center'>";
                     echo "<a href='#' onclick='delete_product({$productID},{$orderID});'  id='deleteBtn' class='btn'>Delete</a>";
@@ -227,9 +231,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "</tr>";
                 } ?>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td class='text-center'>You need to pay:</td>
+                    <td colspan="3" class='text-end'>You need to pay:</td>
                     <?php
                     $query = "SELECT * FROM orders WHERE orderID = :orderID ";
                     $stmt = $con->prepare($query);
@@ -237,7 +239,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $stmt->execute();
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     $total_amount = sprintf('%.2f', $row['total_amount']);
-                    echo "<td class = 'text-center'>RM $total_amount</td>"; ?>
+                    echo "<td class = 'text-end'>RM $total_amount</td>"; ?>
                 </tr>
 
             </table>
@@ -271,11 +273,15 @@ if (!isset($_SESSION["cus_username"])) {
                 </tr>
             </table>
 
-            <div class="d-flex justify-content-center">
-                <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
-                <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
-                <input type='submit' value='Save Changes' class='saveBtn btn mb-3 mx-2' />
-                <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
+            <div class="d-flex justify-content-center flex-column flex-lg-row">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
+                    <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type='submit' value='Save Changes' class='saveBtn btn mb-3 mx-2' />
+                    <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
+                </div>
             </div>
         </form>
         <div class="footer bg-dark">
@@ -301,7 +307,7 @@ if (!isset($_SESSION["cus_username"])) {
             }
         }, false);
 
-        function delete_product(productID,orderID) {
+        function delete_product(productID, orderID) {
             if (confirm('Are you sure?')) {
                 window.location = "order_detail_deleteProduct.php?productID=" + productID + "&orderID=" + orderID;
             }
