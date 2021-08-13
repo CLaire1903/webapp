@@ -14,6 +14,9 @@
         height: 150px;
     }
     .login {
+        height:100%;
+        width:100%;
+        position:fixed;
         background-image: url('image/logo/background.png'); 
         background-size: contain; 
     }
