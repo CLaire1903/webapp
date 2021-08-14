@@ -46,15 +46,29 @@ if (!isset($_SESSION["cus_username"])) {
                 if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
+                
+                $checkQuery = "SELECT * FROM customers WHERE cus_username= :cus_username";
+                $checkStmt = $con->prepare($checkQuery);
+                $check_username = strtolower($_POST['cus_username']);
+                $checkStmt->bindParam(':cus_username', $check_username);
+                $checkStmt->execute();
+                $num = $checkStmt->rowCount();
+                if($num == 1){
+                    throw new Exception("Username exist please try another username.");
+                }
+
                 if (15 < strlen($_POST['cus_username']) || strlen($_POST['cus_username']) < 6 || (strpos($_POST['cus_username'], ' ') !== false)) {
                     throw new Exception("Username must be 6 - 15 characters and no space included.");
                 }
+
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
                 }
+
                 if (15 < strlen($_POST['password']) || strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) || !preg_match("@[A-Z]@", $_POST['password']) || !preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST["password"])) {
                     throw new Exception("Password should be 8 - 15 character, contain at least a number, a special character, a <strong>SMALL</strong> letter, a<strong> CAPITAL </strong>letter");
                 }
+                
                 $today = date('Y-M-D');
                 if ($today - $_POST['dateOfBirth'] < 18) {
                     throw new Exception("User must be 18 years old and above.");
@@ -204,7 +218,7 @@ if (!isset($_SESSION["cus_username"])) {
                                 if(isset($_POST['accountStatus'])){
                                     echo $_POST['accountStatus'] == "active" ? 'checked' : '';
                                 }
-                                ?>>>
+                                ?>>
                                 Active
                                 <span class="select"></span>
                             </label>
@@ -216,7 +230,7 @@ if (!isset($_SESSION["cus_username"])) {
                                 if(isset($_POST['accountStatus'])){
                                     echo $_POST['accountStatus'] == "inactive" ? 'checked' : '';
                                 }
-                                ?>>>
+                                ?>>
                                 Inactive
                                 <span class="select"></span>
                             </label>
