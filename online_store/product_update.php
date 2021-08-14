@@ -140,9 +140,9 @@ if (!isset($_SESSION["cus_username"])) {
                 $query = "UPDATE products SET $productPic, name=:name, name_malay=:name_malay, description=:description,
                          price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE productID = :productID";
                 $stmt = $con->prepare($query);
-                $name = htmlspecialchars(strip_tags($_POST['name']));
-                $name_malay = htmlspecialchars(strip_tags($_POST['name_malay']));
-                $description = htmlspecialchars(strip_tags($_POST['description']));
+                $name = htmlspecialchars(strip_tags(ucfirst($_POST['name'])));
+                $name_malay = htmlspecialchars(strip_tags(ucfirst($_POST['name_malay'])));
+                $description = htmlspecialchars(strip_tags(ucfirst($_POST['description'])));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));

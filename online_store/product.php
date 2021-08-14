@@ -103,9 +103,9 @@ if (!isset($_SESSION["cus_username"])) {
                 //prepare to insert new product into database
                 $query = "INSERT INTO products SET name=:name, name_malay=:name_malay, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created";
                 $stmt = $con->prepare($query);
-                $name = $_POST['name'];
-                $name_malay = $_POST['name_malay'];
-                $description = $_POST['description'];
+                $name = ucfirst($_POST['name']);
+                $name_malay = ucfirst($_POST['name_malay']);
+                $description = ucfirst($_POST['description']);
                 $price = $_POST['price'];
                 $promotion_price = $_POST['promotion_price'];
                 $manufacture_date = $_POST['manufacture_date'];
