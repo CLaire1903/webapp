@@ -39,7 +39,7 @@
             }
             if ($_POST) {
                 try {
-                    $cus_username = $_POST['cus_username'];
+                    $cus_username = strtolower($_POST['cus_username']);
                     $query = "SELECT * FROM customers WHERE cus_username= :cus_username";
                     $stmt = $con->prepare($query);
                     $password = $_POST['password'];
@@ -63,9 +63,9 @@
                     header("Location: index.php");
                 } catch (PDOException $exception) {
                     //for database 'PDO'
-                    echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . "</div>";
+                    $errorMessage = $exception->getMessage();
                 } catch (Exception $exception) {
-                    echo "<div class='alert alert-danger m-2'>" . $exception->getMessage() . " </div>";
+                    $errorMessage = $exception->getMessage();
                 }
             }
             ?>
