@@ -87,14 +87,14 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<th class='col-1 text-center'>Picture</th>";
             echo "<th class='col-2 col-lg-1 text-center'>Name</th>";
             echo "<th class='text-center d-none d-md-block'>Description</th>";
-            echo "<th class='col-2 col-lg-1 text-center'>Price</th>";
+            echo "<th class='col-2 col-lg-2 text-center'>Price</th>";
             echo "<th class='col-lg-2 text-center'>Action</th>";
             echo "</tr>";
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 echo "<tr>";
-                echo "<td>{$productID}</td>";
+                echo "<td class='text-center'>{$productID}</td>";
                 $product_pic = $row['product_pic'];
                 echo "<td>";
                 echo "<div class='img-block'> ";
@@ -105,9 +105,10 @@ if (!isset($_SESSION["cus_username"])) {
                 }
                 echo "</div> ";
                 echo "</td>";
-                echo "<td>{$name}</td>";
+                echo "<td class='text-center'>{$name}</td>";
                 echo "<td class='d-none d-md-block'>{$description}</td>";
-                echo "<td>{$price}</td>";
+                $price = sprintf('%.2f', $row['price']);
+                echo "<td class='text-center'>RM $price</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
                 echo "<a href='product_detail.php?productID={$productID}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";

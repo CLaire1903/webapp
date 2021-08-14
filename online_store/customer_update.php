@@ -126,8 +126,8 @@ if (!isset($_SESSION["cus_username"])) {
                 $stmt = $con->prepare($query);
                 $password = htmlspecialchars(strip_tags($_POST['password']));
                 $confirmPassword = htmlspecialchars(strip_tags($_POST['confirmPassword']));
-                $firstName = htmlspecialchars(strip_tags($_POST['firstName']));
-                $lastName = htmlspecialchars(strip_tags($_POST['lastName']));
+                $firstName = htmlspecialchars(strip_tags(ucfirst($_POST['firstName'])));
+                $lastName = htmlspecialchars(strip_tags(ucfirst($_POST['lastName'])));
                 $gender = htmlspecialchars(strip_tags($_POST['gender']));
                 $dateOfBirth = htmlspecialchars(strip_tags($_POST['dateOfBirth']));
                 $accountStatus = htmlspecialchars(strip_tags($_POST['accountStatus']));

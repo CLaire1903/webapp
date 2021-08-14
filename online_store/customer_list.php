@@ -100,10 +100,10 @@ if (!isset($_SESSION["cus_username"])) {
                 }
                 echo "</div> ";
                 echo "</td>";
-                echo "<td>{$cus_username}</td>";
-                echo "<td>{$firstName}</td>";
-                echo "<td>{$lastName}</td>";
-                echo "<td>{$dateOfBirth}</td>";
+                echo "<td class='text-center'>{$cus_username}</td>";
+                echo "<td class='text-center'>{$firstName}</td>";
+                echo "<td class='text-center'>{$lastName}</td>";
+                echo "<td class='text-center'>{$dateOfBirth}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
                 echo "<a href='customer_detail.php?cus_username={$cus_username}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";

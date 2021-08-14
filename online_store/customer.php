@@ -95,11 +95,11 @@ if (!isset($_SESSION["cus_username"])) {
 
                 $query = "INSERT INTO customers SET $profilePic, cus_username=:cus_username, password=:password,confirmPassword=:confirmPassword, firstName=:firstName, lastName=:lastName, gender=:gender, dateOfBirth=:dateOfBirth, accountStatus=:accountStatus";
                 $stmt = $con->prepare($query);
-                $cus_username = $_POST['cus_username'];
+                $cus_username = strtolower($_POST['cus_username']);
                 $password = $_POST['password'];
                 $confirmPassword = $_POST['confirmPassword'];
-                $firstName = $_POST['firstName'];
-                $lastName = $_POST['lastName'];
+                $firstName = ucfirst($_POST['firstName']);
+                $lastName = ucfirst($_POST['lastName']);
                 $gender = $_POST['gender'];
                 $dateOfBirth = $_POST['dateOfBirth'];
                 $accountStatus = $_POST['accountStatus'];
@@ -199,14 +199,24 @@ if (!isset($_SESSION["cus_username"])) {
                     <td>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="accountStatus" value="active">
+                                <input type="radio" name="accountStatus" value="active"
+                                <?php
+                                if(isset($_POST['accountStatus'])){
+                                    echo $_POST['accountStatus'] == "active" ? 'checked' : '';
+                                }
+                                ?>>>
                                 Active
                                 <span class="select"></span>
                             </label>
                         </div>
                         <div class="form-check">
                             <label>
-                                <input type="radio" name="accountStatus" value="inactive">
+                                <input type="radio" name="accountStatus" value="inactive"
+                                <?php
+                                if(isset($_POST['accountStatus'])){
+                                    echo $_POST['accountStatus'] == "inactive" ? 'checked' : '';
+                                }
+                                ?>>>
                                 Inactive
                                 <span class="select"></span>
                             </label>
