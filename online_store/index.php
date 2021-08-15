@@ -1,213 +1,121 @@
-<?php
-session_start();
-if (!isset($_SESSION["cus_username"])) {
-    header("Location: login.php?error=restrictedAccess");
-}
-?>
 <!DOCTYPE HTML>
 <html>
 
 <head>
-    <title>Homework - Home</title>
+    <title>Homework - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link href="css/general.css" rel="stylesheet">
-
-    <style>
-        /*can be found in navigation bar*/
-        #home {
-            font-weight: bold;
-            font-size: large;
-        }
-        /*use for the 'SUMMARY' word*/
-        .summary{
-            background-color:rgba(238, 149, 158);
-            color: black;
-        }
-        /*set the image size*/
-        .image{
-            width: 75%;
-            border: none;
-        }
-        /*for the div that contain image and the total number of product, customer and order */
-        .quickInfo {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-        /*when the div is hovered */
-        .quickInfo:hover {
-            box-shadow: 0 4px 8px 0 rgb(255, 255, 255), 0 6px 20px 0 rgb(255, 255, 255);
-        }
-        /*link that can forward to the product/customer/order list*/
-        .count{
-            text-decoration: none;
-        }
-        /*link that can forward to the product/customer/order list is hovered*/
-        .count:hover{
-            font-weight: bold;
-            text-decoration: underline;
-        }
-    </style>
 </head>
+<style>
+    html, body {
+    font-family: 'Poppins', sans-serif;
+    }
+    #logo img {
+        width: 150px;
+        height: 150px;
+    }
+    .login {
+        height:100%;
+        width:100%;
+        position:fixed;
+        background-image: url('image/logo/background.png'); 
+        background-size: contain; 
+    }
+    .loginForm {
+        background-color: white;
+    }
+    .loginBtn {
+        background-color: rgb(225, 127, 147);
+    }
+</style>
 
 <body>
-    <div class="container">
-        <?php
-        include 'navigation.php';
-        include 'config/database.php';
-        ?>
-        <div class="contain d-flex flex-column">
-            <div class="wish d-flex flex-column align-items-center">
-                <h1 class='text-center p-2'> Hi, <?php echo $_SESSION['cus_username'] ?></h1>
-                <h1 class="instruction p-1 text-center">
-                    Welcome to Claire's Online Store.
-                </h1>
-            </div>
-            <div class="aboutUs p-3 text-center">
-                <h3 class="summary p-2 fw-bold rounded-pill">SUMMARY</Summary>
-                </h3>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="quickInfo card text-center col-3 col-lg-2 mx-4">
-                    <div class="pic p-1">
-                    <a href=customer_list.php><img class="image" src="image/logo/customer.png"></a>
-                    </div>
-                    <?php
-                    $customerQuery = "SELECT * FROM customers";
-                    $customerStmt = $con->prepare($customerQuery);
-                    $customerStmt->execute();
-                    $customerNum = $customerStmt->rowCount();
-                    //display total customer who create an account
-                    echo "<a class='count' href=customer_list.php> <h6 class='p-2 text-dark'>$customerNum customers</h6> </a>";
-                    ?>
-                </div>
-                <div class="quickInfo card text-center col-3 col-lg-2 mx-4">
-                    <div class="pic p-1">
-                    <a href=product_list.php><img class="image" src="image/logo/product.png"></a>
-                    </div>
-                    <?php
-                    $productQuery = "SELECT * FROM products";
-                    $productStmt = $con->prepare($productQuery);
-                    $productStmt->execute();
-                    $productNum = $productStmt->rowCount();
-                    //display total product sells in the system
-                    echo "<a class='count' href=product_list.php> <h6 class='p-2 text-dark'>$productNum products</h6> </a>";
-                    ?>
-                </div>
-                <div class="quickInfo card text-center col-3 col-lg-2 mx-4">
-                    <div class="pic p-1">
-                    <a href=order_list.php><img class="image" src="image/logo/order.png"></a>
-                    </div>
-                    <?php
-                    $orderQuery = "SELECT * FROM orders";
-                    $orderStmt = $con->prepare($orderQuery);
-                    $orderStmt->execute();
-                    $orderNum = $orderStmt->rowCount();
-                    //display total order made
-                    echo "<a class='count' href=order_list.php> <h6 class='p-2 text-dark'>$orderNum orders</h6> </a>";
-                    ?>
-                </div>
-            </div>
-            <div class="m-3">
-                <h5>Latest Order Summary:</h5>
-                <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr class="tableHeader">
-                        <th>Order ID</th>
-                        <th>Order Date and Time</th>
-                        <th>Customer Username </th>
-                        <th>Total Amount</th>
-                    </tr>
-                    <?php
-                    //display the latest order made
-                    $latestOrderQuery = "SELECT * FROM orders ORDER BY orderID DESC LIMIT 1";
-                    $latestOrderStmt = $con->prepare($latestOrderQuery);
-                    $latestOrderStmt->execute();
-                    $latestOrderRow = $latestOrderStmt->fetch(PDO::FETCH_ASSOC);
-                    $orderID = $latestOrderRow['orderID'];
-                    $orderDateNTime = $latestOrderRow['orderDateNTime'];
-                    $cus_username = $latestOrderRow['cus_username'];
-                    $total_amount = sprintf('%.2f', $latestOrderRow['total_amount']);
-                    echo "<tr>";
-                    echo "<td>{$orderID}</td>";
-                    echo "<td>{$orderDateNTime}</td>";
-                    echo "<td>{$cus_username}</td>";
-                    echo "<td>RM {$total_amount}</td>";
-                    echo "</tr>";
-                    ?>
-                </table>
-            </div>
-            <div class="m-3">
-                <h5>Highest Purchase Amount Order Summary:</h5>
-                <table class='table table-hover table-responsive table-bordered text-center'>
-                    <tr class="tableHeader">
-                        <th>Order ID</th>
-                        <th>Order Date and Time</th>
-                        <th>Customer Username </th>
-                        <th>Total Amount</th>
-                    </tr>
-                    <?php
-                    //display the order with highest total amount
-                    $hpaQuery = "SELECT * FROM orders ORDER BY total_amount DESC LIMIT 1";
-                    $hpaStmt = $con->prepare($hpaQuery);
-                    $hpaStmt->execute();
-                    $hpaRow = $hpaStmt->fetch(PDO::FETCH_ASSOC);
-                    $orderID = $hpaRow['orderID'];
-                    $orderDateNTime = $hpaRow['orderDateNTime'];
-                    $cus_username = $hpaRow['cus_username'];
-                    $total_amount = sprintf('%.2f', $hpaRow['total_amount']);
-                    echo "<tr>";
-                    echo "<td>{$orderID}</td>";
-                    echo "<td>{$orderDateNTime}</td>";
-                    echo "<td>{$cus_username}</td>";
-                    echo "<td>RM {$total_amount}</td>";
-                    echo "</tr>";
-                    ?>
-                </table>
-            </div>
-        </div>
-        <div class="m-3">
-            <h5> 5 Top selling products:</h5>
-            <table class='table table-hover table-responsive table-bordered text-center'>
-                <tr class="tableHeader">
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Product Description</th>
-                    <th>Product Price</th>
-                    <th>Total Sold Quantity</th>
-                </tr>
-                <?php
-                //display 5 top selling product
-                $topSellingQuery = "SELECT p.productID, p.name, p.description, p.price, SUM( od.quantity ) AS totalQuantity
-                                        FROM order_detail od
-                                        INNER JOIN products p
-                                        WHERE od.productID = p.productID
-                                        GROUP BY od.productID
-                                        ORDER BY totalQuantity DESC
-                                        LIMIT 5";
-                $topSellingStmt = $con->prepare($topSellingQuery);
-                $topSellingStmt->execute();
-                $num = $topSellingStmt->rowCount();
-
-                if ($num > 0) {
-                    while ($topSellingRow = $topSellingStmt->fetch(PDO::FETCH_ASSOC)) {
-                        extract($topSellingRow);
-                        echo "<tr>";
-                        echo "<td>{$productID}</td>";
-                        echo "<td>{$name}</td>";
-                        echo "<td>{$description}</td>";
-                        $price = sprintf('%.2f', $topSellingRow['price']);
-                        echo "<td>RM {$price}</td>";
-                        $total_sold = $topSellingRow['totalQuantity'];
-                        echo "<td>{$total_sold}</td>";
-                        echo "</tr>";
-                    }
-                }
-                ?>
-            </table>
-        </div>
-        <div class="footer bg-dark">
+    <div class="login container-flex d-flex justify-content-center">
+        <div class="loginForm d-flex justify-content-center flex-column m-5 border-3 col-8 col-md-5 col-lg-4 rounded-3">
             <?php
-            include 'footer.php';
+            session_start();
+            include 'config/database.php';
+            if (isset($_GET['error']) && $_GET['error'] == "restrictedAccess") {
+                $errorMessage = "Please login for further proceed!";
+            }
+            if ($_POST) {
+                try {
+                    $cus_username = strtolower($_POST['cus_username']);
+                    $query = "SELECT * FROM customers WHERE cus_username= :cus_username";
+                    $stmt = $con->prepare($query);
+                    $password = $_POST['password'];
+                    $stmt->bindParam(':cus_username', $cus_username);
+                    $stmt->execute();
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $db_cus_username = $row['cus_username'];
+                    if (empty($_POST['cus_username']) || empty($_POST['password'])) {
+                        throw new Exception("Make sure all fields are not empty");
+                    }
+                    if ($db_cus_username != $cus_username) {
+                        throw new Exception("Username does not exist!");
+                    }
+                    if ($row['password'] != $password) {
+                        throw new exception("Password incorrect!");
+                    }
+                    if ($row['accountStatus'] != 'active') {
+                        throw new Exception("Sorry, your account is inactive!");
+                    }
+                    $_SESSION['cus_username'] = $row['cus_username'];
+                    header("Location: home.php");
+                } catch (PDOException $exception) {
+                    //for database 'PDO'
+                    $errorMessage = $exception->getMessage();
+                } catch (Exception $exception) {
+                    $errorMessage = $exception->getMessage();
+                }
+            }
             ?>
+            <div class="p-2 mx-auto">
+                <div id="logo" class="d-flex justify-content-center ">
+                    <img src="image/logo/logoB.png">
+                </div>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
+                    <h4 class="instruction mt-3 text-center">Please sign in</h4>
+                    <?php
+                    if (isset($errorMessage)) { ?>
+                        <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>
+                    <?php } ?>
+                    <div class="username mt-3 input-group-lg">
+                        <input type="text" class="form-control" id="cus_username" name="cus_username" placeholder="Username">
+                    </div>
+                    <div class="password mb-3 input-group-lg">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+
+                    <div class="button d-grid">
+                        <button type='submit' class='loginBtn btn btn-large'>Login</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script>
+        function validation() {
+            var cus_username = document.getElementById("cus_username").value;
+            var password = document.getElementById("password").value;
+            var flag = false;
+            var msg = "";
+            if (cus_username == '') {
+                flag = true;
+                msg = msg + "Please enter your username!\r\n";
+            }
+            if (password == '') {
+                flag = true;
+                msg = msg + "Please enter your password!\r\n";
+            }
+            if (flag == true) {
+                alert(msg);
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
 </body>
+
+</html>
