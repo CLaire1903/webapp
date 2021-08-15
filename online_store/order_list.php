@@ -75,7 +75,7 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<table class='table table-hover table-responsive table-bordered text-center' id='myTable'>";
 
             echo "<tr class='tableHeader'>";
-            echo "<th class='col-3'>Order ID</th>";
+            echo "<th class='col-3'>ID</th>";
             echo "<th class='col-3'>Order Date and Time</th>";
             echo "<th class='col-3'>Customer Username</th>";
             echo "<th class='col-3'>Total Amount</th>";

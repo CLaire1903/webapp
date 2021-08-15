@@ -81,10 +81,10 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<tr class='tableHeader'>";
             echo "<th class='col-1 text-center'>Profile Picture</th>";
             echo "<th class='text-center'>Username</th>";
-            echo "<th class='text-center d-none d-lg-block'>First Name</th>";
-            echo "<th class='text-center d-none d-lg-block'>Last Name</th>";
+            echo "<th class='text-center d-none d-lg-table-cell'>First Name</th>";
+            echo "<th class='text-center d-none d-lg-table-cell'>Last Name</th>";
             echo "<th class='text-center d-lg-none'>Name</th>";
-            echo "<th class='text-center d-none d-md-block'>Date Of Birth</th>";
+            echo "<th class='text-center d-none d-md-table-cell'>Date Of Birth</th>";
             echo "<th class='col-lg-3 text-center'>Action</th>";
             echo "</tr>";
 
@@ -102,10 +102,10 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</div> ";
                 echo "</td>";
                 echo "<td class='text-center'>{$cus_username}</td>";
-                echo "<td class='text-center d-none d-lg-block'>{$firstName}</td>";
-                echo "<td class='text-center d-none d-lg-block'>{$lastName}</td>";
+                echo "<td class='text-center d-none d-lg-table-cell'>{$firstName}</td>";
+                echo "<td class='text-center d-none d-lg-table-cell'>{$lastName}</td>";
                 echo "<td class='text-center d-lg-none'>$firstName $lastName</td>";
-                echo "<td class='text-center d-none d-md-block'>{$dateOfBirth}</td>";
+                echo "<td class='text-center d-none d-md-table-cell'>{$dateOfBirth}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
                 echo "<a href='customer_detail.php?cus_username={$cus_username}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";

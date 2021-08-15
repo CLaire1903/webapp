@@ -86,7 +86,7 @@ if (!isset($_SESSION["cus_username"])) {
             echo "<th class='col-1 text-center'>ID</th>";
             echo "<th class='col-1 text-center'>Picture</th>";
             echo "<th class='col-2 col-lg-1 text-center'>Name</th>";
-            echo "<th class='text-center d-none d-md-block'>Description</th>";
+            echo "<th class='text-center d-none d-md-table-cell'>Description</th>";
             echo "<th class='col-2 col-lg-2 text-center'>Price</th>";
             echo "<th class='col-lg-2 text-center'>Action</th>";
             echo "</tr>";
@@ -106,7 +106,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</div> ";
                 echo "</td>";
                 echo "<td class='text-center'>{$name}</td>";
-                echo "<td class='d-none d-md-block'>{$description}</td>";
+                echo "<td class='d-none d-md-table-cell'>{$description}</td>";
                 $price = sprintf('%.2f', $row['price']);
                 echo "<td class='text-center'>RM $price</td>";
                 echo "<td>";
