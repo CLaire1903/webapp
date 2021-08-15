@@ -69,7 +69,7 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
             }
         }
-        $query = "SELECT profile_pic, cus_username, firstName, lastName, dateOfBirth FROM customers $where";
+        $query = "SELECT profile_pic, cus_username, firstName, lastName, gender, dateOfBirth FROM customers $where";
         $stmt = $con->prepare($query);
         if ($_POST) $stmt->bindParam(':search', $search);
         $stmt->execute();
@@ -80,10 +80,11 @@ if (!isset($_SESSION["cus_username"])) {
 
             echo "<tr class='tableHeader'>";
             echo "<th class='col-1 text-center'>Profile Picture</th>";
-            echo "<th class='col-2 text-center'>Username</th>";
-            echo "<th class='col-2 text-center'>First Name</th>";
-            echo "<th class='col-2 text-center'>Last Name</th>";
-            echo "<th class='col-2 text-center'>Date Of Birth</th>";
+            echo "<th class='text-center'>Username</th>";
+            echo "<th class='text-center d-none d-lg-block'>First Name</th>";
+            echo "<th class='text-center d-none d-lg-block'>Last Name</th>";
+            echo "<th class='text-center d-lg-none'>Name</th>";
+            echo "<th class='text-center d-none d-md-block'>Date Of Birth</th>";
             echo "<th class='col-lg-3 text-center'>Action</th>";
             echo "</tr>";
 
@@ -101,9 +102,10 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</div> ";
                 echo "</td>";
                 echo "<td class='text-center'>{$cus_username}</td>";
-                echo "<td class='text-center'>{$firstName}</td>";
-                echo "<td class='text-center'>{$lastName}</td>";
-                echo "<td class='text-center'>{$dateOfBirth}</td>";
+                echo "<td class='text-center d-none d-lg-block'>{$firstName}</td>";
+                echo "<td class='text-center d-none d-lg-block'>{$lastName}</td>";
+                echo "<td class='text-center d-lg-none'>$firstName $lastName</td>";
+                echo "<td class='text-center d-none d-md-block'>{$dateOfBirth}</td>";
                 echo "<td>";
                 echo "<div class='d-lg-flex justify-content-sm-center'>";
                 echo "<a href='customer_detail.php?cus_username={$cus_username}' id='detail' class='actionBtn btn m-1 m-lg-2'>Detail</a>";
