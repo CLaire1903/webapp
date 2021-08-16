@@ -62,7 +62,7 @@ if (!isset($_SESSION["cus_username"])) {
 
             try {
                 //check all input field is not empty except image field
-                if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
+                if (empty($_POST['name']) || empty($_POST['name_malay']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['promotion_price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
                     throw new Exception("Make sure all fields are not empty");
                 }
                 //make sure the price and promo price is number

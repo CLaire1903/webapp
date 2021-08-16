@@ -63,7 +63,7 @@ if (!isset($_SESSION["cus_username"])) {
 
             try {
                 if (empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
-                    throw new Exception("Make sure all fields are not empty");
+                    throw new Exception("Make sure all fields except profile picture are not empty");
                 }
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
@@ -81,13 +81,13 @@ if (!isset($_SESSION["cus_username"])) {
                     $check = getimagesize($tempname);
                     if ($check == 0) {
                         $isUploadOK = 0;
-                        throw new Exception("File is not an image.");
+                        throw new Exception("Please upload image ONLY! (JPG, JPEG, PNG & GIF)");
                     }
 
                     list($width, $height, $type, $attr) = getimagesize($tempname);
                     if ($width != $height) {
                         $isUploadOK = 0;
-                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                        throw new Exception("Please make sure the ratio of the photo is 1:1!");
                     }
 
                     if ($_FILES["profile_pic"]["size"] > 512000) {
@@ -100,7 +100,7 @@ if (!isset($_SESSION["cus_username"])) {
                         && $imageFileType != "gif"
                     ) {
                         $isUploadOK = 0;
-                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed!");
                     }
                 }
 
@@ -289,7 +289,7 @@ if (!isset($_SESSION["cus_username"])) {
             var msg = "";
             if (password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
-                msg = msg + "Please make sure all fields are not empty!\r\n";
+                msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
             }
             if (password != confirmPassword) {
                 flag = true;
@@ -299,7 +299,6 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Password should be 8 - 15 character!\r\n";
             }
-
             if (password.match(passwordValidation)) {} else {
                 flag = true;
                 msg = msg + "Password should contain at least a number, a special character, a SMALL letter, a CAPITAL letter!\r\n";

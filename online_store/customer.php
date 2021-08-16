@@ -44,7 +44,7 @@ if (!isset($_SESSION["cus_username"])) {
             $isUploadOK = 1;
             try {
                 if (empty($_POST['cus_username']) || empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
-                    throw new Exception("Make sure all fields are not empty");
+                    throw new Exception("Make sure all fields except profile picture are not empty");
                 }
                 
                 $checkQuery = "SELECT * FROM customers WHERE cus_username= :cus_username";
@@ -80,13 +80,13 @@ if (!isset($_SESSION["cus_username"])) {
                     $check = getimagesize($tempname);
                     if ($check == 0) {
                         $isUploadOK = 0;
-                        throw new Exception("File is not an image.");
+                        throw new Exception("Please upload image ONLY! (JPG, JPEG, PNG & GIF)");
                     }
 
                     list($width, $height, $type, $attr) = getimagesize($tempname);
                     if ($width != $height) {
                         $isUploadOK = 0;
-                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                        throw new Exception("Please make sure the ratio of the photo is 1:1!");
                     }
 
                     if ($_FILES["profile_pic"]["size"] > 512000) {
@@ -99,7 +99,7 @@ if (!isset($_SESSION["cus_username"])) {
                         && $imageFileType != "gif"
                     ) {
                         $isUploadOK = 0;
-                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed!");
                     }
                 }
 
@@ -263,7 +263,7 @@ if (!isset($_SESSION["cus_username"])) {
             var accountStatus = document.querySelectorAll("input[type=radio][name=accountStatus]:checked");
             var flag = false;
             var msg = "";
-            /*if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
+            if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
                 msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
             }
@@ -289,8 +289,8 @@ if (!isset($_SESSION["cus_username"])) {
             var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
             if (calculatedAge < 18) {
                 flag = true;
-                msg = msg + "User must be 18 years old.\r\n";
-            }*/
+                msg = msg + "User must be 18 years old and above!\r\n";
+            }
             if (flag == true) {
                 alert(msg);
                 return false;
