@@ -67,11 +67,11 @@ if (!isset($_SESSION["cus_username"])) {
                 }
                 //make sure the price and promo price is number
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
-                    throw new Exception("Please make sure the price is a number");
+                    throw new Exception("Please make sure the price and promotion price is a number");
                 }
                 //make sure price and promo price is not zero or negative
                 if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
-                    throw new Exception("Please make sure the price must not be a negative value or zero!");
+                    throw new Exception("Please make sure the price and promotion price must not be a negative value or zero!");
                 }
                 //make sure price and promo price is not bigger than 1000
                 if ($_POST['price'] > 1000 || $_POST['promotion_price'] > 1000) {
@@ -100,7 +100,7 @@ if (!isset($_SESSION["cus_username"])) {
                     list($width, $height, $type, $attr) = getimagesize($temp);
                     if ($width != $height) {
                         $isUploadOK = 0;
-                        throw new Exception("Please make sure the ratio of the photo is 1:1.");
+                        throw new Exception("Please make sure the ratio of the photo is 1:1!");
                     }
 
                     //make sure the size is lower than 512KB
@@ -115,7 +115,7 @@ if (!isset($_SESSION["cus_username"])) {
                         && $imageFileType != "gif"
                     ) {
                         $isUploadOK = 0;
-                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+                        throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed!");
                     }
                 }
 
@@ -262,18 +262,16 @@ if (!isset($_SESSION["cus_username"])) {
             var name = document.getElementById("name").value;
             var name_malay = document.getElementById("name_malay").value;
             var description = document.getElementById("description").value;
-            var price = parseFloat(document.getElementById("price").value());
-            var promotion_price = parseFloat(document.getElementById("promotion_price").value());
             var price = document.getElementById("price").value;
             var promotion_price = document.getElementById("promotion_price").value;
-            var priceValidation = /^[0-9]*[.]?[0-9]*$/;
+            var priceValidation = /^[0-9]*[.-]?[0-9]*$/;
             var manufacture_date = document.getElementById("manufacture_date").value;
             var expired_date = document.getElementById("expired_date").value;
             var flag = false;
             var msg = "";
             if (name == "" || name_malay == "" || description == "" || price == "" || promotion_price == "" || manufacture_date == "" || expired_date == "") {
                 flag = true;
-                msg = msg + "Please make sure all fields are not empty!\r\n";
+                msg = msg + "Please make sure all fields except product picture are not empty!\r\n";
             }
             if (price.match(priceValidation)) {} else {
                 flag = true;
@@ -283,15 +281,15 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure the promotion price is a number!\r\n";
             }
-            if (price <= 0 || promotion_price <= 0) {
+            if (parseFloat(price) <= 0 || parseFloat(promotion_price) <= 0) {
                 flag = true;
-                msg = msg + "Please make sure the price must not be a negative value or zero!\r\n";
+                msg = msg + "Please make sure the price and promotion price must not be a negative value or zero!\r\n";
             }
-            if (price > 1000 || promotion_price > 1000) {
+            if (parseFloat(price) > 1000 || parseFloat(promotion_price) > 1000) {
                 flag = true;
-                msg = msg + "Please make sure the price is not bigger than RM 1000!\r\n";
+                msg = msg + "Please make sure the price and promotion price is not bigger than RM 1000!\r\n";
             }
-            if (price < promotion_price) {
+            if (parseFloat(promotion_price) > parseFloat(price)) {
                 flag = true;
                 msg = msg + "Promotion price cannot bigger than normal price!\r\n";
             }

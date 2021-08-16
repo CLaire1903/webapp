@@ -52,11 +52,11 @@ if (!isset($_SESSION["cus_username"])) {
                 }
                 //make sure price and promo price is not zero or negative
                 if ($_POST['price'] <= 0 || $_POST['promotion_price'] <= 0) {
-                    throw new Exception("Please make sure the price must not be a negative value or zero!");
+                    throw new Exception("Please make sure the price and promotion price must not be a negative value or zero!");
                 }
                 //make sure price and promo price is not bigger than 1000
                 if ($_POST['price'] > 1000 || $_POST['promotion_price'] > 1000) {
-                    throw new Exception("Please make sure the price is not bigger than RM 1000!");
+                    throw new Exception("Please make sure the price and promotion price is not bigger than RM 1000!");
                 }
                 //make sure promo price is not bigger than price
                 if ($_POST['price'] < $_POST['promotion_price']) {
@@ -209,7 +209,7 @@ if (!isset($_SESSION["cus_username"])) {
             var description = document.getElementById("description").value;
             var price = document.getElementById("price").value;
             var promotion_price = document.getElementById("promotion_price").value;
-            var priceValidation = /^[0-9]*[.]?[0-9]*$/;
+            var priceValidation = /^[0-9]*[.-]?[0-9]*$/;
             var manufacture_date = document.getElementById("manufacture_date").value;
             var expired_date = document.getElementById("expired_date").value;
             var flag = false;
@@ -226,13 +226,13 @@ if (!isset($_SESSION["cus_username"])) {
                 flag = true;
                 msg = msg + "Please make sure the promotion price is a number!\r\n";
             }
-            if (price <= 0 || promotion_price <= 0) {
+            if (parseFloat(price) <= 0 || parseFloat(promotion_price) <= 0) {
                 flag = true;
-                msg = msg + "Please make sure the price must not be a negative value or zero!\r\n";
+                msg = msg + "Please make sure the price and promotion price must not be a negative value or zero!\r\n";
             }
-            if (price > 1000 || promotion_price > 1000) {
+            if (parseFloat(price) > 1000 || parseFloat(promotion_price) > 1000) {
                 flag = true;
-                msg = msg + "Please make sure the price is not bigger than RM 1000!\r\n";
+                msg = msg + "Please make sure the price and promotion price is not bigger than RM 1000!\r\n";
             }
             if (parseFloat(promotion_price) > parseFloat(price)) {
                 flag = true;
