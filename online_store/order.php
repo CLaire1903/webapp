@@ -157,11 +157,15 @@ if (!isset($_SESSION["cus_username"])) {
                 echo "</td>";
                 ?>
             </table>
-            <div class="d-flex justify-content-center">
-                <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
-                <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
-                <input type='submit' value='Save' class='saveBtn btn mb-3 mx-2'/>
-                <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>View Order</a>
+            <div class="d-flex justify-content-center flex-column flex-lg-row">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
+                    <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type='submit' value='Save Changes' class='saveBtn btn mb-3 mx-2' />
+                    <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
+                </div>
             </div>
         </form>
         <div class="footer bg-dark">
