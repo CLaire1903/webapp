@@ -277,9 +277,10 @@ if (!isset($_SESSION["cus_username"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>
         function validation() {
+            var cus_username = document.getElementById("cus_username").value;
             var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
             var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+            var confirmPassword = document.getElementById("confirmPassword").value;
             var firstName = document.getElementById("firstName").value;
             var lastName = document.getElementById("lastName").value;
             var gender = document.querySelectorAll("input[type=radio][name=gender]:checked");
@@ -287,9 +288,13 @@ if (!isset($_SESSION["cus_username"])) {
             var accountStatus = document.querySelectorAll("input[type=radio][name=accountStatus]:checked");
             var flag = false;
             var msg = "";
-            if (password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
+            if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
                 msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
+            }
+            if (cus_username.length < 6 || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
+                flag = true;
+                msg = msg + "Username must be 6 - 15 characters and no space included!\r\n";
             }
             if (password != confirmPassword) {
                 flag = true;
@@ -301,10 +306,10 @@ if (!isset($_SESSION["cus_username"])) {
             }
             if (password.match(passwordValidation)) {} else {
                 flag = true;
-                msg = msg + "Password should contain at least a number, a special character, a SMALL letter, a CAPITAL letter!\r\n";
+                msg = msg + "Password should contain at least a number, a special character, a SMALL letter and a CAPITAL letter!\r\n";
             }
             var birthDate = new Date(dateOfBirth);
-            var difference = Date.now() - birthDate.getFullYear();
+            var difference = Date.now() - birthDate.getTime();
             var ageDate = new Date(difference);
             var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
             if (calculatedAge < 18) {
@@ -318,7 +323,6 @@ if (!isset($_SESSION["cus_username"])) {
                 return true;
             }
         }
-        
         function openForm() {
             document.getElementById("form-popup").style.display = "block";
         }

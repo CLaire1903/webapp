@@ -138,7 +138,7 @@ if (!isset($_SESSION["cus_username"])) {
                             move_uploaded_file($tempname, "image/customer_pic/" . $newfilename);
                         }
                     }
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
+                    echo "<div class='alert alert-success'>Customer was created.</div>";
                 } else {
                     throw new Exception("Unable to save record.");
                 }
