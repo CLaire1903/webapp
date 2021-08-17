@@ -11,7 +11,7 @@
                 <div>
                     <ul class="nav justify-content-center">
                         <li class="nav-item">
-                            <a id="home" class="nav-link word" aria-current="page" href="index.php">Home</a>
+                            <a id="home" class="nav-link word" aria-current="page" href="home.php">Home</a>
                         </li>
                     </ul>
                 </div>
