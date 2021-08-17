@@ -63,35 +63,61 @@ if (!isset($_SESSION["cus_username"])) {
         if ($_POST) {
             try {
                 $con->beginTransaction();
-                for ($i = 0; $i < count($_POST['productID']); $i++) {
-                    if (!isset($_POST['quantity'][$i])) {
-                        throw new Exception("Please make sure the product and quantity is selected.");
-                    }
-                    $checkQuantity = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
-                    if (count($_POST['productID']) == 1 && $checkQuantity == 0) {
+                for ($i = 0; $i < count($_POST['currentproductID']); $i++) {
+                    $checkQuantity = htmlspecialchars(strip_tags($_POST['currentquantity'][$i]));
+                    if (count($_POST['currentproductID']) == 1 && $checkQuantity == 0) {
                         throw new Exception("Sorry! The product cannot be deleted!");
                     }
                 }
+
+                if (!isset($_POST['newproductID']) && isset($_POST['newquantity'])) {
+                    throw new Exception("Please make sure the product is selected!");
+                }
+
+                if (isset($_POST['newproductID']) && !isset($_POST['newquantity'])) {
+                    throw new Exception("Please make sure the quantity is selected!");
+                }
+
                 //update the selected order into orders table in database
                 $updateTotalAmountQuery = "UPDATE orders SET total_amount=:setTotal_amount WHERE orderID=:orderID";
                 $updateTotalAmountStmt = $con->prepare($updateTotalAmountQuery);
-                $setTotal_amount = 0;
-                for ($i = 0; $i < count($_POST['productID']); $i++) {
-                    $productPrice = htmlspecialchars(strip_tags($_POST['productID'][$i]));
-                    //get the price of all product in the order and count the total amount of the order
-                    $selectPriceQuery = "SELECT price FROM products WHERE productID=:productID";
-                    $selectPriceStmt = $con->prepare($selectPriceQuery);
-                    $selectPriceStmt->bindParam(':productID', $productPrice);
-                    $selectPriceStmt->execute();
-                    while ($selectPriceRow = $selectPriceStmt->fetch(PDO::FETCH_ASSOC)) {
-                        $productPrice = $selectPriceRow['price'];
-                        $quantityCOTA = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
-                        $product_total = $productPrice * $quantityCOTA;
-                        $setTotal_amount += $product_total;
+                
+                $currentTotal_amount = 0;
+                $newTotal_amount = 0;
+                $total_amount = 0;
+                for ($i = 0; $i < count($_POST['currentproductID']); $i++) {
+                    $currentproductPrice = htmlspecialchars(strip_tags($_POST['currentproductID'][$i]));
+                    //get the price of the product inserted before
+                    $selectcurrentPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                    $selectcurrentPriceStmt = $con->prepare($selectcurrentPriceQuery);
+                    $selectcurrentPriceStmt->bindParam(':productID', $currentproductPrice);
+                    $selectcurrentPriceStmt->execute();
+                    while ($selectcurrentPriceRow = $selectcurrentPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                        $currentproductPrice = $selectcurrentPriceRow['price'];
+                        $currentquantityCOTA = htmlspecialchars(strip_tags($_POST['currentquantity'][$i]));
+                        $currentproduct_total = $currentproductPrice * $currentquantityCOTA;
+                        $currentTotal_amount += $currentproduct_total;
                     }
                 }
+                if (isset($_POST['newproductID']) && isset($_POST['newquantity'])) {
+                    for ($i = 0; $i < count($_POST['newproductID']); $i++) {
+                        $newproductPrice = $_POST['newproductID'][$i];
+                        //get the price for new product inserted
+                        $selectnewPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                        $selectnewPriceStmt = $con->prepare($selectnewPriceQuery);
+                        $selectnewPriceStmt->bindParam(':productID', $newproductPrice);
+                        $selectnewPriceStmt->execute();
+                        while ($selectnewPriceRow = $selectnewPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                            $newproductPrice = $selectnewPriceRow['price'];
+                            $newquantityCOTA = $_POST['newquantity'][$i];
+                            $newproduct_total = $newproductPrice * $newquantityCOTA;
+                            $newTotal_amount += $newproduct_total;
+                        }
+                    }
+                }
+                $total_amount = $currentTotal_amount + $newTotal_amount;
                 $updateTotalAmountStmt->bindParam(':orderID', $orderID);
-                $updateTotalAmountStmt->bindParam(':setTotal_amount', $setTotal_amount);
+                $updateTotalAmountStmt->bindParam(':setTotal_amount', $total_amount);
                 $updateTotalAmountStmt->execute();
 
                 //delete all order detail with the selected orderID
@@ -100,39 +126,63 @@ if (!isset($_SESSION["cus_username"])) {
                 $delete_stmt->bindParam(':orderID', $orderID);
 
                 if ($delete_stmt->execute()) {
-                    for ($i = 0; $i < count($_POST['productID']); $i++) {
-                        $getPrice = htmlspecialchars(strip_tags($_POST['productID'][$i]));
+                    //deal with the current / already uploaded product
+                    for ($i = 0; $i < count($_POST['currentproductID']); $i++) {
+                        $getcurrentPrice = htmlspecialchars(strip_tags($_POST['currentproductID'][$i]));
                         //get the price of the product then count the total amount of the product
-                        $getPriceQuery = "SELECT price FROM products WHERE productID=:productID";
-                        $getPriceStmt = $con->prepare($getPriceQuery);
-                        $getPriceStmt->bindParam(':productID', $getPrice);
-                        $getPriceStmt->execute();
-                        while ($getPriceRow = $getPriceStmt->fetch(PDO::FETCH_ASSOC)) {
-                            $productPrice = $getPriceRow['price'];
-                            $quantityCPTA = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
-                            $product_TA = $productPrice * $quantityCPTA;
+                        $getcurrentPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                        $getcurrentPriceStmt = $con->prepare($getcurrentPriceQuery);
+                        $getcurrentPriceStmt->bindParam(':productID', $getcurrentPrice);
+                        $getcurrentPriceStmt->execute();
+                        while ($getcurrentPriceRow = $getcurrentPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                            $currentproductPrice = $getcurrentPriceRow['price'];
+                            $currentquantityCPTA = htmlspecialchars(strip_tags($_POST['currentquantity'][$i]));
+                            $currentproduct_TA = $currentproductPrice * $currentquantityCPTA;
                         }
-                        $input_product = htmlspecialchars(strip_tags($_POST['productID'][$i]));
-                        $input_quant = htmlspecialchars(strip_tags($_POST['quantity'][$i]));
-                        if ($input_product != '' && $input_quant != '') {
-                            //re-insert the order detail of the selected orderID we deleted before
-                            $insertodQuery = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity, product_TA=:product_TA";
-                            $insertodStmt = $con->prepare($insertodQuery);
-                            $insertodStmt->bindParam(':orderID', $orderID);
-                            $insertodStmt->bindParam(':productID', $input_product);
-                            $insertodStmt->bindParam(':quantity', $input_quant);
-                            $insertodStmt->bindParam(':product_TA', $product_TA);
-                            $insertodStmt->execute();
+                        $current_product = htmlspecialchars(strip_tags($_POST['currentproductID'][$i]));
+                        $current_quant = htmlspecialchars(strip_tags($_POST['currentquantity'][$i]));
+                        //re-insert product ordered before into the order detail
+                        $current_insertodQuery = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity, product_TA=:product_TA";
+                        $current_insertodStmt = $con->prepare($current_insertodQuery);
+                        $current_insertodStmt->bindParam(':orderID', $orderID);
+                        $current_insertodStmt->bindParam(':productID', $current_product);
+                        $current_insertodStmt->bindParam(':quantity', $current_quant);
+                        $current_insertodStmt->bindParam(':product_TA', $currentproduct_TA);
+                        $current_insertodStmt->execute();
 
-                            if ($input_quant == 0) {
-                                //delete the product id the quantity is set into '0'
-                                $delete_productQuery = "DELETE FROM order_detail WHERE quantity = :quantity";
-                                $delete_productStmt = $con->prepare($delete_productQuery);
-                                $delete_productStmt->bindParam(':quantity', $input_quant);
-                                $delete_productStmt->execute();
+                        if ($current_quant == 0) {
+                            //delete the product id when the quantity is set into '0'
+                            $delete_productQuery = "DELETE FROM order_detail WHERE quantity = :quantity";
+                            $delete_productStmt = $con->prepare($delete_productQuery);
+                            $delete_productStmt->bindParam(':quantity', $current_quant);
+                            $delete_productStmt->execute();
+                        }
+                    }
+
+                    if (isset($_POST['newproductID']) && isset($_POST['newquantity'])) {
+                        for ($i = 0; $i < count($_POST['newproductID']); $i++) {
+                            //deal with the new inserted product
+                            $getnewPrice = $_POST['newproductID'][$i];
+                            //get the price of the product then count the total amount of the new product
+                            $getnewPriceQuery = "SELECT price FROM products WHERE productID=:productID";
+                            $getnewPriceStmt = $con->prepare($getnewPriceQuery);
+                            $getnewPriceStmt->bindParam(':productID', $getnewPrice);
+                            $getnewPriceStmt->execute();
+                            while ($getnewPriceRow = $getnewPriceStmt->fetch(PDO::FETCH_ASSOC)) {
+                                $newproductPrice = $getnewPriceRow['price'];
+                                $newquantityCPTA = $_POST['newquantity'][$i];
+                                $newproduct_TA = $newproductPrice * $newquantityCPTA;
                             }
-                        } else {
-                            throw new Exception("Please make sure the product and quantity is selected.");
+                            $new_product = $_POST['newproductID'][$i];
+                            $new_quant = $_POST['newquantity'][$i];
+                            //insert new product order into order detail table
+                            $new_insertodQuery = "INSERT INTO order_detail SET orderID=:orderID, productID=:productID, quantity=:quantity, product_TA=:product_TA";
+                            $new_insertodStmt = $con->prepare($new_insertodQuery);
+                            $new_insertodStmt->bindParam(':orderID', $orderID);
+                            $new_insertodStmt->bindParam(':productID', $new_product);
+                            $new_insertodStmt->bindParam(':quantity', $new_quant);
+                            $new_insertodStmt->bindParam(':product_TA', $newproduct_TA);
+                            $new_insertodStmt->execute();
                         }
                     }
                     echo "<div class='alert alert-success'>Order $orderID was updated.</div>";
@@ -143,7 +193,7 @@ if (!isset($_SESSION["cus_username"])) {
             } catch (PDOException $exception) {
                 if ($con->inTransaction()) {
                     $con->rollback();
-                    echo "<div class='alert alert-danger'>Please make sure no duplicate product chosen!</div>";
+                    echo "<div  class='alert alert-danger'>Please make sure no duplicate product chosen!</div>";
                 } else {
                     echo "<div class='alert alert-danger'>" . $exception->getMessage() . "</div>";
                 }
@@ -195,7 +245,7 @@ if (!isset($_SESSION["cus_username"])) {
                     $productQuantity = htmlspecialchars($quantity, ENT_QUOTES);
                     echo "<tr  class='product'>";
                     echo "<td>";
-                    echo "<select class='form-select' name='productID[]'> ";
+                    echo "<select class='form-select' name='currentproductID[]'> ";
                     echo "<option value='' disabled selected>-- Select Product --</option> ";
                     $select_product_query = "SELECT productID, name FROM products";
                     $select_product_stmt = $con->prepare($select_product_query);
@@ -207,7 +257,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "</select>";
                     echo "</td>";
                     echo "<td>";
-                    echo "<select class='quantity form-select' name='quantity[]'>";
+                    echo "<select class='quantity form-select' name='currentquantity[]'>";
                     echo "<option value='' disabled selected> -- Select Quantity -- </option>";
                     for ($i = 0; $i <= 20; $i++) {
                         $result = $productQuantity == $i ? 'selected' : '';
@@ -243,7 +293,7 @@ if (!isset($_SESSION["cus_username"])) {
                 <tr class='productQuantity'>
                     <td>Add more product (*optional) :</td>
                     <td>
-                        <select class='productID form-select' id='autoSizingSelect' name='productID[]'>
+                        <select class='new_productID form-select' id='autoSizingSelect' name='newproductID[]'>
                             <option value='' disabled selected>-- Select Product --</option>
                             <?php
                             include 'config/database.php';
@@ -257,7 +307,7 @@ if (!isset($_SESSION["cus_username"])) {
                         </select>
                     </td>
                     <td>
-                        <select class='quantity form-select' id='autoSizingSelect' name='quantity[]'>
+                        <select class='new_quantity form-select' id='autoSizingSelect' name='newquantity[]'>
                             <option value='' disabled selected>-- Select Quantity --</option>
                             <?php
                             for ($i = 1; $i <= 20; $i++) {
@@ -310,10 +360,10 @@ if (!isset($_SESSION["cus_username"])) {
         }
 
         function validation() {
-            var product_input = document.querySelector('.productID').value;
-            var quantity_input = document.querySelector('.quantity').value;
             var product_delete = document.querySelectorAll('.product').length;
             var quantity_delete = document.querySelector('.quantity').value;
+            var new_productID = document.querySelector('.new_productID').value;
+            var new_quantity = document.querySelector('.new_quantity').value;
             var flag = false;
             var msg = "";
             if (product_delete == 1) {
@@ -323,6 +373,14 @@ if (!isset($_SESSION["cus_username"])) {
                     msg = msg + "An order must buy at least one product!\r\n";
                     msg = msg + "Please re-enter the quantity other then zero!\r\n";
                 }
+            }
+            if(new_productID == "" && new_quantity != ""){
+                flag = true;
+                msg = msg + "Please make sure the product is selected!\r\n";
+            }
+            if(new_productID != "" && new_quantity == ""){
+                flag = true;
+                msg = msg + "Please make sure the quantity is selected!\r\n";
             }
             if (flag == true) {
                 alert(msg);
