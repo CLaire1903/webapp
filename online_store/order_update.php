@@ -22,6 +22,11 @@ if (!isset($_SESSION["cus_username"])) {
             font-weight: bold;
             color: white;
         }
+
+        .cancelBtn {
+            background-color: rgba(238, 149, 158);
+            border: none;
+        }
     </style>
 </head>
 
@@ -81,7 +86,7 @@ if (!isset($_SESSION["cus_username"])) {
                 //update the selected order into orders table in database
                 $updateTotalAmountQuery = "UPDATE orders SET total_amount=:setTotal_amount WHERE orderID=:orderID";
                 $updateTotalAmountStmt = $con->prepare($updateTotalAmountQuery);
-                
+
                 $currentTotal_amount = 0;
                 $newTotal_amount = 0;
                 $total_amount = 0;
@@ -291,7 +296,9 @@ if (!isset($_SESSION["cus_username"])) {
             </table>
             <table class='table table-hover table-responsive table-bordered'>
                 <tr class='productQuantity'>
-                    <td>Add more product (*optional) :</td>
+                    <td>Add more product <span class="text-danger">(*optional)</span> : <br>
+                    <span class="text-danger"> *Only one new product can be added once. </span>
+                </td>
                     <td>
                         <select class='new_productID form-select' id='autoSizingSelect' name='newproductID[]'>
                             <option value='' disabled selected>-- Select Product --</option>
@@ -316,17 +323,18 @@ if (!isset($_SESSION["cus_username"])) {
                             ?>
                         </select>
                     </td>
+                    <td class="col-1">
+                        <div class='d-flex justify-content-center'>
+                            <button type="button" class="cancelBtn btn mx-2 px-3" onclick="clearValue()">Cancel</button>
+                        </div>
+                    </td>
                 </tr>
             </table>
 
             <div class="d-flex justify-content-center flex-column flex-lg-row">
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="add_one btn mb-3 mx-2">Add More Product</button>
-                    <button type="button" class="delete_one btn mb-3 mx-2">Delete Last Product</button>
-                </div>
-                <div class="d-flex justify-content-center">
                     <input type='submit' value='Save Changes' class='saveBtn btn mb-3 mx-2' />
-                    <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
+                    <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to Order List</a>
                 </div>
             </div>
         </form>
@@ -338,25 +346,15 @@ if (!isset($_SESSION["cus_username"])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>
-        document.addEventListener('click', function(event) {
-            if (event.target.matches('.add_one')) {
-                var element = document.querySelector('.productQuantity');
-                var clone = element.cloneNode(true);
-                element.after(clone);
-            }
-            if (event.target.matches('.delete_one')) {
-                var total = document.querySelectorAll('.productQuantity').length;
-                if (total > 1) {
-                    var element = document.querySelector('.productQuantity');
-                    element.remove(element);
-                }
-            }
-        }, false);
-
         function delete_product(productID, orderID) {
             if (confirm('Are you sure?')) {
                 window.location = "order_detail_deleteProduct.php?productID=" + productID + "&orderID=" + orderID;
             }
+        }
+
+        function clearValue() {
+            document.querySelector('.new_productID').selectedIndex = 0;
+            document.querySelector('.new_quantity').selectedIndex = 0;
         }
 
         function validation() {
@@ -374,11 +372,11 @@ if (!isset($_SESSION["cus_username"])) {
                     msg = msg + "Please re-enter the quantity other then zero!\r\n";
                 }
             }
-            if(new_productID == "" && new_quantity != ""){
+            if (new_productID == "" && new_quantity != "") {
                 flag = true;
                 msg = msg + "Please make sure the product is selected!\r\n";
             }
-            if(new_productID != "" && new_quantity == ""){
+            if (new_productID != "" && new_quantity == "") {
                 flag = true;
                 msg = msg + "Please make sure the quantity is selected!\r\n";
             }

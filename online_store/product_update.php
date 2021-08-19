@@ -63,7 +63,7 @@ if (!isset($_SESSION["cus_username"])) {
             try {
                 //check all input field is not empty except image field
                 if (empty($_POST['name']) || empty($_POST['name_malay']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['promotion_price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
-                    throw new Exception("Make sure all fields are not empty");
+                    throw new Exception("Please make sure all fields are not empty! (product picture is optional)");
                 }
                 //make sure the price and promo price is number
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
@@ -247,7 +247,7 @@ if (!isset($_SESSION["cus_username"])) {
             </table>
             <div class="d-flex justify-content-center">
                 <input type='submit' value='Save Changes'class='saveBtn btn mb-3 mx-2' />
-                <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>Back to product list</a>
+                <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>Back to Product List</a>
             </div>
         </form>
         <div class="footer bg-dark">
@@ -271,7 +271,7 @@ if (!isset($_SESSION["cus_username"])) {
             var msg = "";
             if (name == "" || name_malay == "" || description == "" || price == "" || promotion_price == "" || manufacture_date == "" || expired_date == "") {
                 flag = true;
-                msg = msg + "Please make sure all fields except product picture are not empty!\r\n";
+                msg = msg + "Please make sure all fields are not empty! (product picture is optional)\r\n";
             }
             if (price.match(priceValidation)) {} else {
                 flag = true;

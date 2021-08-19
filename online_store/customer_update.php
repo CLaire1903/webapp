@@ -265,7 +265,7 @@ if (!isset($_SESSION["cus_username"])) {
             </table>
             <div class="d-flex justify-content-center">
                 <input type='submit' value='Save Changes' class='saveBtn btn mb-3 mx-2' />
-                <a href='customer_list.php' class='viewBtn btn mb-3 mx-2'>Back to customer list</a>
+                <a href='customer_list.php' class='viewBtn btn mb-3 mx-2'>Back to Customer List</a>
             </div>
         </form>
         <div class="footer bg-dark">

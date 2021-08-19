@@ -44,7 +44,7 @@ if (!isset($_SESSION["cus_username"])) {
             try {
                 //check all field is not empty
                 if (empty($_POST['name']) || empty($_POST['name_malay']) || empty($_POST['description']) || empty($_POST['price']) ||empty($_POST['promotion_price']) ||  empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
-                    throw new Exception("Make sure all fields are not empty!");
+                    throw new Exception("Please make sure all fields are not empty! (product picture is optional)");
                 }
                 //make sure price and promo price is number
                 if (!is_numeric($_POST['price']) || !is_numeric($_POST['promotion_price'])) {
@@ -216,7 +216,7 @@ if (!isset($_SESSION["cus_username"])) {
             var msg = "";
             if (name == "" || name_malay == "" || description == "" || price == "" || promotion_price == "" || manufacture_date == "" || expired_date == "") {
                 flag = true;
-                msg = msg + "Please make sure all fields except product picture are not empty!\r\n";
+                msg = msg + "Please make sure all fields are not empty! (product picture is optional)\r\n";
             }
             if (price.match(priceValidation)) {} else {
                 flag = true;
