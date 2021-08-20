@@ -296,7 +296,7 @@ if (!isset($_SESSION["cus_username"])) {
             </table>
             <table class='table table-hover table-responsive table-bordered'>
                 <tr class='productQuantity'>
-                    <td>Add more product <span class="text-danger">(*optional)</span> : <br>
+                    <td>Add on product <span class="text-danger">(*optional)</span> : <br>
                     <span class="text-danger"> *Only one new product can be added once. </span>
                 </td>
                     <td>

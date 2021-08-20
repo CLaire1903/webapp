@@ -91,7 +91,7 @@ if (!isset($_SESSION["cus_username"])) {
             <?php
             echo "<a href='order_update.php?orderID={$orderID}' class='actionBtn updateBtn btn mb-3 mx-2'>Update Order</a>";
             ?>
-            <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to order list</a>
+            <a href='order_list.php' class='viewBtn btn mb-3 mx-2'>Back to Order List</a>
         </div>
         <div class="footer bg-dark">
             <?php

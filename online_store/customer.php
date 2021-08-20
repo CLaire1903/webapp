@@ -58,7 +58,7 @@ if (!isset($_SESSION["cus_username"])) {
                 }
 
                 if (15 < strlen($_POST['cus_username']) || strlen($_POST['cus_username']) < 6 || (strpos($_POST['cus_username'], ' ') !== false)) {
-                    throw new Exception("Username must be 6 - 15 characters and no space included.");
+                    throw new Exception("Please make sure all fields are not empty! (profile picture is optional)");
                 }
 
                 if ($_POST['password'] != $_POST['confirmPassword']) {
@@ -265,7 +265,7 @@ if (!isset($_SESSION["cus_username"])) {
             var msg = "";
             if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
-                msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
+                msg = msg + "Please make sure all fields are not empty! (profile picture is optional)\r\n";
             }
             if (cus_username.length < 6 || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
                 flag = true;

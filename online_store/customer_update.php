@@ -63,7 +63,7 @@ if (!isset($_SESSION["cus_username"])) {
 
             try {
                 if (empty($_POST['password']) ||  empty($_POST['confirmPassword']) ||  empty($_POST['firstName']) ||  empty($_POST['lastName']) ||  empty($_POST['gender']) || empty($_POST['dateOfBirth']) ||  empty($_POST['accountStatus'])) {
-                    throw new Exception("Make sure all fields except profile picture are not empty");
+                    throw new Exception("Please make sure all fields are not empty! (profile picture is optional)");
                 }
                 if ($_POST['password'] != $_POST['confirmPassword']) {
                     throw new Exception("Password and confirm password are not the same.");
@@ -277,7 +277,6 @@ if (!isset($_SESSION["cus_username"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>
         function validation() {
-            var cus_username = document.getElementById("cus_username").value;
             var password = document.getElementById("password").value;
             var passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
             var confirmPassword = document.getElementById("confirmPassword").value;
@@ -288,13 +287,9 @@ if (!isset($_SESSION["cus_username"])) {
             var accountStatus = document.querySelectorAll("input[type=radio][name=accountStatus]:checked");
             var flag = false;
             var msg = "";
-            if (cus_username == "" || password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
+            if (password == "" || confirmPassword == "" || firstName == "" || lastName == "" || gender.length == 0 || dateOfBirth == "" || accountStatus.length == 0) {
                 flag = true;
-                msg = msg + "Please make sure all fields except profile picture are not empty!\r\n";
-            }
-            if (cus_username.length < 6 || cus_username.length > 15 || cus_username.indexOf(' ') >= 0) {
-                flag = true;
-                msg = msg + "Username must be 6 - 15 characters and no space included!\r\n";
+                msg = msg + "Please make sure all fields are not empty! (profile picture is optional)\r\n";
             }
             if (password != confirmPassword) {
                 flag = true;

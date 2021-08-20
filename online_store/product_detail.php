@@ -95,7 +95,7 @@ if (!isset($_SESSION["cus_username"])) {
             <?php
             echo "<a href='product_update.php?productID=$productID' class='actionBtn updateBtn btn mb-3 mx-2'>Update Product</a>";
             ?>
-            <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>Back to product list</a>
+            <a href='product_list.php' class='viewBtn btn mb-3 mx-2'>Back to Product List</a>
         </div>
         <div class="footer bg-dark">
             <?php

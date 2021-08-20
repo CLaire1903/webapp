@@ -106,7 +106,7 @@ if (!isset($_SESSION["cus_username"])) {
             <?php
             echo "<a href='customer_update.php?cus_username={$cus_username}' class='actionBtn updateBtn btn mb-3 mx-2'>Update Customer</a>";
             ?>
-            <a href='customer_list.php' class='viewBtn btn mb-3 mx-2'>Back to customer list</a>
+            <a href='customer_list.php' class='viewBtn btn mb-3 mx-2'>Back to Customer List</a>
         </div>
         <div class="footer bg-dark">
             <?php
