@@ -55,7 +55,7 @@ if (!isset($_SESSION["cus_username"])) {
             $filename = $_FILES["profile_pic"]["name"];
             $tempname = $_FILES["profile_pic"]["tmp_name"];
             $folder = "image/customer_pic/" . $filename;
-            $default = "image/customer_pic/default.png"; 
+            $default = "image/customer_pic/defaultprofile.png"; 
             $changePhotoName = explode(".", $_FILES["profile_pic"]["name"]);
             $newfilename = $cus_username . '_' . round(microtime(true)) . '.' . end($changePhotoName);
             $latest_file = "image/customer_pic/" . $newfilename;
@@ -177,11 +177,11 @@ if (!isset($_SESSION["cus_username"])) {
                                     <img src=<?php echo htmlspecialchars($profile_pic, ENT_QUOTES); ?> alt='' class='profile_image'/>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between">
-                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($profile_pic == "image/customer_pic/default.png"){ echo("id = delImg_btn");} ?>>x</button>
+                                    <button type="submit" class="deleteBtn btn mx-2 p-1" name="delete_pic" <?php if ($profile_pic == "image/customer_pic/defaultprofile.png"){ echo("id = delImg_btn");} ?>>x</button>
                                 </div>
                             </div>
                             
-                            <?php if ($profile_pic == "image/customer_pic/default.png"){ 
+                            <?php if ($profile_pic == "image/customer_pic/defaultprofile.png"){ 
                                 echo '<button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Add Picture</button>';
                             } else {
                                 echo '<button type="button" class="changePic btn m-2 p-1" onclick="openForm()">Change Picture</button>';
