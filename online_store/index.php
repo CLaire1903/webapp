@@ -80,10 +80,10 @@
                         <div class='alert alert-danger m-2'><?php echo $errorMessage ?></div>
                     <?php } ?>
                     <div class="username mt-3 input-group-lg">
-                        <input type="text" class="form-control" id="cus_username" name="cus_username" placeholder="Username">
+                        <input type="text" class="form-control" id="cus_username" name="cus_username" placeholder="Username" value="<?php echo (isset($_POST['cus_username'])) ? $_POST['cus_username'] : ''; ?>">
                     </div>
                     <div class="password mb-3 input-group-lg">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?php echo (isset($_POST['password'])) ? $_POST['password'] : ''; ?>">
                     </div>
 
                     <div class="button d-grid">
