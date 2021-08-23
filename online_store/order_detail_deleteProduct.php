@@ -3,6 +3,7 @@ include 'config/database.php';
 try {     
     $productID = isset($_GET['productID']) ? $_GET['productID'] :  die('ERROR: Product ID not found.');
     $orderID = isset($_GET['orderID']) ? $_GET['orderID'] :  die('ERROR: Order ID not found.');
+    $product_TA = isset($_GET['amount']) ? $_GET['amount'] :  die('ERROR: Amount not found.');
 
     $checkQuery = "SELECT * FROM order_detail WHERE orderID = :orderID";
     $checkStmt = $con->prepare($checkQuery);
@@ -18,6 +19,19 @@ try {
     $stmt->bindParam(':orderID', $orderID);
     if($stmt->execute()){
         //delete the selected product
+        $getAmountQuery = "SELECT total_amount FROM orders WHERE orderID = :orderID";
+        $getAmountStmt = $con->prepare($getAmountQuery);
+        $getAmountStmt->bindParam(':orderID', $orderID);
+        $getAmountStmt->execute();
+        if($row = $getAmountStmt->fetch(PDO::FETCH_ASSOC)){
+            $updateTotalAmountQuery = "UPDATE orders SET total_amount=:setTotal_amount WHERE orderID=:orderID";
+            $total_amount = $row['total_amount'] - $product_TA ;
+            $updateTotalAmountStmt = $con->prepare($updateTotalAmountQuery);
+            $updateTotalAmountStmt->bindParam(':orderID', $orderID);
+            $updateTotalAmountStmt->bindParam(':setTotal_amount', $total_amount);
+            $updateTotalAmountStmt->execute();
+            
+        }
         echo "<script>window.location.href='order_update.php?orderID=' + $orderID + '&action=deleted';</script>";
     }else{
         die('Unable to delete record.');

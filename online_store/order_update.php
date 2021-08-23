@@ -276,7 +276,7 @@ if (!isset($_SESSION["cus_username"])) {
                     echo "<td class = 'text-end'>RM $productTotal</td>";
                     echo "<td>";
                     echo "<div class='d-flex justify-content-center'>";
-                    echo "<a href='#' onclick='delete_product({$productID},{$orderID});'  id='deleteBtn' class='btn'>Delete</a>";
+                    echo "<a href='#' onclick='delete_product({$productID},{$orderID},{$productTotal});'  id='deleteBtn' class='btn'>Delete</a>";
                     echo "</div>";
                     echo "</td>";
                     echo "</tr>";
@@ -346,9 +346,9 @@ if (!isset($_SESSION["cus_username"])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>
-        function delete_product(productID, orderID) {
+        function delete_product(productID, orderID, productTotal) {
             if (confirm('Are you sure?')) {
-                window.location = "order_detail_deleteProduct.php?productID=" + productID + "&orderID=" + orderID;
+                window.location = "order_detail_deleteProduct.php?productID=" + productID + "&orderID=" + orderID + "&amount=" + productTotal;
             }
         }
 
