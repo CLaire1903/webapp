@@ -36,7 +36,7 @@ if (!isset($_SESSION["cus_username"])) {
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
                 <table class='search table table-hover table-responsive table-bordered'>
                     <tr class='search'>
-                        <td class="search col-11"><input type='text' name='search' id="search" placeholder='Search customers' class='form-control'></td>
+                        <td class="search col-11"><input type='text' name='search' id="search" placeholder="Customer's Username" class='form-control'></td>
                         <td class="search"><input type='submit' value='Search' id="searchBtn" class='btn btn-primary' /></td>
                     </tr>
                 </table>
