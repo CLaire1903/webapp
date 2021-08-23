@@ -120,7 +120,7 @@ if (!isset($_SESSION["cus_username"])) {
             }
             echo "</table>";
         } else {
-            echo "<div class='alert alert-danger'>No records found.</div>";
+            echo "<div class='alert alert-danger'>No product found.</div>";
         }
         ?>
         <div class="footer bg-dark">
