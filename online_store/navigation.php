@@ -57,13 +57,6 @@
                 <div>
                     <ul class="nav justify-content-center">
                         <li class="nav-item">
-                            <a id="contact" class="nav-link word" href="contact.php">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <ul class="nav justify-content-center">
-                        <li class="nav-item">
                             <a id="logout" class="nav-link word" href="logout.php">Logout</a>
                         </li>
                     </ul>
