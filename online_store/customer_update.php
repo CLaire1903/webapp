@@ -71,8 +71,8 @@ if (!isset($_SESSION["cus_username"])) {
                 if (strlen($_POST['password']) < 8 || !preg_match("@[0-9]@", $_POST['password']) || !preg_match("@[a-z]@", $_POST['password']) || !preg_match("@[A-Z]@", $_POST['password']) || !preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST["password"])) {
                     throw new Exception("Password should be 8 - 15 character, contain at least a number, a special character, a <strong>SMALL</strong> letter, a <strong>CAPITAL</strong> letter");
                 }
-                $today = date('Y-M-D');
-                if ($today - $_POST['dateOfBirth'] < 18) {
+                $today = strtotime(date("Y-m-d"));
+                if ($today - strtotime($_POST['dateOfBirth']) < 18) {
                     throw new Exception("User must be 18 years old and above.");
                 }
                 if ($filename != "") {
@@ -110,13 +110,17 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
 
+                if ($filename != ""){
+                    if ($row['profile_pic'] != $default){
+                        unlink($profile_pic);
+                    }
+                }
+
                 if ($folder != "") {
                     if($profile_pic == $default){
                         $profilePic = "profile_pic=:profile_pic";
                     } else {
-                        if(unlink($profile_pic)){
-                            $profilePic = "profile_pic=:profile_pic";
-                        }
+                        $profilePic = "profile_pic=:profile_pic";
                     }
                 }
 

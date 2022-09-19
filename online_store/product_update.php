@@ -126,13 +126,17 @@ if (!isset($_SESSION["cus_username"])) {
                     }
                 }
 
+                if ($file != ""){
+                    if ($row['product_pic'] != $default){
+                        unlink($product_picture);
+                    }
+                }
+
                 if ($folder != "") {
                     if($product_picture == $default){
                         $productPic = "product_pic=:product_pic";
                     } else {
-                        if(unlink($product_picture)){
-                            $productPic = "product_pic=:product_pic";
-                        }
+                        $productPic = "product_pic=:product_pic";
                     }
                 }
 

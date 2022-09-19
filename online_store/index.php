@@ -71,7 +71,7 @@
             ?>
             <div class="p-2 mx-auto">
                 <div id="logo" class="d-flex justify-content-center ">
-                    <img src="image/logo/logoB.png">
+                    <img src="image/logo/online-store-logoB.png">
                 </div>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
                     <h4 class="instruction mt-3 text-center">Please sign in</h4>

@@ -186,7 +186,8 @@ if (!isset($_SESSION["cus_username"])) {
                 var total = document.querySelectorAll('.productQuantity').length;
                 if (total > 1) {
                     var element = document.querySelector('.productQuantity');
-                    element.remove(element);
+                    var clone = element.cloneNode(true);
+                    element.remove(clone);
                 }
             }
         }, false);

@@ -46,7 +46,7 @@ if (!isset($_SESSION["cus_username"])) {
 
         <div>
             <a href='product.php' id="create" class='btn mx-2'>Create New Product</a>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validation()" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  method="post">
                 <table class='search table table-hover table-responsive'>
                     <tr class='search'>
                         <td class="search col-11"><input type='text' name='search' id="search" placeholder="Product's name" class='form-control'></td>
